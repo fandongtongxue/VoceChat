@@ -1,0 +1,23 @@
+PODS:
+  - Alamofire (5.6.2)
+  - VoceChat (0.1.0):
+    - Alamofire (~> 5.6.2)
+
+DEPENDENCIES:
+  - VoceChat (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+
+EXTERNAL SOURCES:
+  VoceChat:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  VoceChat: ca3059fcf226582eba72322cac29445e9e65adba
+
+PODFILE CHECKSUM: fd5d22814bb99f71d850596824fb3f80cc535d95
+
+COCOAPODS: 1.11.3
