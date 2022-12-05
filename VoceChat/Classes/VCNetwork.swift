@@ -9,31 +9,32 @@ import Foundation
 import Alamofire
 
 class VCNetwork: NSObject {
-    class func get(url: String , param: Parameters?){
-        http(url: url, method: .get, param: param)
+    class func get(url: String , param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        http(url: url, method: .get, param: param, success: success, failure: failure)
     }
     
-    class func post(url: String , param: Parameters?){
-        http(url: url, method: .post, param: param)
+    class func post(url: String , param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        http(url: url, method: .post, param: param, success: success, failure: failure)
     }
     
-    class func put(url: String , param: Parameters?){
-        http(url: url, method: .put, param: param)
+    class func put(url: String , param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        http(url: url, method: .put, param: param, success: success, failure: failure)
     }
     
-    class func delete(url: String , param: Parameters?){
-        http(url: url, method: .delete, param: param)
+    class func delete(url: String , param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        http(url: url, method: .delete, param: param, success: success, failure: failure)
     }
     
-    private class func http(url: String, method: HTTPMethod, param: Parameters?){
+    private class func http(url: String, method: HTTPMethod, param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
         let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-        AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer":serverURL]).responseJSON { responseJSON in
-            switch responseJSON.result {
+        AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer":serverURL]).response { response in
+            switch response.result {
             case .success(let result):
-                debugPrint(result)
+                success(result ?? Data())
                 break
             case .failure(let error):
-                debugPrint(error)
+                failure(error.errorDescription ?? "")
+                break
             }
         }
     }

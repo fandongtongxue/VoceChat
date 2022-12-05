@@ -14,7 +14,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        VCManager.login(email: "admin@fandong.me", password: "!@19910529Xx")
+        VCManager.login(email: "admin@fandong.me", password: "!@19910529Xx") { result in
+            //do nothing
+        } failure: { error in
+            //do nothing
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
