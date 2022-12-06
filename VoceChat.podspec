@@ -40,4 +40,6 @@ TODO: Add long description of the pod here.
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
   s.dependency 'Alamofire', '~> 5.6.2'
+  s.dependency 'HandyJSON', '~> 5.0.2'
+  s.dependency 'Toast-Swift', '~> 5.0.1'
 end

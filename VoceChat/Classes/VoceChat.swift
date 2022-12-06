@@ -10,18 +10,20 @@ import Foundation
 extension String {
     //存储相关
     static let serverURLKey = "serverURLKey"
+    static let nameKey = "nameKey"
+    static let descKey = "DescKey"
     
     //API
     static let api = "/api"
     
     //系统
-    static let system_organization = api+"/system/organization"
-    static let system_initialized = api+"/system/initialized"
+    static let system_organization = api+"/admin/system/organization"
+    static let system_initialized = api+"/admin/system/initialized"
     
     //Auth
-    static let google_auth_config = api+"/google_auth/config"
-    static let github_auth_config = api+"/github_auth/config"
-    static let login_config = api+"/login/config"
+    static let google_auth_config = api+"/admin/google_auth/config"
+    static let github_auth_config = api+"/admin/github_auth/config"
+    static let login_config = api+"/admin/login/config"
     
     //license
     static let license = api+"/license"

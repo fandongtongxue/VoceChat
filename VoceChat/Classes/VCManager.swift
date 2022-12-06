@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Alamofire
+import HandyJSON
 
 public class VCManager: NSObject {
     
@@ -19,34 +19,34 @@ public class VCManager: NSObject {
         UserDefaults.standard.synchronize()
         //获取系统组织信息
         VCNetwork.get(url: .system_organization, param: nil) { result in
-            debugPrint(result)
+            let info = VCOrganizationModel.deserialize(from: result as? NSDictionary) ?? VCOrganizationModel()
+            UserDefaults.standard.set(info.name, forKey: .nameKey)
+            UserDefaults.standard.set(info.description, forKey: .descKey)
+            UserDefaults.standard.synchronize()
         } failure: { error in
             debugPrint(error)
         }
-        
-        VCNetwork.get(url: .system_initialized, param: nil) { result in
-            debugPrint(result)
-        } failure: { error in
-            debugPrint(error)
-        }
-        
-        VCNetwork.get(url: .login_config, param: nil) { result in
-            debugPrint(result)
-        } failure: { error in
-            debugPrint(error)
-        }
-
-
     }
     
-    public class func login(email: String, password: String, success: @escaping ((Any)->()), failure: @escaping ((String)->())) {
+    public class func serverInfo() -> VCOrganizationModel{
+        let name = UserDefaults.standard.string(forKey: .nameKey)
+        let desc = UserDefaults.standard.string(forKey: .descKey)
+        let serverURL = UserDefaults.standard.string(forKey: .serverURLKey)
+        let info = VCOrganizationModel()
+        info.name = name
+        info.description = desc
+        info.serverURL = serverURL
+        return info
+    }
+    
+    public class func login(email: String, password: String, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let credential = ["email":email,"password":password,"type":"password"]
         let device = UIDevice.current.model
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device]) { result in
-            debugPrint(result)
+            let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
+            success(model)
         } failure: { error in
-            debugPrint(error)
+            failure(error)
         }
-
     }
 }

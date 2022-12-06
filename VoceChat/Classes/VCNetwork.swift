@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import Toast_Swift
 
 class VCNetwork: NSObject {
     class func get(url: String , param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
@@ -27,10 +28,10 @@ class VCNetwork: NSObject {
     
     private class func http(url: String, method: HTTPMethod, param: Parameters?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
         let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-        AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer":serverURL]).response { response in
-            switch response.result {
+        AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer":serverURL]).responseJSON { responseJSON in
+            switch responseJSON.result {
             case .success(let result):
-                success(result ?? Data())
+                success(result)
                 break
             case .failure(let error):
                 failure(error.errorDescription ?? "")

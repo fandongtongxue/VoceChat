@@ -15,7 +15,9 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		7C5B0EB31AD547DEFA98712D /* Pods_VoceChat_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */; };
 		C6A04CD553BEAD75AF3736DA /* Pods_VoceChat_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EE1045C73A0DE3611763F6 /* Pods_VoceChat_Tests.framework */; };
-		CBAA8DB1293CDD8000F0D0EF /* VoceChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAA8DB0293CDD8000F0D0EF /* VoceChat.swift */; };
+		CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */; };
+		CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */; };
+		CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAA8DB0293CDD8000F0D0EF /* URL.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +49,9 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoceChat_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		CBAA8DB0293CDD8000F0D0EF /* VoceChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoceChat.swift; sourceTree = "<group>"; };
+		CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDUIKit.swift; sourceTree = "<group>"; };
+		CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		CBAA8DB0293CDD8000F0D0EF /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
 		FE01F3A3F4BE0718010D8065 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,7 +105,9 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				CBAA8DB0293CDD8000F0D0EF /* VoceChat.swift */,
+				CBAA8DB0293CDD8000F0D0EF /* URL.swift */,
+				CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */,
+				CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */,
 			);
 			name = "Example for VoceChat";
 			path = VoceChat;
@@ -273,11 +279,15 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/VoceChat/VoceChat.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VoceChat.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,9 +346,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				CBAA8DB1293CDD8000F0D0EF /* VoceChat.swift in Sources */,
+				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
+				CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

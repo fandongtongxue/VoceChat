@@ -1,7 +1,11 @@
 PODS:
   - Alamofire (5.6.2)
+  - HandyJSON (5.0.2)
+  - Toast-Swift (5.0.1)
   - VoceChat (0.1.0):
     - Alamofire (~> 5.6.2)
+    - HandyJSON (~> 5.0.2)
+    - Toast-Swift (~> 5.0.1)
 
 DEPENDENCIES:
   - VoceChat (from `../`)
@@ -9,6 +13,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - HandyJSON
+    - Toast-Swift
 
 EXTERNAL SOURCES:
   VoceChat:
@@ -16,7 +22,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
-  VoceChat: ca3059fcf226582eba72322cac29445e9e65adba
+  HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
+  VoceChat: faf9f1e10e893ca3dec49fdebf251c0eb83869e9
 
 PODFILE CHECKSUM: fd5d22814bb99f71d850596824fb3f80cc535d95
 
