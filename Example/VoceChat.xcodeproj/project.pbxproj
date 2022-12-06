@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
+		607FACD81AFB9204008FA782 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* LoginViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -18,6 +18,8 @@
 		CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */; };
 		CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */; };
 		CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAA8DB0293CDD8000F0D0EF /* URL.swift */; };
+		CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */; };
+		CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +42,7 @@
 		607FACD01AFB9204008FA782 /* VoceChat_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoceChat_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		607FACD71AFB9204008FA782 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -52,6 +54,8 @@
 		CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDUIKit.swift; sourceTree = "<group>"; };
 		CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		CBAA8DB0293CDD8000F0D0EF /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		FE01F3A3F4BE0718010D8065 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				607FACD71AFB9204008FA782 /* LoginViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -108,6 +112,8 @@
 				CBAA8DB0293CDD8000F0D0EF /* URL.swift */,
 				CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */,
 				CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */,
+				CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */,
+				CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */,
 			);
 			name = "Example for VoceChat";
 			path = VoceChat;
@@ -347,9 +353,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */,
-				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				607FACD81AFB9204008FA782 /* LoginViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */,
 				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
+				CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */,
 				CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,7 +9,7 @@
 import UIKit
 import VoceChat
 
-class ViewController: UIViewController {
+class LoginViewController: BaseViewController {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var serverLabel: UILabel!
