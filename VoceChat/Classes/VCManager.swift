@@ -10,7 +10,6 @@ import HandyJSON
 
 public class VCManager: NSObject {
     
-    
     /// 服务器URL
     /// - Parameter serverUrl: 服务器URL
     public class func register(serverUrl: String) {
@@ -18,7 +17,7 @@ public class VCManager: NSObject {
         UserDefaults.standard.set(serverUrl, forKey: .serverURLKey)
         UserDefaults.standard.synchronize()
         //获取系统组织信息
-        VCNetwork.get(url: .system_organization, param: nil) { result in
+        VCNetwork.get(url: .system_organization) { result in
             let info = VCOrganizationModel.deserialize(from: result as? NSDictionary) ?? VCOrganizationModel()
             UserDefaults.standard.set(info.name, forKey: .nameKey)
             UserDefaults.standard.set(info.description, forKey: .descKey)

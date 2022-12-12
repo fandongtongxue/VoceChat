@@ -27,7 +27,7 @@ class LoginViewController: BaseViewController {
         VCManager.login(email: emailTF.text!, password: passTF.text!) { result in
             //do nothing
             let tabC = TabBarController()
-            
+            UIApplication.shared.keyWindow?.rootViewController = tabC
         } failure: { error in
             //do nothing
         }
