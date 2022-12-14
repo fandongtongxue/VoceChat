@@ -33,5 +33,8 @@ extension String {
     static let token_login = api+"/token/login"
     static let token_logout = api+"/token/logout"
     static let token_device_token = api+"/token/device_token"
+    
+    //User
     static let user = api+"/user"
+    static let user_register = user+"/register"
 }

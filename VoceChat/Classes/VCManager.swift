@@ -61,6 +61,20 @@ public class VCManager: NSObject {
         }
     }
     
+    public class func register(email: String, password: String, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+        let device = UIDevice.current.model
+        let language = Locale.preferredLanguages.first
+        VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in
+            let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
+            success(model)
+            debugPrint("注册成功")
+        } failure: { error in
+            failure(error)
+            debugPrint("注册失败:"+error)
+        }
+
+    }
+    
     
     /// 退出登陆
     /// - Parameters:
