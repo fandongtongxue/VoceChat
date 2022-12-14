@@ -9,15 +9,15 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         setupViewControllers()
     }
     
-
+    
     func setupViewControllers() {
         let chatsVC = ChatsViewController()
         let chatsNav = UINavigationController(rootViewController: chatsVC)
@@ -33,3 +33,4 @@ class TabBarController: UITabBarController {
         
         viewControllers = [chatsNav, contactsNav, settingsNav]
     }
+}

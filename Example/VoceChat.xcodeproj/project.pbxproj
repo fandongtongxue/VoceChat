@@ -236,10 +236,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = F9N98X7P4L;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = F9N98X7P4L;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -516,7 +518,7 @@
 			baseConfigurationReference = A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -533,7 +535,7 @@
 			baseConfigurationReference = 04AC49890FD2260BBCDE5837 /* Pods-VoceChat_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -549,6 +551,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 403FE1F6776E134626E35EF6 /* Pods-VoceChat_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = F9N98X7P4L;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -572,6 +575,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 25ADA3954D2D3113DDB0AD55 /* Pods-VoceChat_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = F9N98X7P4L;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
