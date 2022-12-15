@@ -16,15 +16,25 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var emailTF: UITextField!
     @IBOutlet weak var passTF: UITextField!
     @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var signUpView: UIView!
+    @IBOutlet weak var inviteLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        nameLabel.text = VCManager.serverInfo().name
-        serverLabel.text = VCManager.serverInfo().serverURL
+        VCManager.getLoginConfig { config in
+            self.nameLabel.text = VCManager.serverInfo().name
+            self.serverLabel.text = VCManager.serverInfo().serverURL
+            let ret = config.who_can_sign_up == "EveryOne"
+            self.signUpView.isHidden = !ret
+            self.inviteLabel.isHidden = ret
+        } failure: { error in
+            //do nothing
+        }
     }
 
     @IBAction func loginBtnAction(_ sender: UIButton) {
-        VCManager.login(email: emailTF.text!, password: passTF.text!) { result in
+        view.endEditing(true)
+        VCManager.login(email: emailTF.text, password: passTF.text) { result in
             //do nothing
             let tabC = TabBarController()
             UIApplication.shared.keyWindow?.rootViewController = tabC

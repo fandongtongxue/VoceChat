@@ -27,16 +27,36 @@ class VCNetwork: NSObject {
     }
     
     private class func http(url: String, method: HTTPMethod = .get, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
-        let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-        AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer": serverURL, "Origin": serverURL]).responseJSON { responseJSON in
-            switch responseJSON.result {
-            case .success(let result):
-                success(result)
-                break
-            case .failure(let error):
-                failure(error.errorDescription ?? "")
-                UIApplication.shared.keyWindow?.makeToast(error.errorDescription)
-                break
+        if NetworkReachabilityManager()?.isReachable ?? false {
+            cookieLoad()
+            let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
+            AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer": serverURL, "Origin": serverURL]).responseJSON { responseJSON in
+                switch responseJSON.result {
+                case .success(let result):
+                    success(result)
+                    break
+                case .failure(let error):
+                    failure(error.errorDescription ?? "")
+                    UIApplication.shared.keyWindow?.makeToast(error.errorDescription)
+                    break
+                }
+            }
+        }else {
+            UIApplication.shared.keyWindow?.makeToast(NSLocalizedString("No network", comment: ""))
+        }
+        
+    }
+    
+    class func cookieLoad() {
+        let data = UserDefaults.standard.object(forKey: .cookieKey)
+        if data != nil {
+            let cookieData = NSKeyedUnarchiver.unarchiveObject(with: data as! Data)
+            guard let cookies = cookieData as? [HTTPCookie] else{
+                return
+            }
+            let cookieStorage = HTTPCookieStorage.shared
+            for cookie in cookies {
+                cookieStorage.setCookie(cookie)
             }
         }
     }

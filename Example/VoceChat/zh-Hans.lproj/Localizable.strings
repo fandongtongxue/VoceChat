@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  VoceChat
+
+  Created by 范东 on 2022/12/15.
+  Copyright © 2022 CocoaPods. All rights reserved.
+*/
+
+"No network"="暂时没有网络，请稍后重试";

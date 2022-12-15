@@ -1,0 +1,36 @@
+
+/* Class = "UIButton"; normalTitle = "Sign Up"; ObjectID = "3gr-VF-IaZ"; */
+"3gr-VF-IaZ.normalTitle" = "Sign Up";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "4UT-bX-ZT7"; */
+"4UT-bX-ZT7.text" = "Password";
+
+/* Class = "UILabel"; text = "Sign up to"; ObjectID = "B5a-iD-JMj"; */
+"B5a-iD-JMj.text" = "Sign up to";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "Q6G-Y3-xDx"; */
+"Q6G-Y3-xDx.normalTitle" = "Log In";
+
+/* Class = "UILabel"; text = "Don't have an account?"; ObjectID = "TZp-VT-a2Y"; */
+"TZp-VT-a2Y.text" = "Don't have an account?";
+
+/* Class = "UILabel"; text = "Only invited user can sign up to this server.Please seek help from server admin for sign up link"; ObjectID = "Ydz-Vf-dR1"; */
+"Ydz-Vf-dR1.text" = "Only invited user can sign up to this server.Please seek help from server admin for sign up link";
+
+/* Class = "UILabel"; text = "Password"; ObjectID = "b4b-zT-RnQ"; */
+"b4b-zT-RnQ.text" = "Password";
+
+/* Class = "UILabel"; text = "Login to"; ObjectID = "cac-n0-LKK"; */
+"cac-n0-LKK.text" = "Login to";
+
+/* Class = "UILabel"; text = "Email"; ObjectID = "foc-Bz-6bZ"; */
+"foc-Bz-6bZ.text" = "Email";
+
+/* Class = "UILabel"; text = "Email"; ObjectID = "gvs-ZK-172"; */
+"gvs-ZK-172.text" = "Email";
+
+/* Class = "UILabel"; text = "Confirm Password"; ObjectID = "k3H-2f-1pU"; */
+"k3H-2f-1pU.text" = "Confirm Password";
+
+/* Class = "UIButton"; normalTitle = "Sign Up"; ObjectID = "zqu-ZY-5pH"; */
+"zqu-ZY-5pH.normalTitle" = "Sign Up";

@@ -4,6 +4,8 @@ platform :ios, '13.0'
 
 target 'VoceChat_Example' do
   pod 'VoceChat', :path => '../'
+  
+  pod 'SnapKit'
 
   target 'VoceChat_Tests' do
     inherit! :search_paths

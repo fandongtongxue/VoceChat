@@ -42,37 +42,74 @@ public class VCManager: NSObject {
     }
     
     
+    /// 获取登录配置
+    /// - Parameters:
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    public class func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((String)->())) {
+        VCNetwork.get(url: .admin_login_config) { result in
+            let resultDict = result as? NSDictionary
+            let model = VCLoginConfigModel.deserialize(from: resultDict) ?? VCLoginConfigModel()
+            success(model)
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    
     /// 登陆
     /// - Parameters:
     ///   - email: email
     ///   - password: 密码
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func login(email: String, password: String, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public class func login(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let credential = ["email":email,"password":password,"type":"password"]
         let device = UIDevice.current.model
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
             debugPrint("登陆成功")
+            UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
         } failure: { error in
             failure(error)
             debugPrint("登陆失败:"+error)
         }
     }
     
-    public class func register(email: String, password: String, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public class func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let device = UIDevice.current.model
         let language = Locale.preferredLanguages.first
         VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
             debugPrint("注册成功")
+            UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
         } failure: { error in
             failure(error)
             debugPrint("注册失败:"+error)
         }
 
+    }
+    
+    
+    /// 是否登录
+    /// - Returns: 结果
+    public class func isLogin() -> Bool {
+        let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
+        let model = VCLoginModel.deserialize(from: dict)
+        return model?.user?.uid != 0
+    }
+    
+    
+    /// 当前用户
+    /// - Returns: 用户信息
+    public class func currentUser() -> VCUserModel? {
+        let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
+        let model = VCLoginModel.deserialize(from: dict)
+        return model?.user?.uid == 0 ? nil : model?.user
     }
     
     
@@ -84,6 +121,8 @@ public class VCManager: NSObject {
         VCNetwork.post(url: .token_logout) { result in
             debugPrint("退出登陆成功")
             success()
+            UserDefaults.standard.set([:], forKey: .userKey)
+            UserDefaults.standard.synchronize()
         } failure: { error in
             failure(error)
             debugPrint("退出登陆失败:"+error)

@@ -30,7 +30,14 @@ class RegisterViewController: BaseViewController {
     }
     
     @IBAction func signUpBtnAction(_ sender: UIButton) {
-        
+        view.endEditing(true)
+        VCManager.register(email: emailTF.text, password: passTF.text) { result in
+            let tabC = TabBarController()
+            UIApplication.shared.keyWindow?.rootViewController = tabC
+        } failure: { error in
+            //do nothing
+        }
+
     }
     
     @IBAction func textFieldDidChange(_ sender: UITextField) {

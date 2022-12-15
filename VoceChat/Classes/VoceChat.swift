@@ -11,7 +11,12 @@ extension String {
     //存储相关
     static let serverURLKey = "serverURLKey"
     static let nameKey = "nameKey"
-    static let descKey = "DescKey"
+    static let descKey = "descKey"
+    
+    static let userKey = "userKey"
+    
+    //Network
+    static let cookieKey = "cookieKey"
     
     //API
     static let api = "/api"
@@ -37,4 +42,7 @@ extension String {
     //User
     static let user = api+"/user"
     static let user_register = user+"/register"
+    
+    //Admin
+    static let admin_login_config = api+"/admin/login/config"
 }
