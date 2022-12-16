@@ -12,6 +12,6 @@ public class VCUserModel: VCBaseModel {
     public var gender: Int = 0
     public var is_admin: Bool = false
     public var language: String?
-    public var name: String?
+    public var name = ""
     public var uid: Int = 0
 }

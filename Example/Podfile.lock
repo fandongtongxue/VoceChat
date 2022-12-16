@@ -1,23 +1,34 @@
 PODS:
   - Alamofire (5.6.2)
+  - CDFInitialsAvatar (1.0.4)
   - HandyJSON (5.0.2)
+  - SDWebImage (5.13.5):
+    - SDWebImage/Core (= 5.13.5)
+  - SDWebImage/Core (5.13.5)
   - SnapKit (5.6.0)
   - Toast-Swift (5.0.1)
   - VoceChat (0.1.0):
     - Alamofire (~> 5.6.2)
     - HandyJSON (~> 5.0.2)
     - Toast-Swift (~> 5.0.1)
+  - WoodPeckeriOS (1.3.3)
 
 DEPENDENCIES:
+  - CDFInitialsAvatar
+  - SDWebImage
   - SnapKit
   - VoceChat (from `../`)
+  - WoodPeckeriOS
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - CDFInitialsAvatar
     - HandyJSON
+    - SDWebImage
     - SnapKit
     - Toast-Swift
+    - WoodPeckeriOS
 
 EXTERNAL SOURCES:
   VoceChat:
@@ -25,11 +36,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  CDFInitialsAvatar: db58862ce67b1b1409e24d5c19d0efb2a8e62491
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   VoceChat: faf9f1e10e893ca3dec49fdebf251c0eb83869e9
+  WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
 
-PODFILE CHECKSUM: f8beec8a713a3a00e9b2377eef132590e22b8138
+PODFILE CHECKSUM: d3e1b8d174b1e2329f9485c7aa35771e95f360f7
 
 COCOAPODS: 1.11.3

@@ -6,6 +6,10 @@ target 'VoceChat_Example' do
   pod 'VoceChat', :path => '../'
   
   pod 'SnapKit'
+  pod 'SDWebImage'
+  pod 'CDFInitialsAvatar'
+  pod 'WoodPeckeriOS', :configurations => ['Debug']
+
 
   target 'VoceChat_Tests' do
     inherit! :search_paths

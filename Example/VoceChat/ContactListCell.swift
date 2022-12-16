@@ -7,12 +7,31 @@
 //
 
 import UIKit
+import VoceChat
+import CDFInitialsAvatar
 
 class ContactListCell: UITableViewCell {
 
+    @IBOutlet weak var avatarImgView: UIImageView!
+    @IBOutlet weak var onlineView: UIView!
+    @IBOutlet weak var nameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    var _model : VCUserModel!
+    public var model : VCUserModel!{
+        set{
+            _model = newValue
+            //设置数据
+            let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: newValue.name)
+            avatarImgView.image = avatar?.imageRepresentation
+            nameLabel.text = newValue.name + (newValue.name == VCManager.currentUser()?.name ? NSLocalizedString("(you)", comment: "") : "")
+        }
+        get{
+            return _model
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

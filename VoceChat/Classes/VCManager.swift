@@ -100,7 +100,7 @@ public class VCManager: NSObject {
     public class func isLogin() -> Bool {
         let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
         let model = VCLoginModel.deserialize(from: dict)
-        return model?.user?.uid != 0
+        return model?.user?.uid ?? 0 > 0
     }
     
     
