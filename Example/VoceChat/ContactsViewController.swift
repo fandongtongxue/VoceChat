@@ -88,6 +88,10 @@ extension ContactsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let profileVC = ProfileViewController()
+        profileVC.hidesBottomBarWhenPushed = true
+        profileVC.model = users[indexPath.row]
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }
 
