@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import VoceChat
 
 class SettingsViewController: BaseViewController {
 
@@ -14,17 +15,13 @@ class SettingsViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-    }
-    
+        
+        VCManager.shared.getFavorites {
+            debugPrint("111")
+        } failure: { error in
+            debugPrint("111")
+        }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
-    */
 
 }

@@ -51,6 +51,7 @@ class ContactsViewController: BaseViewController {
         VCManager.shared.getUsers { users in
             self.users = users
             self.tableView.reloadData()
+            self.searchRC.dataArray = users
         } failure: { error in
             //do nothing
         }

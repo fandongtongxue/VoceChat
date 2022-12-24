@@ -66,6 +66,26 @@ public class VCManager: NSObject {
     }
     
     
+    /// Guest登录
+    /// - Parameters:
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    public func loginGuest(success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+        VCNetwork.get(url: .login_guest) { result in
+            let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
+            success(model)
+            self.sse(token: model.token)
+            debugPrint("登陆成功")
+            UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
+        } failure: { error in
+            failure(error)
+            debugPrint("登陆失败:"+error)
+        }
+
+    }
+    
+    
     /// 登陆
     /// - Parameters:
     ///   - email: email
@@ -93,6 +113,11 @@ public class VCManager: NSObject {
         }
     }
     
+    
+    /// 自动登录
+    /// - Parameters:
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
     public func autoLogin(success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let device = UIDevice.current.model
         let email = UserDefaults.standard.string(forKey: .emailKey)
@@ -111,6 +136,13 @@ public class VCManager: NSObject {
         }
     }
     
+    
+    /// 注册
+    /// - Parameters:
+    ///   - email: 邮箱
+    ///   - password: 密码
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
     public func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let device = UIDevice.current.model
         let language = Locale.preferredLanguages.first
@@ -128,6 +160,9 @@ public class VCManager: NSObject {
 
     }
     
+    
+    /// SEE监听
+    /// - Parameter token: token
     public func sse(token: String?) {
         //SSE
         eventSource = EventSource(url: URL(string: VCManager.shared.serverInfo().serverURL + .user_events)!, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""])
@@ -228,6 +263,11 @@ public class VCManager: NSObject {
     }
     
     
+    /// 发送消息
+    /// - Parameters:
+    ///   - uid: 用户ID
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
     public func sendMessage(uid: String, success: @escaping (()->()), failure: @escaping ((String)->())) {
         VCNetwork.post(url: .user+"/"+uid+"/send") { result in
             debugPrint("发送消息成功")
@@ -253,6 +293,29 @@ public class VCManager: NSObject {
             debugPrint("注册FCM成功")
         } failure: { error in
             debugPrint("注册FCM失败:"+error)
+            failure(error)
+        }
+
+    }
+    
+    public func getFavorites(success: @escaping (([VCFavoriteModel])->()), failure: @escaping ((String)->())) {
+        VCNetwork.get(url: .favorite) { result in
+            let resultArray = result as? [[String: Any]]
+            var tempArray = [VCFavoriteModel]()
+            for dict in resultArray ?? [] {
+                let model = VCFavoriteModel.deserialize(from: dict) ?? VCFavoriteModel()
+                tempArray.append(model)
+            }
+            success(tempArray)
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    public func createFavorite(mid: String, success: @escaping (()->()), failure: @escaping ((String)->())) {
+        VCNetwork.post(url: .favorite, param: ["mid_list": [mid]]) { result in
+            success()
+        } failure: { error in
             failure(error)
         }
 

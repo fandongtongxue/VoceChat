@@ -35,12 +35,14 @@ extension String {
     
     //license
     static let license = api+"/license"
-    static let license_check = api+"/license/check"
+    static let license_check = license+"/check"
     
     //Token
-    static let token_login = api+"/token/login"
-    static let token_logout = api+"/token/logout"
-    static let token_device_token = api+"/token/device_token"
+    static let token = api+"/token"
+    static let token_login = token+"/login"
+    static let token_logout = token+"/logout"
+    static let token_device_token = token+"/device_token"
+    static let login_guest = token+"/login_guest"
     
     //User
     static let user = api+"/user"
@@ -49,4 +51,14 @@ extension String {
     
     //Admin
     static let admin_login_config = api+"/admin/login/config"
+    
+    //Favorite
+    static let favorite = api+"/favorite"
+    static let favorite_attachment = favorite+"/attachment"
+    
+    //Group
+    static let group = api+"/group"
+    
+    //Message
+    static let message = api+"/message"
 }
