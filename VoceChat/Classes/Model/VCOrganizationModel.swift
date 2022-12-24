@@ -6,7 +6,7 @@
 //
 
 public class VCOrganizationModel: VCBaseModel {
-    public var description: String?
-    public var name: String?
-    public var serverURL: String?
+    public var description = ""
+    public var name = ""
+    public var serverURL = ""
 }

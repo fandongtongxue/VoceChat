@@ -7,12 +7,21 @@
 
 import Foundation
 import HandyJSON
+import IKEventSource
 
 public class VCManager: NSObject {
     
+    public static let shared = VCManager()
+    
+    private var eventSource: EventSource?
+    
     /// 服务器URL
     /// - Parameter serverUrl: 服务器URL
-    public class func register(serverUrl: String) {
+    public func register(serverUrl: String) {
+        guard serverUrl.count > 0 else {
+            UIApplication.shared.keyWindow?.makeToast("VoceChat服务器URL为空")
+            return
+        }
         //存储服务器URL
         UserDefaults.standard.set(serverUrl, forKey: .serverURLKey)
         UserDefaults.standard.synchronize()
@@ -30,14 +39,14 @@ public class VCManager: NSObject {
     
     /// 获取当前服务器信息
     /// - Returns: 服务器信息
-    public class func serverInfo() -> VCOrganizationModel{
+    public func serverInfo() -> VCOrganizationModel{
         let name = UserDefaults.standard.string(forKey: .nameKey)
         let desc = UserDefaults.standard.string(forKey: .descKey)
         let serverURL = UserDefaults.standard.string(forKey: .serverURLKey)
         let info = VCOrganizationModel()
-        info.name = name
-        info.description = desc
-        info.serverURL = serverURL
+        info.name = name ?? ""
+        info.description = desc ?? ""
+        info.serverURL = serverURL ?? ""
         return info
     }
     
@@ -46,7 +55,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((String)->())) {
+    public func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((String)->())) {
         VCNetwork.get(url: .admin_login_config) { result in
             let resultDict = result as? NSDictionary
             let model = VCLoginConfigModel.deserialize(from: resultDict) ?? VCLoginConfigModel()
@@ -63,12 +72,13 @@ public class VCManager: NSObject {
     ///   - password: 密码
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func login(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public func login(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let credential = ["email":email,"password":password,"type":"password"]
         let device = UIDevice.current.model
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
+            self.sse(token: model.token)
             debugPrint("登陆成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
@@ -78,12 +88,13 @@ public class VCManager: NSObject {
         }
     }
     
-    public class func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let device = UIDevice.current.model
         let language = Locale.preferredLanguages.first
         VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
+            self.sse(token: model.token)
             debugPrint("注册成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
@@ -94,22 +105,43 @@ public class VCManager: NSObject {
 
     }
     
+    public func sse(token: String?) {
+        //SSE
+        eventSource = EventSource(url: URL(string: VCManager.shared.serverInfo().serverURL)!, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""])
+        eventSource?.onOpen {
+            debugPrint("SSE Connected")
+        }
+        eventSource?.onComplete({ statusCode, reconnect, error in
+            debugPrint("SSE Disconnected")
+            let retryTime = self.eventSource?.retryTime ?? 3000
+            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(retryTime), execute: DispatchWorkItem(block: {
+                self.eventSource?.connect()
+            }))
+        })
+        eventSource?.onMessage({ id, event, data in
+            debugPrint("收到消息:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("users_state", handler: { id, event, data in
+            debugPrint("收到users_state事件:id:\(id) event:\(event) data:\(data)")
+        })
+    }
+    
     
     /// 是否登录
     /// - Returns: 结果
-    public class func isLogin() -> Bool {
+    public func isLogin() -> Bool {
         let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
         let model = VCLoginModel.deserialize(from: dict)
-        return model?.user?.uid ?? 0 > 0
+        return model?.user.uid ?? 0 > 0
     }
     
     
     /// 当前用户
     /// - Returns: 用户信息
-    public class func currentUser() -> VCUserModel? {
+    public func currentUser() -> VCLoginModel? {
         let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
         let model = VCLoginModel.deserialize(from: dict)
-        return model?.user?.uid == 0 ? nil : model?.user
+        return model?.user.uid == 0 ? nil : model
     }
     
     
@@ -117,7 +149,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func logout(success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func logout(success: @escaping (()->()), failure: @escaping ((String)->())) {
         VCNetwork.post(url: .token_logout) { result in
             debugPrint("退出登陆成功")
             success()
@@ -134,7 +166,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func getUsers(success: @escaping (([VCUserModel])->()), failure: @escaping ((String)->())) {
+    public func getUsers(success: @escaping (([VCUserModel])->()), failure: @escaping ((String)->())) {
         VCNetwork.get(url: .user) { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCUserModel]()
@@ -157,7 +189,7 @@ public class VCManager: NSObject {
     ///   - limit: 限制数量
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func getHistoryMessage(uid: String, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((String)->())) {
+    public func getHistoryMessage(uid: String, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((String)->())) {
         VCNetwork.get(url: .user+"/"+uid+"/history") { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCMessageModel]()
@@ -173,7 +205,7 @@ public class VCManager: NSObject {
     }
     
     
-    public class func sendMessage(uid: String, success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func sendMessage(uid: String, success: @escaping (()->()), failure: @escaping ((String)->())) {
         VCNetwork.post(url: .user+"/"+uid+"/send") { result in
             debugPrint("发送消息成功")
         } failure: { error in
@@ -188,7 +220,7 @@ public class VCManager: NSObject {
     ///   - device_token: DeviceToken
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public class func setDeviceToken(device_token: Data, success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func setDeviceToken(device_token: Data, success: @escaping (()->()), failure: @escaping ((String)->())) {
         let device_token_str = device_token.map { value in
             String(format: "%02.2hhx", [value])
         }.joined()

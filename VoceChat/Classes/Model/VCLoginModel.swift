@@ -8,8 +8,8 @@
 
 public class VCLoginModel: VCBaseModel {
     public var expired_in: Int = 0
-    public var refresh_token: String?
-    public var server_id: String?
-    public var token: String?
-    public var user: VCUserModel?
+    public var refresh_token = ""
+    public var server_id = ""
+    public var token = ""
+    public var user = VCUserModel()
 }

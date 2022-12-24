@@ -48,7 +48,7 @@ class ContactsViewController: BaseViewController {
     }
 
     func requestData() {
-        VCManager.getUsers { users in
+        VCManager.shared.getUsers { users in
             self.users = users
             self.tableView.reloadData()
         } failure: { error in

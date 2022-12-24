@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        VCManager.register(serverUrl: .ServerURL)
-        if VCManager.isLogin() {
+        VCManager.shared.register(serverUrl: .ServerURL)
+        if VCManager.shared.isLogin() {
             let tabC = TabBarController()
             window?.rootViewController = tabC
         }
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        VCManager.setDeviceToken(device_token: deviceToken) {
+        VCManager.shared.setDeviceToken(device_token: deviceToken) {
             //do nothing
         } failure: { error in
             //

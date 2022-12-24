@@ -21,8 +21,8 @@ class RegisterViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        nameLabel.text = VCManager.serverInfo().name
-        serverLabel.text = VCManager.serverInfo().serverURL
+        nameLabel.text = VCManager.shared.serverInfo().name
+        serverLabel.text = VCManager.shared.serverInfo().serverURL
     }
     
     @IBAction func closeBtnAction(_ sender: UIButton) {
@@ -31,7 +31,7 @@ class RegisterViewController: BaseViewController {
     
     @IBAction func signUpBtnAction(_ sender: UIButton) {
         view.endEditing(true)
-        VCManager.register(email: emailTF.text, password: passTF.text) { result in
+        VCManager.shared.register(email: emailTF.text, password: passTF.text) { result in
             let tabC = TabBarController()
             UIApplication.shared.keyWindow?.rootViewController = tabC
         } failure: { error in

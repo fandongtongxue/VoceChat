@@ -30,7 +30,9 @@ class VCNetwork: NSObject {
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-            AF.request(serverURL + url, method: method, parameters: param,  encoding: JSONEncoding.default, headers: ["Refer": serverURL, "Origin": serverURL]).responseJSON { responseJSON in
+            var newParam: Parameters? = param
+            newParam?["api-key"] = VCManager.shared.currentUser()?.token
+            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""]).responseJSON { responseJSON in
                 switch responseJSON.result {
                 case .success(let result):
                     success(result)

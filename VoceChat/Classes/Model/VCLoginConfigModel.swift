@@ -16,12 +16,12 @@ public class VCLoginConfigModel: VCBaseModel {
     public var oidc = [VCLoginConfigModelOidc]()
     public var password: Bool = false
     public var third_party: Bool = false
-    public var who_can_sign_up: String?
+    public var who_can_sign_up = ""
 }
 
 public class VCLoginConfigModelOidc: VCBaseModel {
-    public var domain: String?
+    public var domain = ""
     public var enable: Bool = false
-    public var favicon: String?
+    public var favicon = ""
 }
 
