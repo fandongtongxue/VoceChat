@@ -74,8 +74,13 @@ public class VCManager: NSObject {
     ///   - failure: 失败回调
     public func login(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
         let credential = ["email":email,"password":password,"type":"password"]
+        //存储自动登录参数
+        UserDefaults.standard.set(email, forKey: .emailKey)
+        UserDefaults.standard.set(password, forKey: .passwordKey)
+        UserDefaults.standard.synchronize()
+        
         let device = UIDevice.current.model
-        VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device]) { result in
+        VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device, "device_token":"test"]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
             self.sse(token: model.token)
@@ -85,6 +90,24 @@ public class VCManager: NSObject {
         } failure: { error in
             failure(error)
             debugPrint("登陆失败:"+error)
+        }
+    }
+    
+    public func autoLogin(success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+        let device = UIDevice.current.model
+        let email = UserDefaults.standard.string(forKey: .emailKey)
+        let password = UserDefaults.standard.string(forKey: .passwordKey)
+        let credential = ["email":email,"password":password,"type":"password"]
+        VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device, "device_token":"test"]) { result in
+            let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
+            success(model)
+            self.sse(token: model.token)
+            debugPrint("自动登陆成功")
+            UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
+        } failure: { error in
+            failure(error)
+            debugPrint("自动登陆失败:"+error)
         }
     }
     
@@ -107,7 +130,7 @@ public class VCManager: NSObject {
     
     public func sse(token: String?) {
         //SSE
-        eventSource = EventSource(url: URL(string: VCManager.shared.serverInfo().serverURL)!, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""])
+        eventSource = EventSource(url: URL(string: VCManager.shared.serverInfo().serverURL + .user_events)!, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""])
         eventSource?.onOpen {
             debugPrint("SSE Connected")
         }

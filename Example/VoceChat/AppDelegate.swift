@@ -19,6 +19,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         VCManager.shared.register(serverUrl: .ServerURL)
         if VCManager.shared.isLogin() {
+            //自动登录
+            VCManager.shared.autoLogin { result in
+                //do nothing
+            } failure: { error in
+                //do nothing
+            }
             let tabC = TabBarController()
             window?.rootViewController = tabC
         }

@@ -15,6 +15,9 @@ extension String {
     
     static let userKey = "userKey"
     
+    static let emailKey = "emailKey"
+    static let passwordKey = "passwordKey"
+    
     //Network
     static let cookieKey = "cookieKey"
     
@@ -42,6 +45,7 @@ extension String {
     //User
     static let user = api+"/user"
     static let user_register = user+"/register"
+    static let user_events = user+"/events"
     
     //Admin
     static let admin_login_config = api+"/admin/login/config"
