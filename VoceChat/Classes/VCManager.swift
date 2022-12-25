@@ -170,18 +170,69 @@ public class VCManager: NSObject {
             debugPrint("SSE Connected")
         }
         eventSource?.onComplete({ statusCode, reconnect, error in
-            debugPrint("SSE Disconnected")
-            let retryTime = self.eventSource?.retryTime ?? 3000
-            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(retryTime), execute: DispatchWorkItem(block: {
-                self.eventSource?.connect()
-            }))
+            debugPrint("SSE onComplete: statusCode:\(statusCode)")
+            debugPrint("SSE onComplete: reconnect:\(reconnect)")
+            debugPrint("SSE onComplete: error:\(error)")
+//            let retryTime = self.eventSource?.retryTime ?? 3000
+//            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(retryTime), execute: DispatchWorkItem(block: {
+//                self.eventSource?.connect()
+//            }))
         })
         eventSource?.onMessage({ id, event, data in
             debugPrint("收到消息:id:\(id) event:\(event) data:\(data)")
         })
+        eventSource?.addEventListener("ready", handler: { id, event, data in
+            debugPrint("收到ready事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("users_snapshot", handler: { id, event, data in
+            debugPrint("收到users_snapshot事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("users_log", handler: { id, event, data in
+            debugPrint("收到users_log事件:id:\(id) event:\(event) data:\(data)")
+        })
         eventSource?.addEventListener("users_state", handler: { id, event, data in
             debugPrint("收到users_state事件:id:\(id) event:\(event) data:\(data)")
         })
+        eventSource?.addEventListener("users_state_changed", handler: { id, event, data in
+            debugPrint("收到users_state_changed事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("user_settings", handler: { id, event, data in
+            debugPrint("收到user_settings事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("user_settings_changed", handler: { id, event, data in
+            debugPrint("收到user_settings_changed事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("related_groups", handler: { id, event, data in
+            debugPrint("收到related_groups事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("chat", handler: { id, event, data in
+            debugPrint("收到chat事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("kick", handler: { id, event, data in
+            debugPrint("收到kick事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("user_joined_group", handler: { id, event, data in
+            debugPrint("收到user_joined_group事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("user_leaved_group", handler: { id, event, data in
+            debugPrint("收到user_leaved_group事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("joined_group", handler: { id, event, data in
+            debugPrint("收到joined_group事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("kick_from_group", handler: { id, event, data in
+            debugPrint("收到kick_from_group事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("group_changed", handler: { id, event, data in
+            debugPrint("收到group_changed事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("pinned_message_updated", handler: { id, event, data in
+            debugPrint("收到pinned_message_updated事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.addEventListener("heartbeat", handler: { id, event, data in
+            debugPrint("收到heartbeat事件:id:\(id) event:\(event) data:\(data)")
+        })
+        eventSource?.connect()
     }
     
     
@@ -208,7 +259,7 @@ public class VCManager: NSObject {
     ///   - success: 成功回调
     ///   - failure: 失败回调
     public func logout(success: @escaping (()->()), failure: @escaping ((String)->())) {
-        VCNetwork.post(url: .token_logout) { result in
+        VCNetwork.getRaw(url: .token_logout) { result in
             debugPrint("退出登陆成功")
             success()
             UserDefaults.standard.set([:], forKey: .userKey)

@@ -1,0 +1,263 @@
+[
+    {
+        "type": "ready"
+    },
+    {
+        "type": "users_snapshot",
+        "users": [
+            {
+                "uid": 0,
+                "email": "string",
+                "name": "string",
+                "gender": 0,
+                "language": "string",
+                "is_admin": true,
+                "avatar_updated_at": 0,
+                "create_by": "string"
+            }
+        ],
+        "version": 0
+    },
+    {
+        "type": "users_log",
+        "logs": [
+            {
+                "log_id": 0,
+                "action": "create",
+                "uid": 0,
+                "email": "string",
+                "name": "string",
+                "gender": 0,
+                "language": "string",
+                "is_admin": true,
+                "avatar_updated_at": 0
+            }
+        ]
+    },
+    {
+        "type": "users_state",
+        "users": [
+            {
+                "uid": 0,
+                "online": true
+            }
+        ]
+    },
+    {
+        "type": "users_state_changed",
+        "uid": 0,
+        "online": true
+    },
+    {
+        "type": "user_settings",
+        "mute_users": [
+            {
+                "uid": 0,
+                "expired_at": 0
+            }
+        ],
+        "mute_groups": [
+            {
+                "gid": 0,
+                "expired_at": 0
+            }
+        ],
+        "read_index_users": [
+            {
+                "uid": 0,
+                "mid": 0
+            }
+        ],
+        "read_index_groups": [
+            {
+                "gid": 0,
+                "mid": 0
+            }
+        ],
+        "burn_after_reading_users": [
+            {
+                "uid": 0,
+                "expires_in": 0
+            }
+        ],
+        "burn_after_reading_groups": [
+            {
+                "gid": 0,
+                "expires_in": 0
+            }
+        ]
+    },
+    {
+        "type": "user_settings_changed",
+        "from_device": "string",
+        "add_mute_users": [
+            {
+                "uid": 0,
+                "expired_at": 0
+            }
+        ],
+        "remove_mute_users": [
+            0
+        ],
+        "add_mute_groups": [
+            {
+                "gid": 0,
+                "expired_at": 0
+            }
+        ],
+        "remove_mute_groups": [
+            0
+        ],
+        "read_index_users": [
+            {
+                "uid": 0,
+                "mid": 0
+            }
+        ],
+        "read_index_groups": [
+            {
+                "gid": 0,
+                "mid": 0
+            }
+        ],
+        "burn_after_reading_users": [
+            {
+                "uid": 0,
+                "expires_in": 0
+            }
+        ],
+        "burn_after_reading_groups": [
+            {
+                "gid": 0,
+                "expires_in": 0
+            }
+        ]
+    },
+    {
+        "type": "related_groups",
+        "groups": [
+            {
+                "gid": 0,
+                "owner": 0,
+                "name": "string",
+                "description": "string",
+                "members": [],
+                "is_public": false,
+                "avatar_updated_at": 0,
+                "pinned_messages": [
+                    {
+                        "mid": 0,
+                        "created_by": 0,
+                        "created_at": 0,
+                        "properties": {
+                            "additionalProp1": "string",
+                            "additionalProp2": "string",
+                            "additionalProp3": "string"
+                        },
+                        "content_type": "string",
+                        "content": "string"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "chat",
+        "mid": 0,
+        "from_uid": 0,
+        "created_at": 0,
+        "target": {
+            "uid": 0
+        },
+        "detail": {
+            "type": "normal",
+            "properties": {
+                "additionalProp1": "string",
+                "additionalProp2": "string",
+                "additionalProp3": "string"
+            },
+            "content_type": "string",
+            "content": "string",
+            "expires_in": 0
+        }
+    },
+    {
+        "type": "kick",
+        "reason": "login_from_other_device"
+    },
+    {
+        "type": "user_joined_group",
+        "gid": 0,
+        "uid": [
+            0
+        ]
+    },
+    {
+        "type": "user_leaved_group",
+        "gid": 0,
+        "uid": [
+            0
+        ]
+    },
+    {
+        "type": "joined_group",
+        "group": {
+            "gid": 0,
+            "owner": 0,
+            "name": "string",
+            "description": "string",
+            "members": [],
+            "is_public": false,
+            "avatar_updated_at": 0,
+            "pinned_messages": [
+                {
+                    "mid": 0,
+                    "created_by": 0,
+                    "created_at": 0,
+                    "properties": {
+                        "additionalProp1": "string",
+                        "additionalProp2": "string",
+                        "additionalProp3": "string"
+                    },
+                    "content_type": "string",
+                    "content": "string"
+                }
+            ]
+        }
+    },
+    {
+        "type": "kick_from_group",
+        "gid": 0,
+        "reason": "kick"
+    },
+    {
+        "type": "group_changed",
+        "gid": 0,
+        "name": "string",
+        "description": "string",
+        "owner": 0,
+        "avatar_updated_at": 0,
+        "is_public": true
+    },
+    {
+        "type": "pinned_message_updated",
+        "gid": 0,
+        "mid": 0,
+        "msg": {
+            "mid": 0,
+            "created_by": 0,
+            "created_at": 0,
+            "properties": {
+                "additionalProp1": "string",
+                "additionalProp2": "string",
+                "additionalProp3": "string"
+            },
+            "content_type": "string",
+            "content": "string"
+        }
+    },
+    {
+        "type": "heartbeat",
+        "time": 0
+    }
+]

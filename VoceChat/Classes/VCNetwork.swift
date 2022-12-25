@@ -26,14 +26,53 @@ class VCNetwork: NSObject {
         http(url: url, method: .delete, param: param, success: success, failure: failure)
     }
     
+    class func getRaw(url: String , param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        httpRaw(url: url, method: .get, param: param, success: success, failure: failure)
+    }
+    
+    class func postRaw(url: String , param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        httpRaw(url: url, method: .post, param: param, success: success, failure: failure)
+    }
+    
+    class func putRaw(url: String , param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        httpRaw(url: url, method: .put, param: param, success: success, failure: failure)
+    }
+    
+    class func deleteRaw(url: String , param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        httpRaw(url: url, method: .delete, param: param, success: success, failure: failure)
+    }
+    
     private class func http(url: String, method: HTTPMethod = .get, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
             var newParam: Parameters? = param
             newParam?["api-key"] = VCManager.shared.currentUser()?.token
-            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""]).responseJSON { responseJSON in
+            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).responseJSON { responseJSON in
                 switch responseJSON.result {
+                case .success(let result):
+                    success(result)
+                    break
+                case .failure(let error):
+                    failure(error.errorDescription ?? "")
+                    UIApplication.shared.keyWindow?.makeToast(error.errorDescription)
+                    break
+                }
+            }
+        }else {
+            UIApplication.shared.keyWindow?.makeToast(NSLocalizedString("No network", comment: ""))
+        }
+        
+    }
+    
+    private class func httpRaw(url: String, method: HTTPMethod = .get, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        if NetworkReachabilityManager()?.isReachable ?? false {
+            cookieLoad()
+            let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
+            var newParam: Parameters? = param
+            newParam?["api-key"] = VCManager.shared.currentUser()?.token
+            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).responseData { response in
+                switch response.result {
                 case .success(let result):
                     success(result)
                     break
