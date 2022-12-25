@@ -71,7 +71,7 @@ class VCNetwork: NSObject {
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
             var newParam: Parameters? = param
             newParam?["api-key"] = VCManager.shared.currentUser()?.token
-            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).responseData { response in
+            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).response { response in
                 switch response.result {
                 case .success(let result):
                     success(result)
