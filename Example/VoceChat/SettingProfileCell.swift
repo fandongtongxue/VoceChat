@@ -19,7 +19,7 @@ class SettingProfileCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        topConstraint.constant = 20 + .statusBarHeight
+        topConstraint.constant = .statusBarHeight
     }
     
     var _model : VCUserModel!

@@ -170,9 +170,9 @@ public class VCManager: NSObject {
             debugPrint("SSE Connected")
         }
         eventSource?.onComplete({ statusCode, reconnect, error in
-            debugPrint("SSE onComplete: statusCode:\(statusCode)")
-            debugPrint("SSE onComplete: reconnect:\(reconnect)")
-            debugPrint("SSE onComplete: error:\(error)")
+            debugPrint("SSE onComplete: statusCode:\(statusCode ?? 0)")
+            debugPrint("SSE onComplete: reconnect:\(reconnect ?? false)")
+            debugPrint("SSE onComplete: error:\(error?.localizedDescription ?? "")")
 //            let retryTime = self.eventSource?.retryTime ?? 3000
 //            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(retryTime), execute: DispatchWorkItem(block: {
 //                self.eventSource?.connect()
@@ -262,6 +262,7 @@ public class VCManager: NSObject {
         VCNetwork.getRaw(url: .token_logout) { result in
             debugPrint("退出登陆成功")
             success()
+            self.eventSource?.disconnect()
             UserDefaults.standard.set([:], forKey: .userKey)
             UserDefaults.standard.synchronize()
         } failure: { error in
