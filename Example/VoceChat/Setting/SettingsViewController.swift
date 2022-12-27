@@ -15,21 +15,18 @@ class SettingsViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        navigationItem.title = NSLocalizedString("Settings", comment: "")
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         tableView.register(SettingListCell.classForCoder(), forCellReuseIdentifier: "SettingListCell")
         tableView.register(UINib(nibName: "SettingProfileCell", bundle: Bundle.main), forCellReuseIdentifier: "SettingProfileCell")
         return tableView
@@ -86,7 +83,7 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 160 + .statusBarHeight
+            return 180
         }
         return 40
     }

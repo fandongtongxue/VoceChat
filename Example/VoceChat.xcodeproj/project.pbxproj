@@ -17,6 +17,8 @@
 		C6A04CD553BEAD75AF3736DA /* Pods_VoceChat_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EE1045C73A0DE3611763F6 /* Pods_VoceChat_Tests.framework */; };
 		CB3DFB6F294BFCE0009A9798 /* ContactsSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */; };
 		CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */; };
+		CB584EFA2959DF9A00D0C103 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB584EF92959DF9A00D0C103 /* ChatViewController.swift */; };
+		CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB584EFB2959DFA700D0C103 /* MessageViewController.swift */; };
 		CB6AE199294B0A84009CD70D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB6AE19B294B0A84009CD70D /* Localizable.strings */; };
 		CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */; };
 		CB6AE1AC294B5D3D009CD70D /* ContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */; };
@@ -66,6 +68,8 @@
 		A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSearchResultViewController.swift; sourceTree = "<group>"; };
 		CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CB584EF92959DF9A00D0C103 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		CB584EFB2959DFA700D0C103 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		CB6AE198294B0A73009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		CB6AE19A294B0A84009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CB6AE19C294B0A86009CD70D /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -136,29 +140,21 @@
 		607FACD21AFB9204008FA782 /* Example for VoceChat */ = {
 			isa = PBXGroup;
 			children = (
+				CBB75AEF295A78D100545C74 /* Config */,
+				CBB75AEE295A784900545C74 /* Extension */,
+				CBB75AED295A783F00545C74 /* Base */,
+				CBB75AEC295A782000545C74 /* Login */,
+				CBB75AEB295A77F500545C74 /* Setting */,
+				CBB75AEA295A77ED00545C74 /* Contacts */,
+				CBB75AE8295A77D300545C74 /* Chats */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* LoginViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				CBAA8DB0293CDD8000F0D0EF /* URL.swift */,
 				CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */,
 				CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */,
-				CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */,
-				CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */,
-				CBCE5B1629474CF500D5D14D /* ChatsViewController.swift */,
-				CBCE5B1829474D3100D5D14D /* ContactsViewController.swift */,
-				CBCE5B1A29474D4400D5D14D /* SettingsViewController.swift */,
 				CB6AE19B294B0A84009CD70D /* Localizable.strings */,
-				CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */,
-				CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */,
-				CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */,
-				CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */,
-				CBCE54542957E41100DFCDDA /* SettingListCell.swift */,
-				CBCE54562957E88700DFCDDA /* SettingProfileCell.swift */,
-				CBCE54572957E88700DFCDDA /* SettingProfileCell.xib */,
-				CBCE545A2957EC5800DFCDDA /* CGFloat+FD.swift */,
 				CBCE545C2957F3D500DFCDDA /* user_event.json */,
 			);
 			name = "Example for VoceChat";
@@ -198,6 +194,72 @@
 				40356CF99CADABEABE4915D2 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		CBB75AE8295A77D300545C74 /* Chats */ = {
+			isa = PBXGroup;
+			children = (
+				CBCE5B1629474CF500D5D14D /* ChatsViewController.swift */,
+				CB584EF92959DF9A00D0C103 /* ChatViewController.swift */,
+				CB584EFB2959DFA700D0C103 /* MessageViewController.swift */,
+			);
+			path = Chats;
+			sourceTree = "<group>";
+		};
+		CBB75AEA295A77ED00545C74 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				CBCE5B1829474D3100D5D14D /* ContactsViewController.swift */,
+				CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */,
+				CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */,
+				CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */,
+				CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		CBB75AEB295A77F500545C74 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				CBCE5B1A29474D4400D5D14D /* SettingsViewController.swift */,
+				CBCE54542957E41100DFCDDA /* SettingListCell.swift */,
+				CBCE54562957E88700DFCDDA /* SettingProfileCell.swift */,
+				CBCE54572957E88700DFCDDA /* SettingProfileCell.xib */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		CBB75AEC295A782000545C74 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				607FACD71AFB9204008FA782 /* LoginViewController.swift */,
+				CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		CBB75AED295A783F00545C74 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		CBB75AEE295A784900545C74 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CBCE545A2957EC5800DFCDDA /* CGFloat+FD.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CBB75AEF295A78D100545C74 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				CBAA8DB0293CDD8000F0D0EF /* URL.swift */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		D4A39DE1CCB0A1A38716A8F3 /* Frameworks */ = {
@@ -424,7 +486,9 @@
 				CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */,
 				CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */,
 				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
+				CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */,
 				CBCE5B1929474D3100D5D14D /* ContactsViewController.swift in Sources */,
+				CB584EFA2959DF9A00D0C103 /* ChatViewController.swift in Sources */,
 				CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */,
 				CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */,
 				CBCE54582957E88700DFCDDA /* SettingProfileCell.swift in Sources */,

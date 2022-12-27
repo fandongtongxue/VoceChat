@@ -299,8 +299,8 @@ public class VCManager: NSObject {
     ///   - limit: 限制数量
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func getHistoryMessage(uid: String, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((String)->())) {
-        VCNetwork.get(url: .user+"/"+uid+"/history") { result in
+    public func getHistoryMessage(uid: Int, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((String)->())) {
+        VCNetwork.get(url: .user+"/\(uid)/history") { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCMessageModel]()
             for item in resultArray ?? [] {
@@ -320,12 +320,11 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: String, success: @escaping (()->()), failure: @escaping ((String)->())) {
-        VCNetwork.post(url: .user+"/"+uid+"/send") { result in
-            debugPrint("发送消息成功")
+    public func sendMessage(uid: Int, success: @escaping (()->()), failure: @escaping ((String)->())) {
+        VCNetwork.post(url: .user+"/\(uid)/send") { result in
+            success()
         } failure: { error in
             failure(error)
-            debugPrint("发送消息失败:"+error)
         }
     }
     

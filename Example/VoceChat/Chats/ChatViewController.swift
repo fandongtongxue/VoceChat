@@ -1,23 +1,19 @@
 //
-//  ProfileViewController.swift
+//  ChatViewController.swift
 //  VoceChat_Example
 //
-//  Created by 范东 on 2022/12/16.
+//  Created by 范东 on 2022/12/26.
 //  Copyright © 2022 CocoaPods. All rights reserved.
 //
 
 import UIKit
-import VoceChat
 
-class ProfileViewController: BaseViewController {
-    
-    var model = VCUserModel()
+class ChatViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        navigationItem.title = model.name
     }
     
 

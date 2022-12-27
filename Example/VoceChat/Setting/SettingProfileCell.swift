@@ -15,11 +15,9 @@ class SettingProfileCell: UITableViewCell {
     @IBOutlet weak var avatarImgView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        topConstraint.constant = .statusBarHeight
     }
     
     var _model : VCUserModel!
