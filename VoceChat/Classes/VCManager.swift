@@ -7,7 +7,7 @@
 
 import Foundation
 import HandyJSON
-import IKEventSource
+import LDSwiftEventSource
 
 public class VCManager: NSObject {
     
@@ -164,75 +164,13 @@ public class VCManager: NSObject {
     /// SEE监听
     /// - Parameter token: token
     public func sse(token: String?) {
-        //SSE
-        eventSource = EventSource(url: URL(string: VCManager.shared.serverInfo().serverURL + .user_events)!, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? ""])
-        eventSource?.onOpen {
-            debugPrint("SSE Connected")
-        }
-        eventSource?.onComplete({ statusCode, reconnect, error in
-            debugPrint("SSE onComplete: statusCode:\(statusCode ?? 0)")
-            debugPrint("SSE onComplete: reconnect:\(reconnect ?? false)")
-            debugPrint("SSE onComplete: error:\(error?.localizedDescription ?? "")")
-//            let retryTime = self.eventSource?.retryTime ?? 3000
-//            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(retryTime), execute: DispatchWorkItem(block: {
-//                self.eventSource?.connect()
-//            }))
-        })
-        eventSource?.onMessage({ id, event, data in
-            debugPrint("收到消息:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("ready", handler: { id, event, data in
-            debugPrint("收到ready事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("users_snapshot", handler: { id, event, data in
-            debugPrint("收到users_snapshot事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("users_log", handler: { id, event, data in
-            debugPrint("收到users_log事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("users_state", handler: { id, event, data in
-            debugPrint("收到users_state事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("users_state_changed", handler: { id, event, data in
-            debugPrint("收到users_state_changed事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("user_settings", handler: { id, event, data in
-            debugPrint("收到user_settings事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("user_settings_changed", handler: { id, event, data in
-            debugPrint("收到user_settings_changed事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("related_groups", handler: { id, event, data in
-            debugPrint("收到related_groups事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("chat", handler: { id, event, data in
-            debugPrint("收到chat事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("kick", handler: { id, event, data in
-            debugPrint("收到kick事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("user_joined_group", handler: { id, event, data in
-            debugPrint("收到user_joined_group事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("user_leaved_group", handler: { id, event, data in
-            debugPrint("收到user_leaved_group事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("joined_group", handler: { id, event, data in
-            debugPrint("收到joined_group事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("kick_from_group", handler: { id, event, data in
-            debugPrint("收到kick_from_group事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("group_changed", handler: { id, event, data in
-            debugPrint("收到group_changed事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("pinned_message_updated", handler: { id, event, data in
-            debugPrint("收到pinned_message_updated事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.addEventListener("heartbeat", handler: { id, event, data in
-            debugPrint("收到heartbeat事件:id:\(id) event:\(event) data:\(data)")
-        })
-        eventSource?.connect()
+        let urlStr = VCManager.shared.serverInfo().serverURL + .user_events + "?api-key=" + (token ?? "")
+        debugPrint("SSEURL:\(urlStr)")
+        var config = EventSource.Config(handler: VCSSEEventHandler(), url: URL(string: urlStr)!)
+        config.headers = ["X-API-Key":token ?? ""]
+        eventSource = EventSource(config: config)
+        eventSource?.start()
+        
     }
     
     
@@ -262,7 +200,7 @@ public class VCManager: NSObject {
         VCNetwork.getRaw(url: .token_logout) { result in
             debugPrint("退出登陆成功")
             success()
-            self.eventSource?.disconnect()
+            self.eventSource?.stop()
             UserDefaults.standard.set([:], forKey: .userKey)
             UserDefaults.standard.synchronize()
         } failure: { error in

@@ -24,24 +24,17 @@ class ProfileViewController: BaseViewController {
 //        } failure: { error in
 //            debugPrint("发送消息失败:"+error)
 //        }
-        VCManager.shared.getHistoryMessage(uid: model.uid, limit: 100) { messages in
-            debugPrint("获取历史消息成功")
-        } failure: { error in
-            debugPrint("获取历史消息失败:"+error)
-        }
 
 
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        let chatVC = ChatViewController()
+        chatVC.model = model
+        chatVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(chatVC, animated: true)
     }
-    */
 
 }

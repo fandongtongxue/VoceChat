@@ -42,5 +42,6 @@ TODO: Add long description of the pod here.
   s.dependency 'Alamofire', '~> 5.6.2'
   s.dependency 'HandyJSON', '~> 5.0.2'
   s.dependency 'Toast-Swift', '~> 5.0.1'
+  s.dependency 'LDSwiftEventSource', '~> 3.0'
   s.dependency 'IKEventSource', '~> 3.0.1'
 end

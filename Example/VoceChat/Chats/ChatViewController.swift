@@ -7,24 +7,31 @@
 //
 
 import UIKit
+import VoceChat
 
 class ChatViewController: BaseViewController {
+    
+    var messageVC: MessageViewController!
+    var model = VCUserModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        messageVC = MessageViewController()
+        messageVC.model = model
+        view.addSubview(messageVC.view)
+        messageVC.view.frame = CGRect(x: 0, y: 0, width: .screenW, height: .screenH - .tabBarHeight)
+        addChildViewController(messageVC)
+        
+        view.addSubview(inputBar)
+
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    lazy var inputBar: InputBar = {
+        let inputBar = InputBar(frame: CGRect(x: 0, y: .screenH - .topHeight, width: .screenW, height: .tabBarHeight - .safeAreaBottomHeight))
+        return inputBar
+    }()
 
 }

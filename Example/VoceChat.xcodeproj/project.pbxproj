@@ -25,6 +25,7 @@
 		CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */; };
 		CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */; };
 		CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAA8DB0293CDD8000F0D0EF /* URL.swift */; };
+		CBB75AF1295A810400545C74 /* InputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB75AF0295A810400545C74 /* InputBar.swift */; };
 		CBCE54552957E41100DFCDDA /* SettingListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE54542957E41100DFCDDA /* SettingListCell.swift */; };
 		CBCE54582957E88700DFCDDA /* SettingProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE54562957E88700DFCDDA /* SettingProfileCell.swift */; };
 		CBCE54592957E88700DFCDDA /* SettingProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBCE54572957E88700DFCDDA /* SettingProfileCell.xib */; };
@@ -82,6 +83,7 @@
 		CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDUIKit.swift; sourceTree = "<group>"; };
 		CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		CBAA8DB0293CDD8000F0D0EF /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		CBB75AF0295A810400545C74 /* InputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputBar.swift; sourceTree = "<group>"; };
 		CBCE54542957E41100DFCDDA /* SettingListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListCell.swift; sourceTree = "<group>"; };
 		CBCE54562957E88700DFCDDA /* SettingProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProfileCell.swift; sourceTree = "<group>"; };
 		CBCE54572957E88700DFCDDA /* SettingProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingProfileCell.xib; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				CBCE5B1629474CF500D5D14D /* ChatsViewController.swift */,
 				CB584EF92959DF9A00D0C103 /* ChatViewController.swift */,
 				CB584EFB2959DFA700D0C103 /* MessageViewController.swift */,
+				CBB75AF0295A810400545C74 /* InputBar.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				"${BUILT_PRODUCTS_DIR}/CDFInitialsAvatar/CDFInitialsAvatar.framework",
 				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/IKEventSource/IKEventSource.framework",
+				"${BUILT_PRODUCTS_DIR}/LDSwiftEventSource/LDSwiftEventSource.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
@@ -414,6 +418,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDFInitialsAvatar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IKEventSource.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LDSwiftEventSource.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
@@ -493,6 +498,7 @@
 				CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */,
 				CBCE54582957E88700DFCDDA /* SettingProfileCell.swift in Sources */,
 				CBCE5B1729474CF500D5D14D /* ChatsViewController.swift in Sources */,
+				CBB75AF1295A810400545C74 /* InputBar.swift in Sources */,
 				CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

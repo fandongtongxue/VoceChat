@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIButton {
-    class func createBtn(title: String?, titleColor: UIColor?, backgroundColor: UIColor?, font: UIFont?) -> UIButton {
+    class func createBtn(title: String?, titleColor: UIColor?, backgroundColor: UIColor? = .systemBackground, font: UIFont?) -> UIButton {
         let btn = UIButton(type: .custom)
         btn.setTitle(title, for: .normal)
         btn.setTitleColor(titleColor, for: .normal)
