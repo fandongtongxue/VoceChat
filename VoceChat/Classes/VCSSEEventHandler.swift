@@ -7,7 +7,7 @@
 
 import LDSwiftEventSource
 
-struct VCSSSEventHandler: EventHandler {
+struct VCSSEEventHandler: EventHandler {
     func onOpened() {
         debugPrint("SSE Connected")
     }
@@ -18,6 +18,7 @@ struct VCSSSEventHandler: EventHandler {
     
     func onMessage(eventType: String, messageEvent: MessageEvent) {
         debugPrint("eventType:\(eventType) messageEvent:\(messageEvent.data) lastEventId:\(messageEvent.lastEventId)")
+        
     }
     
     func onComment(comment: String) {
