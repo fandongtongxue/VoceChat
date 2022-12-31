@@ -65,6 +65,15 @@ public class VCManager: NSObject {
         }
     }
     
+    public func checkEmail(email: String, success: @escaping ((Bool)->()), failure: @escaping ((String)->())) {
+        VCNetwork.getRaw(url: .user_check_email) { result in
+            success(result as? Bool ?? false)
+        } failure: { error in
+            failure(error)
+        }
+
+    }
+    
     
     /// Guest登录
     /// - Parameters:

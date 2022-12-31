@@ -8,6 +8,9 @@
 
 import UIKit
 import VoceChat
+import RxSwift
+import RxCocoa
+import QMUIKit
 
 class LoginViewController: BaseViewController {
 
@@ -18,6 +21,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var inviteLabel: UILabel!
+    var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -30,17 +34,34 @@ class LoginViewController: BaseViewController {
         } failure: { error in
             //do nothing
         }
+        
+        loginBtn.setBackgroundImage(.qmui_image(with: .systemGray), for: .disabled)
+        loginBtn.setBackgroundImage(.qmui_image(with: .systemBlue), for: .normal)
+        
+        let emailValid = emailTF.rx.text.orEmpty.map{ self.checkEmail(email: $0) }.share(replay: 1)
+        let passValid = passTF.rx.text.orEmpty.map{ $0.count >= 6 }.share(replay: 1)
+        
+        let everythingValid = Observable.combineLatest(emailValid, passValid) { $0 && $1 }
+            .share(replay: 1)
+        everythingValid.bind(to: loginBtn.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        loginBtn.rx.tap.subscribe(onNext: {
+            self.view.endEditing(true)
+            VCManager.shared.login(email: self.emailTF.text, password: self.passTF.text) { result in
+                //do nothing
+                let tabC = TabBarController()
+                UIApplication.shared.keyWindow?.rootViewController = tabC
+            } failure: { error in
+                //do nothing
+            }
+        }).disposed(by: disposeBag)
     }
-
-    @IBAction func loginBtnAction(_ sender: UIButton) {
-        view.endEditing(true)
-        VCManager.shared.login(email: emailTF.text, password: passTF.text) { result in
-            //do nothing
-            let tabC = TabBarController()
-            UIApplication.shared.keyWindow?.rootViewController = tabC
-        } failure: { error in
-            //do nothing
-        }
+    
+    func checkEmail(email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
     }
     
     @IBAction func signUpBtnAction(_ sender: UIButton) {

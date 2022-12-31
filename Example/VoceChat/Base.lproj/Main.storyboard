@@ -76,7 +76,6 @@
                             </textField>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q6G-Y3-xDx">
                                 <rect key="frame" x="20" y="315" width="280" height="40"/>
-                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="OIX-5j-icd"/>
                                 </constraints>
@@ -90,9 +89,6 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="loginBtnAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="olZ-6m-LzK"/>
-                                </connections>
                             </button>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTi-Wh-vPq">
                                 <rect key="frame" x="38.5" y="370" width="243" height="34.5"/>
@@ -240,7 +236,6 @@
                             </textField>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zqu-ZY-5pH">
                                 <rect key="frame" x="20" y="414" width="280" height="40"/>
-                                <color key="backgroundColor" systemColor="systemBlueColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="WBR-SK-i7i"/>
                                 </constraints>
@@ -252,9 +247,6 @@
                                         <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="signUpBtnAction:" destination="ekj-NQ-FBc" eventType="touchUpInside" id="XlU-XV-s9a"/>
-                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Confirm Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3H-2f-1pU">
                                 <rect key="frame" x="20" y="314" width="125" height="18"/>

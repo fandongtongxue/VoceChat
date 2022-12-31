@@ -18,7 +18,6 @@ struct VCSSEEventHandler: EventHandler {
     
     func onMessage(eventType: String, messageEvent: MessageEvent) {
         debugPrint("eventType:\(eventType) messageEvent:\(messageEvent.data) lastEventId:\(messageEvent.lastEventId)")
-        
     }
     
     func onComment(comment: String) {
