@@ -8,186 +8,206 @@
 
 import Foundation
 
-class VCSSEEventModel: VCBaseModel {
-	var add_mute_groups = [VCSSEEventModelAdd_mute_groups]()
-	var add_mute_users = [VCSSEEventModelAdd_mute_users]()
-	var avatar_updated_at: Int = 0
-	var burn_after_reading_groups = [VCSSEEventModelBurn_after_reading_groups]()
-	var burn_after_reading_users = [VCSSEEventModelBurn_after_reading_users]()
-	var created_at: Int = 0
-	var description = ""
-	var detail = VCSSEEventModelDetail()
-	var from_device = ""
-	var from_uid: Int = 0
-	var gid: Int = 0
-	var group = VCSSEEventModelGroup()
-	var groups = [VCSSEEventModelGroups]()
-	var is_public: Bool = false
-	var logs = [VCSSEEventModelLogs]()
-	var mid: Int = 0
-	var msg = VCSSEEventModelMsg()
-	var mute_groups = [VCSSEEventModelMute_groups]()
-	var mute_users = [VCSSEEventModelMute_users]()
-	var name = ""
-	var online: Bool = false
-	var owner: Int = 0
-	var read_index_groups = [VCSSEEventModelRead_index_groups]()
-	var read_index_users = [VCSSEEventModelRead_index_users]()
-	var reason = ""
-	var remove_mute_groups = [Int]()
-	var remove_mute_users = [Int]()
-	var target = VCSSEEventModelTarget()
-	var time: Int = 0
-	var type = ""
-	var uid = [Int]()
-	var users = [VCSSEEventModelUsers]()
-	var version: Int = 0
+public extension String {
+    static let ready = "ready"
+    static let users_log = "users_log"
+    static let users_state = "users_state"
+    static let user_state_changed = "user_state_changed"
+    static let user_settings = "user_settings"
+    static let user_settings_changed = "user_settings_changed"
+    static let related_groups = "related_groups"
+    static let chat = "chat"
+    static let kick = "kick"
+    static let user_joined_group = "user_joined_group"
+    static let user_leaved_group = "user_leaved_group"
+    static let joined_group = "joined_group"
+    static let kick_from_group = "kick_from_group"
+    static let group_changed = "group_changed"
+    static let pinned_message_updated = "pinned_message_updated"
+    static let heartbeat = "heartbeat"
 }
 
-class VCSSEEventModelMute_groups: VCBaseModel {
-	var expired_at: Int = 0
-	var gid: Int = 0
+public class VCSSEEventModel: VCBaseModel {
+	public var add_mute_groups = [VCSSEEventModelAdd_mute_groups]()
+	public var add_mute_users = [VCSSEEventModelAdd_mute_users]()
+	public var avatar_updated_at: Int = 0
+	public var burn_after_reading_groups = [VCSSEEventModelBurn_after_reading_groups]()
+	public var burn_after_reading_users = [VCSSEEventModelBurn_after_reading_users]()
+	public var created_at: Int = 0
+	public var description = ""
+	public var detail = VCSSEEventModelDetail()
+	public var from_device = ""
+	public var from_uid: Int = 0
+	public var gid: Int = 0
+	public var group = VCSSEEventModelGroup()
+	public var groups = [VCSSEEventModelGroups]()
+	public var is_public: Bool = false
+	public var logs = [VCSSEEventModelLogs]()
+	public var mid: Int = 0
+	public var msg = VCSSEEventModelMsg()
+	public var mute_groups = [VCSSEEventModelMute_groups]()
+	public var mute_users = [VCSSEEventModelMute_users]()
+	public var name = ""
+	public var online: Bool = false
+	public var owner: Int = 0
+	public var read_index_groups = [VCSSEEventModelRead_index_groups]()
+	public var read_index_users = [VCSSEEventModelRead_index_users]()
+	public var reason = ""
+	public var remove_mute_groups = [Int]()
+	public var remove_mute_users = [Int]()
+	public var target = VCSSEEventModelTarget()
+	public var time: Int = 0
+    public var type = ""
+	public var uid = [Int]()
+	public var users = [VCSSEEventModelUsers]()
+	public var version: Int = 0
 }
 
-class VCSSEEventModelBurn_after_reading_users: VCBaseModel {
-	var expires_in: Int = 0
-	var uid: Int = 0
+public class VCSSEEventModelMute_groups: VCBaseModel {
+	public var expired_at: Int = 0
+	public var gid: Int = 0
 }
 
-class VCSSEEventModelMute_users: VCBaseModel {
-	var expired_at: Int = 0
-	var uid: Int = 0
+public class VCSSEEventModelBurn_after_reading_users: VCBaseModel {
+	public var expires_in: Int = 0
+	public var uid: Int = 0
 }
 
-class VCSSEEventModelGroups: VCBaseModel {
-	var avatar_updated_at: Int = 0
-	var description = ""
-	var gid: Int = 0
-	var is_public: Bool = false
-	var members = [String]()
-	var name = ""
-	var owner: Int = 0
-	var pinned_messages = [VCSSEEventModelGroupsPinned_messages]()
+public class VCSSEEventModelMute_users: VCBaseModel {
+	public var expired_at: Int = 0
+	public var uid: Int = 0
 }
 
-class VCSSEEventModelGroupsPinned_messages: VCBaseModel {
-	var content = ""
-	var content_type = ""
-	var created_at: Int = 0
-	var created_by: Int = 0
-	var mid: Int = 0
-	var properties = VCSSEEventModelGroupsPinned_messagesProperties()
+public class VCSSEEventModelGroups: VCBaseModel {
+	public var avatar_updated_at: Int = 0
+	public var description = ""
+	public var gid: Int = 0
+	public var is_public: Bool = false
+	public var members = [String]()
+	public var name = ""
+	public var owner: Int = 0
+	public var pinned_messages = [VCSSEEventModelGroupsPinned_messages]()
 }
 
-class VCSSEEventModelGroupsPinned_messagesProperties: VCBaseModel {
-	var additionalProp1 = ""
-	var additionalProp2 = ""
-	var additionalProp3 = ""
+public class VCSSEEventModelGroupsPinned_messages: VCBaseModel {
+	public var content = ""
+	public var content_type = ""
+	public var created_at: Int = 0
+	public var created_by: Int = 0
+	public var mid: Int = 0
+	public var properties = VCSSEEventModelGroupsPinned_messagesProperties()
 }
 
-class VCSSEEventModelBurn_after_reading_groups: VCBaseModel {
-	var expires_in: Int = 0
-	var gid: Int = 0
+public class VCSSEEventModelGroupsPinned_messagesProperties: VCBaseModel {
+	public var additionalProp1 = ""
+	public var additionalProp2 = ""
+	public var additionalProp3 = ""
 }
 
-class VCSSEEventModelMsg: VCBaseModel {
-	var content = ""
-	var content_type = ""
-	var created_at: Int = 0
-	var created_by: Int = 0
-	var mid: Int = 0
-	var properties = VCSSEEventModelMsgProperties()
+public class VCSSEEventModelBurn_after_reading_groups: VCBaseModel {
+	public var expires_in: Int = 0
+	public var gid: Int = 0
 }
 
-class VCSSEEventModelMsgProperties: VCBaseModel {
-	var additionalProp1 = ""
-	var additionalProp2 = ""
-	var additionalProp3 = ""
+public class VCSSEEventModelMsg: VCBaseModel {
+	public var content = ""
+	public var content_type = ""
+	public var created_at: Int = 0
+	public var created_by: Int = 0
+	public var mid: Int = 0
+	public var properties = VCSSEEventModelMsgProperties()
 }
 
-class VCSSEEventModelRead_index_users: VCBaseModel {
-	var mid: Int = 0
-	var uid: Int = 0
+public class VCSSEEventModelMsgProperties: VCBaseModel {
+	public var additionalProp1 = ""
+	public var additionalProp2 = ""
+	public var additionalProp3 = ""
 }
 
-class VCSSEEventModelAdd_mute_users: VCBaseModel {
-	var expired_at: Int = 0
-	var uid: Int = 0
+public class VCSSEEventModelRead_index_users: VCBaseModel {
+	public var mid: Int = 0
+	public var uid: Int = 0
 }
 
-class VCSSEEventModelGroup: VCBaseModel {
-	var avatar_updated_at: Int = 0
-	var description = ""
-	var gid: Int = 0
-	var is_public: Bool = false
-	var members = [String]()
-	var name = ""
-	var owner: Int = 0
-	var pinned_messages = [VCSSEEventModelGroupPinned_messages]()
+public class VCSSEEventModelAdd_mute_users: VCBaseModel {
+	public var expired_at: Int = 0
+	public var uid: Int = 0
 }
 
-class VCSSEEventModelGroupPinned_messages: VCBaseModel {
-	var content = ""
-	var content_type = ""
-	var created_at: Int = 0
-	var created_by: Int = 0
-	var mid: Int = 0
-	var properties = VCSSEEventModelGroupPinned_messagesProperties()
+public class VCSSEEventModelGroup: VCBaseModel {
+	public var avatar_updated_at: Int = 0
+	public var description = ""
+	public var gid: Int = 0
+	public var is_public: Bool = false
+	public var members = [String]()
+	public var name = ""
+	public var owner: Int = 0
+	public var pinned_messages = [VCSSEEventModelGroupPinned_messages]()
 }
 
-class VCSSEEventModelGroupPinned_messagesProperties: VCBaseModel {
-	var additionalProp1 = ""
-	var additionalProp2 = ""
-	var additionalProp3 = ""
+public class VCSSEEventModelGroupPinned_messages: VCBaseModel {
+	public var content = ""
+	public var content_type = ""
+	public var created_at: Int = 0
+	public var created_by: Int = 0
+	public var mid: Int = 0
+	public var properties = VCSSEEventModelGroupPinned_messagesProperties()
 }
 
-class VCSSEEventModelTarget: VCBaseModel {
-	var uid: Int = 0
+public class VCSSEEventModelGroupPinned_messagesProperties: VCBaseModel {
+	public var additionalProp1 = ""
+	public var additionalProp2 = ""
+	public var additionalProp3 = ""
 }
 
-class VCSSEEventModelDetail: VCBaseModel {
-	var content = ""
-	var content_type = ""
-	var expires_in: Int = 0
-	var properties = VCSSEEventModelDetailProperties()
-	var type = ""
+public class VCSSEEventModelTarget: VCBaseModel {
+	public var uid: Int = 0
 }
 
-class VCSSEEventModelDetailProperties: VCBaseModel {
-	var additionalProp1 = ""
-	var additionalProp2 = ""
-	var additionalProp3 = ""
+public class VCSSEEventModelDetail: VCBaseModel {
+	public var content = ""
+	public var content_type = ""
+	public var expires_in: Int = 0
+	public var properties = VCSSEEventModelDetailProperties()
+	public var type = ""
 }
 
-class VCSSEEventModelRead_index_groups: VCBaseModel {
-	var gid: Int = 0
-	var mid: Int = 0
+public class VCSSEEventModelDetailProperties: VCBaseModel {
+	public var additionalProp1 = ""
+	public var additionalProp2 = ""
+	public var additionalProp3 = ""
 }
 
-class VCSSEEventModelAdd_mute_groups: VCBaseModel {
-	var expired_at: Int = 0
-	var gid: Int = 0
+public class VCSSEEventModelRead_index_groups: VCBaseModel {
+	public var gid: Int = 0
+	public var mid: Int = 0
 }
 
-class VCSSEEventModelLogs: VCBaseModel {
-	var action = ""
-	var avatar_updated_at: Int = 0
-	var email = ""
-	var gender: Int = 0
-	var is_admin: Bool = false
-	var language = ""
-	var log_id: Int = 0
-	var name = ""
-	var uid: Int = 0
+public class VCSSEEventModelAdd_mute_groups: VCBaseModel {
+	public var expired_at: Int = 0
+	public var gid: Int = 0
 }
 
-class VCSSEEventModelUsers: VCBaseModel {
-	var avatar_updated_at: Int = 0
-	var create_by = ""
-	var email = ""
-	var gender: Int = 0
-	var is_admin: Bool = false
-	var language = ""
-	var name = ""
-	var uid: Int = 0
+public class VCSSEEventModelLogs: VCBaseModel {
+	public var action = ""
+	public var avatar_updated_at: Int = 0
+	public var email = ""
+	public var gender: Int = 0
+	public var is_admin: Bool = false
+	public var language = ""
+	public var log_id: Int = 0
+	public var name = ""
+	public var uid: Int = 0
+}
+
+public class VCSSEEventModelUsers: VCBaseModel {
+	public var avatar_updated_at: Int = 0
+	public var create_by = ""
+	public var email = ""
+	public var gender: Int = 0
+	public var is_admin: Bool = false
+	public var language = ""
+	public var name = ""
+	public var uid: Int = 0
+    public var online: Bool = false
 }

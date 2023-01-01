@@ -28,7 +28,7 @@ class ContactListCell: UITableViewCell {
             let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: newValue.name)
             avatarImgView.image = avatar?.imageRepresentation
             nameLabel.text = newValue.name + (newValue.name == VCManager.shared.currentUser()?.user.name ? NSLocalizedString("(you)", comment: "") : "")
-            onlineView.backgroundColor = newValue.name == VCManager.shared.currentUser()?.user.name ? .systemGreen : .systemGray
+            onlineView.backgroundColor = (newValue.online || newValue.name == VCManager.shared.currentUser()?.user.name) ? .systemGreen : .systemGray
         }
         get{
             return _model

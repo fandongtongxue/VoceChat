@@ -14,4 +14,5 @@ public class VCUserModel: VCBaseModel {
     public var language = ""
     public var name = ""
     public var uid: Int = 0
+    public var online: Bool = false
 }

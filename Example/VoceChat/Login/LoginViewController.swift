@@ -21,7 +21,6 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var inviteLabel: UILabel!
-    var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.

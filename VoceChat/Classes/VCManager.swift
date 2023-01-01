@@ -158,6 +158,11 @@ public class VCManager: NSObject {
     ///   - success: 成功回调
     ///   - failure: 失败回调
     public func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+        //存储自动登录参数
+        UserDefaults.standard.set(email, forKey: .emailKey)
+        UserDefaults.standard.set(password, forKey: .passwordKey)
+        UserDefaults.standard.synchronize()
+        
         let device = UIDevice.current.model
         let language = Locale.preferredLanguages.first
         VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in

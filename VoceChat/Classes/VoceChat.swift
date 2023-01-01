@@ -63,3 +63,7 @@ extension String {
     //Message
     static let message = api+"/message"
 }
+
+public extension Notification.Name {
+    static let user_state = Notification.Name(rawValue: "user_state")
+}

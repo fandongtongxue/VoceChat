@@ -9,6 +9,8 @@
 import UIKit
 import VoceChat
 import SnapKit
+import RxCocoa
+import RxSwift
 
 class ContactsViewController: BaseViewController {
     
@@ -40,6 +42,19 @@ class ContactsViewController: BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        NotificationCenter.default.rx.notification(.user_state)
+            .subscribe { noti in
+                let model = noti.element?.object as! VCSSEEventModel
+                for xuser in model.users {
+                    for yuser in self.users {
+                        if xuser.uid == yuser.uid {
+                            yuser.online = xuser.online
+                        }
+                    }
+                }
+                self.tableView.reloadData()
+            }.disposed(by: disposeBag)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,8 +65,23 @@ class ContactsViewController: BaseViewController {
     func requestData() {
         VCManager.shared.getUsers { users in
             self.users = users
-            self.tableView.reloadData()
-            self.searchRC.dataArray = users
+            guard let json = UserDefaults.standard.string(forKey: .users_state) else {
+                self.searchRC.dataArray = users
+                self.tableView.reloadData()
+                return
+            }
+            let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
+            for xuser in model.users {
+                for yuser in self.users {
+                    if xuser.uid == yuser.uid {
+                        yuser.online = xuser.online
+                    }
+                }
+            }
+            self.searchRC.dataArray = self.users
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         } failure: { error in
             //do nothing
         }

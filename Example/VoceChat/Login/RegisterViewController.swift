@@ -8,9 +8,9 @@
 
 import UIKit
 import VoceChat
-import RxSwift
-import RxCocoa
 import QMUIKit
+import RxCocoa
+import RxSwift
 
 class RegisterViewController: BaseViewController {
 
@@ -20,7 +20,6 @@ class RegisterViewController: BaseViewController {
     @IBOutlet weak var passTF: UITextField!
     @IBOutlet weak var confirmTF: UITextField!
     @IBOutlet weak var signUpBtn: UIButton!
-    var disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
 
