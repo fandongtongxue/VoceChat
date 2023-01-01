@@ -29,12 +29,13 @@ class ChatListCell: UITableViewCell {
         set{
             _model = newValue
             //设置数据
-            let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: "\(newValue.from_uid)")
+            let user = VCManager.shared.getUserFromTable(uid: newValue.from_uid)
+            let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: user.name)
             avatar?.backgroundColor = .systemBlue
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)"), placeholderImage: avatar?.imageRepresentation)
-            nameLabel.text = "\(newValue.from_uid)"
+            nameLabel.text = user.name
             contentLabel.text = newValue.detail.content
-            timeLabel.text = "\(newValue.created_at)"
+            timeLabel.text = DateInRegion(milliseconds: newValue.created_at).toString(.dateTime(.short))
         }
         get{
             return _model

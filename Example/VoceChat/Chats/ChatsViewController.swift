@@ -23,12 +23,15 @@ class ChatsViewController: BaseViewController {
         }
 
         // Do any additional setup after loading the view.
+        //消息通知
         NotificationCenter.default.rx.notification(.chat).subscribe { noti in
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
-            self.chats.append(message)
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
+            if message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                self.chats.append(message)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }
         }.disposed(by: disposeBag)
     }

@@ -8,12 +8,17 @@
 import Foundation
 import HandyJSON
 import LDSwiftEventSource
+import SQLite
 
 public class VCManager: NSObject {
     
     public static let shared = VCManager()
     
     private var eventSource: EventSource?
+    
+    //用户表
+    var users: Table!
+    var db: Connection!
     
     /// 服务器URL
     /// - Parameter serverUrl: 服务器URL
@@ -22,6 +27,13 @@ public class VCManager: NSObject {
             UIApplication.shared.keyWindow?.makeToast("VoceChat服务器URL为空")
             return
         }
+        createUserTable()
+        getUsers { users in
+            //do nothing
+        } failure: { error in
+            //do nothing
+        }
+
         //存储服务器URL
         UserDefaults.standard.set(serverUrl, forKey: .serverURLKey)
         UserDefaults.standard.synchronize()
@@ -194,6 +206,54 @@ public class VCManager: NSObject {
         
     }
     
+    //数据库
+    private func createUserTable() {
+        do {
+            let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+            let path = paths.first ?? ""
+            db = try Connection(path+"/db.sqlite3")
+
+            users = Table("users")
+            let id = Expression<Int>("id")
+            let name = Expression<String>("name")
+
+            try db.run(users.create { t in
+                t.column(id, primaryKey: true)
+                t.column(name)
+            })
+        } catch {
+            UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+        }
+    }
+    
+    private func insertUser(user: VCUserModel) {
+        let id = Expression<Int>("id")
+        let name = Expression<String>("name")
+        let insert = users.insert(name <- user.name, id <- user.uid)
+        do {
+            let rowid = try db.run(insert)
+        } catch {
+            UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+        }
+    }
+    
+    public func getUserFromTable(uid: Int) -> VCUserModel {
+        let id = Expression<Int>("id")
+        let name = Expression<String>("name")
+        do {
+            let users = try db.prepare(users.filter(id == uid))
+            for user in users {
+                let model = VCUserModel()
+                model.uid = user[id]
+                model.name = user[name]
+                return model
+            }
+        } catch {
+            UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+        }
+        return VCUserModel()
+    }
+    
     
     /// 是否登录
     /// - Returns: 结果
@@ -240,7 +300,9 @@ public class VCManager: NSObject {
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCUserModel]()
             for item in resultArray ?? [] {
-                tempArray.append(VCUserModel.deserialize(from: item) ?? VCUserModel())
+                let user = VCUserModel.deserialize(from: item) ?? VCUserModel()
+                self.insertUser(user: user)
+                tempArray.append(user)
             }
             success(tempArray)
             debugPrint("获取用户列表成功")

@@ -11,6 +11,7 @@ public class VCMessageModel: VCBaseModel {
     public var from_uid: Int = 0
     public var mid: Int = 0
     public var target = VCMessageModelTarget()
+    public var online: Bool = false
 }
 
 public class VCMessageModelTarget: VCBaseModel {

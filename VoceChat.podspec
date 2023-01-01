@@ -39,9 +39,14 @@ TODO: Add long description of the pod here.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
+  #网络请求
   s.dependency 'Alamofire', '~> 5.6.2'
+  #解析JSON
   s.dependency 'HandyJSON', '~> 5.0.2'
+  #Toast
   s.dependency 'Toast-Swift', '~> 5.0.1'
+  #SSE
   s.dependency 'LDSwiftEventSource', '~> 3.0'
-  s.dependency 'IKEventSource', '~> 3.0.1'
+  #SQLite
+  s.dependency 'SQLite.swift', '~> 0.14.0'
 end
