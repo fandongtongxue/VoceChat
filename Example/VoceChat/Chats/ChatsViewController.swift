@@ -10,22 +10,68 @@ import UIKit
 import VoceChat
 
 class ChatsViewController: BaseViewController {
+    
+    var chats = [VCMessageModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.title = NSLocalizedString("Chats", comment: "")
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
 
         // Do any additional setup after loading the view.
+        NotificationCenter.default.rx.notification(.chat).subscribe { noti in
+            let jsonString = noti.element?.object as? String
+            let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
+            self.chats.append(message)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }.disposed(by: disposeBag)
     }
     
 
-    /*
-    // MARK: - Navigation
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "ChatListCell", bundle: Bundle.main), forCellReuseIdentifier: NSStringFromClass(ChatListCell.classForCoder()))
+        return tableView
+    }()
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+}
+
+extension ChatsViewController: UITableViewDelegate,UITableViewDataSource{
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
     }
-    */
-
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        chats.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ChatListCell.classForCoder()), for: indexPath) as! ChatListCell
+        if indexPath.row < chats.count {
+            cell.model = chats[indexPath.row]
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let chatVC = ChatViewController()
+        let user = VCUserModel()
+        user.uid = chats[indexPath.row].from_uid
+        chatVC.model = user
+        chatVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
 }

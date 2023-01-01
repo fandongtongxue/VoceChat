@@ -19,6 +19,8 @@
 		CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */; };
 		CB584EFA2959DF9A00D0C103 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB584EF92959DF9A00D0C103 /* ChatViewController.swift */; };
 		CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB584EFB2959DFA700D0C103 /* MessageViewController.swift */; };
+		CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0D829616D0E00883AAC /* ChatListCell.swift */; };
+		CB67A0DB29616D0E00883AAC /* ChatListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB67A0D929616D0E00883AAC /* ChatListCell.xib */; };
 		CB6AE199294B0A84009CD70D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB6AE19B294B0A84009CD70D /* Localizable.strings */; };
 		CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */; };
 		CB6AE1AC294B5D3D009CD70D /* ContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */; };
@@ -71,6 +73,8 @@
 		CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CB584EF92959DF9A00D0C103 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		CB584EFB2959DFA700D0C103 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		CB67A0D829616D0E00883AAC /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
+		CB67A0D929616D0E00883AAC /* ChatListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatListCell.xib; sourceTree = "<group>"; };
 		CB6AE198294B0A73009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		CB6AE19A294B0A84009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CB6AE19C294B0A86009CD70D /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 				CB584EF92959DF9A00D0C103 /* ChatViewController.swift */,
 				CB584EFB2959DFA700D0C103 /* MessageViewController.swift */,
 				CBB75AF0295A810400545C74 /* InputBar.swift */,
+				CB67A0D829616D0E00883AAC /* ChatListCell.swift */,
+				CB67A0D929616D0E00883AAC /* ChatListCell.xib */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -379,6 +385,7 @@
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				CB6AE199294B0A84009CD70D /* Localizable.strings in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
+				CB67A0DB29616D0E00883AAC /* ChatListCell.xib in Resources */,
 				CBCE545D2957F3D500DFCDDA /* user_event.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);
@@ -412,6 +419,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/VoceChat/VoceChat.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/WoodPeckeriOS/WoodPeckeriOS.framework/WoodPeckeriOS",
@@ -429,6 +437,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VoceChat.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WoodPeckeriOS.framework",
@@ -494,6 +503,7 @@
 				CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */,
 				607FACD81AFB9204008FA782 /* LoginViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */,
 				CB3DFB6F294BFCE0009A9798 /* ContactsSearchResultViewController.swift in Sources */,
 				CBCE5B1B29474D4500D5D14D /* SettingsViewController.swift in Sources */,
 				CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */,

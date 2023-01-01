@@ -53,7 +53,9 @@ class ContactsViewController: BaseViewController {
                         }
                     }
                 }
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             }.disposed(by: disposeBag)
     }
     

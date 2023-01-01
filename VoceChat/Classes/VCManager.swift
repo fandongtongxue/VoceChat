@@ -187,7 +187,6 @@ public class VCManager: NSObject {
     /// - Parameter token: token
     public func sse(token: String?) {
         let urlStr = VCManager.shared.serverInfo().serverURL + .user_events + "?api-key=" + (token ?? "")
-        debugPrint("SSEURL:\(urlStr)")
         var config = EventSource.Config(handler: VCSSEEventHandler(), url: URL(string: urlStr)!)
         config.headers = ["X-API-Key":token ?? ""]
         eventSource = EventSource(config: config)
