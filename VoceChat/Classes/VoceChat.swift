@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     //存储相关
     static let serverURLKey = "serverURLKey"
     static let nameKey = "nameKey"
@@ -62,6 +62,10 @@ extension String {
     
     //Message
     static let message = api+"/message"
+    
+    //Resource
+    static let resource = api+"/resource"
+    static let resource_avatar = resource+"/avatar"
 }
 
 public extension Notification.Name {
