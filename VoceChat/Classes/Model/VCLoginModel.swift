@@ -12,4 +12,5 @@ public class VCLoginModel: VCBaseModel {
     public var server_id = ""
     public var token = ""
     public var user = VCUserModel()
+    public var reason = ""
 }

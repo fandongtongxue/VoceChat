@@ -46,9 +46,24 @@ class VCNetwork: NSObject {
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-            var newParam: Parameters? = param
-            newParam?["api-key"] = VCManager.shared.currentUser()?.token
-            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).responseJSON { responseJSON in
+            var newUrl = serverURL + url
+            var newParam: Parameters? = nil
+            if method == .get {
+                if VCManager.shared.currentUser()?.token.count ?? 0 > 0 {
+                    newUrl.append("?api-key=")
+                    newUrl.append(VCManager.shared.currentUser()?.token ?? "")
+                }
+                param?.keys.forEach({ key in
+                    newUrl.append("&")
+                    newUrl.append(key)
+                    newUrl.append("=")
+                    newUrl.append(param?[key] as? String ?? "")
+                })
+            }else{
+                newParam = param
+                newParam?["api-key"] = VCManager.shared.currentUser()?.token
+            }
+            AF.request(newUrl, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).responseJSON { responseJSON in
                 switch responseJSON.result {
                 case .success(let result):
                     success(result)
@@ -69,9 +84,24 @@ class VCNetwork: NSObject {
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-            var newParam: Parameters? = param
-            newParam?["api-key"] = VCManager.shared.currentUser()?.token
-            AF.request(serverURL + url, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).response { response in
+            var newUrl = serverURL + url
+            var newParam: Parameters? = nil
+            if method == .get {
+                if VCManager.shared.currentUser()?.token.count ?? 0 > 0 {
+                    newUrl.append("?api-key=")
+                    newUrl.append(VCManager.shared.currentUser()?.token ?? "")
+                }
+                param?.keys.forEach({ key in
+                    newUrl.append("&")
+                    newUrl.append(key)
+                    newUrl.append("=")
+                    newUrl.append(param?[key] as? String ?? "")
+                })
+            }else{
+                newParam = param
+                newParam?["api-key"] = VCManager.shared.currentUser()?.token
+            }
+            AF.request(newUrl, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["X-API-Key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).response { response in
                 switch response.result {
                 case .success(let result):
                     success(result)

@@ -47,6 +47,7 @@ class RegisterViewController: BaseViewController {
                 UIApplication.shared.keyWindow?.rootViewController = tabC
             } failure: { error in
                 //do nothing
+                self.view.makeToast(error)
             }
         }).disposed(by: disposeBag)
     }

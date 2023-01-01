@@ -65,13 +65,18 @@ public class VCManager: NSObject {
         }
     }
     
-    public func checkEmail(email: String, success: @escaping ((Bool)->()), failure: @escaping ((String)->())) {
-        VCNetwork.getRaw(url: .user_check_email) { result in
+    
+    /// 验证Email是否合法
+    /// - Parameters:
+    ///   - email: Email
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    public func checkEmail(email: String?, success: @escaping ((Bool)->()), failure: @escaping ((String)->())) {
+        VCNetwork.getRaw(url: .user_check_email, param: ["email":email]) { result in
             success(result as? Bool ?? false)
         } failure: { error in
             failure(error)
         }
-
     }
     
     
@@ -157,16 +162,19 @@ public class VCManager: NSObject {
         let language = Locale.preferredLanguages.first
         VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
-            success(model)
-            self.sse(token: model.token)
-            debugPrint("注册成功")
-            UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
-            UserDefaults.standard.synchronize()
+            if model.reason.count > 0 {
+                failure(model.reason)
+            }else {
+                success(model)
+                self.sse(token: model.token)
+                debugPrint("注册成功")
+                UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
+                UserDefaults.standard.synchronize()
+            }
         } failure: { error in
             failure(error)
             debugPrint("注册失败:"+error)
         }
-
     }
     
     
