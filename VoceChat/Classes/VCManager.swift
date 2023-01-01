@@ -222,7 +222,7 @@ public class VCManager: NSObject {
                 t.column(name)
             })
         } catch {
-            UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+            debugPrint("创建数据库和表失败:"+error.localizedDescription)
         }
     }
     
@@ -233,7 +233,7 @@ public class VCManager: NSObject {
         do {
             let rowid = try db.run(insert)
         } catch {
-            UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+            debugPrint("插入用户表失败:"+error.localizedDescription)
         }
     }
     
@@ -249,7 +249,7 @@ public class VCManager: NSObject {
                 return model
             }
         } catch {
-            UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+            debugPrint("从用户表查询用户失败:"+error.localizedDescription)
         }
         return VCUserModel()
     }

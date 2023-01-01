@@ -58,7 +58,7 @@ public class VCSSEEventModel: VCBaseModel {
 	public var target = VCSSEEventModelTarget()
 	public var time: Int = 0
     public var type = ""
-	public var uid = [Int]()
+    public var uid: Int = 0
 	public var users = [VCSSEEventModelUsers]()
 	public var version: Int = 0
 }

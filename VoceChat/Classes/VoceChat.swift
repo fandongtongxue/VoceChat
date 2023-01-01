@@ -70,5 +70,6 @@ public extension String {
 
 public extension Notification.Name {
     static let user_state = Notification.Name(rawValue: "user_state")
+    static let user_state_changed = Notification.Name(rawValue: "user_state_changed")
     static let chat = Notification.Name(rawValue: "chat")
 }

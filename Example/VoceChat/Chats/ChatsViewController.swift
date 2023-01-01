@@ -23,12 +23,57 @@ class ChatsViewController: BaseViewController {
         }
 
         // Do any additional setup after loading the view.
+        //在线状态通知
+        NotificationCenter.default.rx.notification(.user_state)
+            .subscribe { noti in
+                let model = noti.element?.object as! VCSSEEventModel
+                for xuser in model.users {
+                    for ychat in self.chats {
+                        if xuser.uid == ychat.from_uid {
+                            ychat.online = xuser.online
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }.disposed(by: disposeBag)
+        //在线状态改变通知
+        NotificationCenter.default.rx.notification(.user_state_changed)
+            .subscribe { noti in
+                let model = noti.element?.object as! VCSSEEventModel
+                let models = self.chats.filter { message in
+                    message.from_uid == model.uid
+                }
+                models.first?.online = model.online
+                let index = self.chats.firstIndex { message in
+                    message.from_uid == model.uid
+                } ?? 0
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                }
+            }
+            .disposed(by: disposeBag)
         //消息通知
         NotificationCenter.default.rx.notification(.chat).subscribe { noti in
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
             if message.from_uid != VCManager.shared.currentUser()?.user.uid {
                 self.chats.append(message)
+                guard let json = UserDefaults.standard.string(forKey: .users_state) else {
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                    return
+                }
+                let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
+                for xuser in model.users {
+                    for ychat in self.chats {
+                        if xuser.uid == ychat.from_uid {
+                            ychat.online = xuser.online
+                        }
+                    }
+                }
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }

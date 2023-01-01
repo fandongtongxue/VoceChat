@@ -30,7 +30,7 @@ struct VCSSEEventHandler: EventHandler {
             NotificationCenter.default.post(name: .user_state, object: model)
             break
         case .user_state_changed:
-            
+            NotificationCenter.default.post(name: .user_state_changed, object: model)
             break
         case .chat:
             NotificationCenter.default.post(name: .chat, object: messageEvent.data)

@@ -42,7 +42,23 @@ class ContactsViewController: BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+        //在线状态改变通知
+        NotificationCenter.default.rx.notification(.user_state_changed)
+            .subscribe { noti in
+                let model = noti.element?.object as! VCSSEEventModel
+                let filter_users = self.users.filter { user in
+                    user.uid == model.uid
+                }
+                filter_users.first?.online = model.online
+                let index = self.users.firstIndex { user in
+                    user.uid == model.uid
+                } ?? 0
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+                }
+            }
+            .disposed(by: disposeBag)
+        //在线状态通知
         NotificationCenter.default.rx.notification(.user_state)
             .subscribe { noti in
                 let model = noti.element?.object as! VCSSEEventModel
