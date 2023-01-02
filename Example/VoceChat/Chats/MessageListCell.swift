@@ -53,6 +53,29 @@ class MessageListCell: UITableViewCell {
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = user.name
             timeLabel.text = DateInRegion(milliseconds: newValue.created_at).toString(.dateTime(.short))
+            if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
+                //自己发出的头像在右边
+                avatarImgView.snp.remakeConstraints { make in
+                    make.size.equalTo(CGSize(width: 40, height: 40))
+                    make.right.equalToSuperview().offset(-20)
+                    make.top.equalToSuperview().offset(10)
+                }
+                nameLabel.snp.remakeConstraints { make in
+                    make.right.equalTo(self.avatarImgView.snp.left).offset(-10)
+                    make.top.equalTo(self.avatarImgView)
+                }
+                timeLabel.snp.remakeConstraints { make in
+                    make.right.equalTo(self.nameLabel.snp.left).offset(-10)
+                    make.left.greaterThanOrEqualToSuperview().offset(10)
+                    make.centerY.equalTo(self.nameLabel)
+                }
+                containerView.snp.remakeConstraints { make in
+                    make.top.equalTo(self.nameLabel.snp.bottom).offset(5)
+                    make.right.equalTo(self.nameLabel)
+                    make.left.equalToSuperview().offset(10)
+                    make.bottom.equalToSuperview().offset(-10)
+                }
+            }
         }
         get{
             return _model

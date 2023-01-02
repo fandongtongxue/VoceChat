@@ -55,7 +55,6 @@ class ChatViewController: BaseViewController {
         inputBar.textView.rx.text.orEmpty.asObservable()
             .subscribe(onNext: { text in
                 let size = self.inputBar.textView.contentSize
-                debugPrint("当前文字大小:\(size)")
                 let currentBarHeight = self.inputBar.bounds.height
                 var futureBarHeight = max(size.height + 10, .tabBarHeight - .safeAreaBottomHeight)
                 if futureBarHeight >= 100 {

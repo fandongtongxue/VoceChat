@@ -58,25 +58,31 @@ class ChatsViewController: BaseViewController {
         NotificationCenter.default.rx.notification(.chat).subscribe { noti in
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
-            if message.from_uid != VCManager.shared.currentUser()?.user.uid {
+            let ret = self.chats.contains(where: {$0.from_uid == message.from_uid})
+            let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
+            if ret {
+                //替换这个元素
+                self.chats[index] = message
+            }else {
                 self.chats.append(message)
-                guard let json = UserDefaults.standard.string(forKey: .users_state) else {
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                    return
-                }
-                let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
-                for xuser in model.users {
-                    for ychat in self.chats {
-                        if xuser.uid == ychat.from_uid {
-                            ychat.online = xuser.online
-                        }
-                    }
-                }
+            }
+            
+            guard let json = UserDefaults.standard.string(forKey: .users_state) else {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
+                return
+            }
+            let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
+            for xuser in model.users {
+                for ychat in self.chats {
+                    if xuser.uid == ychat.from_uid {
+                        ychat.online = xuser.online
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
         }.disposed(by: disposeBag)
     }

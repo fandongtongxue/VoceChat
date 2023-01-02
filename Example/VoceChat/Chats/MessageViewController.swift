@@ -85,7 +85,7 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = messages[indexPath.row]
         if model.detail.content_type == "text/plain" {
-            let textSize = (model.detail.content as NSString).boundingRect(with: CGSize(width: .screenW - 80, height: CGFloat(MAXFLOAT)), attributes: [.font: UIFont.systemFont(ofSize: 14)], context: nil).size
+            let textSize = (model.detail.content as NSString).boundingRect(with: CGSize(width: .screenW - 80, height: CGFloat(MAXFLOAT)), options: [.usesFontLeading, .usesLineFragmentOrigin], attributes: [.font: UIFont.systemFont(ofSize: 14)], context: nil).size
             return max(textSize.height + 20.33 + 5 + 10 + 10, 60)
         }
         return 60

@@ -28,6 +28,9 @@ class MessageTextCell: MessageListCell {
             super.model = newValue
             //设置数据
             contentLabel.text = model.detail.content
+            if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
+                contentLabel.textAlignment = .right
+            }
         }
         get{
             return _model
@@ -47,6 +50,7 @@ class MessageTextCell: MessageListCell {
             return .darkText
         })
         contentLabel.font = .systemFont(ofSize: 14)
+        contentLabel.numberOfLines = 0
         return contentLabel
     }()
     
