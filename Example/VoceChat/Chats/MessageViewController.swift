@@ -35,6 +35,11 @@ class MessageViewController: BaseViewController {
         }
     }
     
+    //键盘
+    @objc func touchInside() {
+        view.superview?.endEditing(true)
+    }
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
@@ -42,6 +47,11 @@ class MessageViewController: BaseViewController {
         tableView.separatorStyle = .none
         tableView.register(MessageTextCell.classForCoder(), forCellReuseIdentifier: NSStringFromClass(MessageTextCell.classForCoder()))
         tableView.register(MessageListCell.classForCoder(), forCellReuseIdentifier: NSStringFromClass(MessageListCell.classForCoder()))
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(touchInside))
+        tap.cancelsTouchesInView = false
+        tableView.addGestureRecognizer(tap)
+        
         return tableView
     } ()
 
@@ -79,6 +89,16 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             return max(textSize.height + 20.33 + 5 + 10 + 10, 60)
         }
         return 60
+    }
+    
+    //键盘
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        view.superview?.endEditing(true)
+        return indexPath
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.superview?.endEditing(true)
     }
     
 }

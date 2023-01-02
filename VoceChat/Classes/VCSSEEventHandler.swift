@@ -19,7 +19,6 @@ struct VCSSEEventHandler: EventHandler {
     func onMessage(eventType: String, messageEvent: MessageEvent) {
         debugPrint("eventType:\(eventType) messageEvent:\(messageEvent.data) lastEventId:\(messageEvent.lastEventId)")
         let model = VCSSEEventModel.deserialize(from: messageEvent.data) ?? VCSSEEventModel()
-//        debugPrint("事件类型:" + model.type)
         switch model.type {
         case .heartbeat:
             debugPrint("心跳")
