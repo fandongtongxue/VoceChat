@@ -65,8 +65,18 @@ class ChatViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        let sendAble = inputBar.textView.rx.text.orEmpty.map{ $0.count > 0 }.share(replay: 1)
+        sendAble.bind(to: inputBar.sendBtn.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
         inputBar.sendBtn.rx.tap.subscribe(onNext: {
-            debugPrint("点击了发送消息")
+            VCManager.shared.sendMessage(uid: self.model.uid, msg: "\($0)") {
+                self.inputBar.textView.text = ""
+                self.inputBar.textView.resignFirstResponder()
+            } failure: { error in
+                //do nothing
+            }
+
         })
         .disposed(by: disposeBag)
     }

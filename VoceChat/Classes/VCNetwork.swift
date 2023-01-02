@@ -118,6 +118,56 @@ class VCNetwork: NSObject {
         
     }
     
+    public class func httpBody(url: String, method: HTTPMethod = .get, param: Parameters? = nil, body: String?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+        if NetworkReachabilityManager()?.isReachable ?? false {
+            cookieLoad()
+            let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
+            var newUrl = serverURL + url
+            var newParam: Parameters? = nil
+            if method == .get {
+                if VCManager.shared.currentUser()?.token.count ?? 0 > 0 {
+                    newUrl.append("?api-key=")
+                    newUrl.append(VCManager.shared.currentUser()?.token ?? "")
+                }
+                param?.keys.forEach({ key in
+                    newUrl.append("&")
+                    newUrl.append(key)
+                    newUrl.append("=")
+                    newUrl.append(param?[key] as? String ?? "")
+                })
+            }else{
+                newParam = param
+                newParam?["api-key"] = VCManager.shared.currentUser()?.token
+            }
+            do {
+                var request = try URLRequest(url: newUrl, method: method)
+                request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "X-API-Key")
+                request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
+                
+                request.httpBody = body?.data(using: .utf8)
+                AF.request(request).response { response in
+                    switch response.result {
+                    case .success(let result):
+                        success(result)
+                        break
+                    case .failure(let error):
+                        failure(error.errorDescription ?? "")
+                        UIApplication.shared.keyWindow?.makeToast(error.errorDescription)
+                        break
+                    }
+                }
+            } catch {
+                failure(error.localizedDescription)
+                UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+            }
+        }else {
+            UIApplication.shared.keyWindow?.makeToast(NSLocalizedString("No network", comment: ""))
+        }
+        
+    }
+    
+    
+    
     class func cookieLoad() {
         let data = UserDefaults.standard.object(forKey: .cookieKey)
         if data != nil {

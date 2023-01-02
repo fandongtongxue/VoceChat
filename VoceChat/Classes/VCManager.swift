@@ -348,8 +348,8 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, success: @escaping (()->()), failure: @escaping ((String)->())) {
-        VCNetwork.post(url: .user+"/\(uid)/send") { result in
+    public func sendMessage(uid: Int, msg: String?, success: @escaping (()->()), failure: @escaping ((String)->())) {
+        VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg) { result in
             success()
         } failure: { error in
             failure(error)
