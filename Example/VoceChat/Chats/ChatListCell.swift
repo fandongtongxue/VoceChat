@@ -32,7 +32,7 @@ class ChatListCell: UITableViewCell {
             let user = VCManager.shared.getUserFromTable(uid: newValue.from_uid)
             let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: user.name)
             avatar?.backgroundColor = .systemBlue
-            avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)"), placeholderImage: avatar?.imageRepresentation)
+            avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = user.name
             contentLabel.text = newValue.detail.content
             timeLabel.text = DateInRegion(milliseconds: newValue.created_at).toString(.dateTime(.short))

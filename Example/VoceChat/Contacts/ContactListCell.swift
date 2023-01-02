@@ -28,7 +28,7 @@ class ContactListCell: UITableViewCell {
             //设置数据
             let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: newValue.name)
             avatar?.backgroundColor = .systemBlue
-            avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.uid)"), placeholderImage: avatar?.imageRepresentation)
+            avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.uid)" + "&t=\(newValue.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = newValue.name + (newValue.name == VCManager.shared.currentUser()?.user.name ? NSLocalizedString("(you)", comment: "") : "")
             onlineView.backgroundColor = (newValue.online || newValue.name == VCManager.shared.currentUser()?.user.name) ? .systemGreen : .systemGray
         }

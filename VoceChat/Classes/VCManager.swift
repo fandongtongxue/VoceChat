@@ -27,16 +27,18 @@ public class VCManager: NSObject {
             UIApplication.shared.keyWindow?.makeToast("VoceChat服务器URL为空")
             return
         }
+        //存储服务器URL
+        UserDefaults.standard.set(serverUrl, forKey: .serverURLKey)
+        UserDefaults.standard.synchronize()
+        
+        //创建用户表
         createUserTable()
         getUsers { users in
             //do nothing
         } failure: { error in
             //do nothing
         }
-
-        //存储服务器URL
-        UserDefaults.standard.set(serverUrl, forKey: .serverURLKey)
-        UserDefaults.standard.synchronize()
+        
         //获取系统组织信息
         VCNetwork.get(url: .system_organization) { result in
             let info = VCOrganizationModel.deserialize(from: result as? NSDictionary) ?? VCOrganizationModel()
@@ -216,10 +218,12 @@ public class VCManager: NSObject {
             users = Table("users")
             let id = Expression<Int>("id")
             let name = Expression<String>("name")
+            let avatar_updated_at = Expression<Int>("avatar_updated_at")
 
             try db.run(users.create { t in
                 t.column(id, primaryKey: true)
                 t.column(name)
+                t.column(avatar_updated_at)
             })
         } catch {
             debugPrint("创建数据库和表失败:"+error.localizedDescription)
@@ -229,7 +233,8 @@ public class VCManager: NSObject {
     private func insertUser(user: VCUserModel) {
         let id = Expression<Int>("id")
         let name = Expression<String>("name")
-        let insert = users.insert(name <- user.name, id <- user.uid)
+        let avatar_updated_at = Expression<Int>("avatar_updated_at")
+        let insert = users.insert(name <- user.name, id <- user.uid, avatar_updated_at <- user.avatar_updated_at)
         do {
             let rowid = try db.run(insert)
         } catch {
@@ -240,12 +245,14 @@ public class VCManager: NSObject {
     public func getUserFromTable(uid: Int) -> VCUserModel {
         let id = Expression<Int>("id")
         let name = Expression<String>("name")
+        let avatar_updated_at = Expression<Int>("avatar_updated_at")
         do {
             let users = try db.prepare(users.filter(id == uid))
             for user in users {
                 let model = VCUserModel()
                 model.uid = user[id]
                 model.name = user[name]
+                model.avatar_updated_at = user[avatar_updated_at]
                 return model
             }
         } catch {

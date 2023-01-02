@@ -12,7 +12,7 @@ public extension String {
     static let ready = "ready"
     static let users_log = "users_log"
     static let users_state = "users_state"
-    static let user_state_changed = "user_state_changed"
+    static let users_state_changed = "users_state_changed"
     static let user_settings = "user_settings"
     static let user_settings_changed = "user_settings_changed"
     static let related_groups = "related_groups"

@@ -26,7 +26,8 @@ class SettingProfileCell: UITableViewCell {
             _model = newValue
             //设置数据
             let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: newValue.name)
-            avatarImgView.image = avatar?.imageRepresentation
+            avatar?.backgroundColor = .systemBlue
+            avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.uid)" + "&t=\(newValue.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = newValue.name
             emailLabel.text = newValue.email
         }

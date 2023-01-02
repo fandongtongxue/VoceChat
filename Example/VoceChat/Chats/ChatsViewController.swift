@@ -39,7 +39,7 @@ class ChatsViewController: BaseViewController {
                 }
             }.disposed(by: disposeBag)
         //在线状态改变通知
-        NotificationCenter.default.rx.notification(.user_state_changed)
+        NotificationCenter.default.rx.notification(.users_state_changed)
             .subscribe { noti in
                 let model = noti.element?.object as! VCSSEEventModel
                 let models = self.chats.filter { message in

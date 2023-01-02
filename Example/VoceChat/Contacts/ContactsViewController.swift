@@ -43,7 +43,7 @@ class ContactsViewController: BaseViewController {
             make.edges.equalToSuperview()
         }
         //在线状态改变通知
-        NotificationCenter.default.rx.notification(.user_state_changed)
+        NotificationCenter.default.rx.notification(.users_state_changed)
             .subscribe { noti in
                 let model = noti.element?.object as! VCSSEEventModel
                 let filter_users = self.users.filter { user in
