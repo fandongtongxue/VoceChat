@@ -30,6 +30,8 @@ class MessageTextCell: MessageListCell {
             contentLabel.text = model.detail.content
             if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
                 contentLabel.textAlignment = .right
+            }else {
+                contentLabel.textAlignment = .left
             }
         }
         get{

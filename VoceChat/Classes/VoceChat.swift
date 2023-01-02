@@ -43,6 +43,7 @@ public extension String {
     static let token_logout = token+"/logout"
     static let token_device_token = token+"/device_token"
     static let login_guest = token+"/login_guest"
+    static let token_renew = token+"/renew"
     
     //User
     static let user = api+"/user"

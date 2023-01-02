@@ -47,7 +47,11 @@ class ChatViewController: BaseViewController {
                 let userInfo = noti.element?.userInfo
                 let duration = (userInfo?[UIKeyboardAnimationDurationUserInfoKey] as! NSNumber).floatValue
                 UIView.animate(withDuration: TimeInterval(duration)) {
+                    if self.inputBar.textView.text.count == 0 {
+                        self.inputBar.bounds.size.height = .tabBarHeight - .safeAreaBottomHeight
+                    }
                     self.inputBar.frame.origin.y = .screenH - self.inputBar.bounds.height - .safeAreaBottomHeight
+                    
                 }
             }
             .disposed(by: disposeBag)
@@ -70,13 +74,9 @@ class ChatViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         inputBar.sendBtn.rx.tap.subscribe(onNext: {
-            VCManager.shared.sendMessage(uid: self.model.uid, msg: "\($0)") {
-                self.inputBar.textView.text = ""
-                self.inputBar.textView.resignFirstResponder()
-            } failure: { error in
-                //do nothing
-            }
-
+            self.messageVC.sendMsg(text: self.inputBar.textView.text)
+            self.inputBar.textView.text = ""
+            self.inputBar.textView.resignFirstResponder()
         })
         .disposed(by: disposeBag)
     }

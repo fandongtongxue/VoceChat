@@ -24,9 +24,9 @@ class LoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.serverLabel.text = .ServerURL
         VCManager.shared.getLoginConfig { config in
             self.nameLabel.text = VCManager.shared.serverInfo().name
-            self.serverLabel.text = VCManager.shared.serverInfo().serverURL
             let ret = config.who_can_sign_up == "EveryOne"
             self.signUpView.isHidden = !ret
             self.inviteLabel.isHidden = ret

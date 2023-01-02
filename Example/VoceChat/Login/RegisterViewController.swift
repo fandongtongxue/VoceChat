@@ -25,7 +25,7 @@ class RegisterViewController: BaseViewController {
 
         // Do any additional setup after loading the view.
         nameLabel.text = VCManager.shared.serverInfo().name
-        serverLabel.text = VCManager.shared.serverInfo().serverURL
+        serverLabel.text = .ServerURL
         
         signUpBtn.setBackgroundImage(.qmui_image(with: .systemGray), for: .disabled)
         signUpBtn.setBackgroundImage(.qmui_image(with: .systemBlue), for: .normal)

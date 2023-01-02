@@ -14,7 +14,7 @@ class InputBar: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGroupedBackground
+        backgroundColor = .systemGray5
         addSubview(textView)
         textView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(44)
@@ -41,7 +41,7 @@ class InputBar: UIView {
     
     lazy var sendBtn: UIButton = {
         let sendBtn = UIButton.createBtn(title: NSLocalizedString("Send", comment: ""), titleColor: .systemBlue, font: .systemFont(ofSize: 16))
-        sendBtn.backgroundColor = .systemGroupedBackground
+        sendBtn.backgroundColor = .systemGray5
         return sendBtn
     }()
 

@@ -21,25 +21,6 @@ class MessageListCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(timeLabel)
         contentView.addSubview(containerView)
-        avatarImgView.snp.makeConstraints { make in
-            make.size.equalTo(CGSize(width: 40, height: 40))
-            make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(10)
-        }
-        nameLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.avatarImgView.snp.right).offset(10)
-            make.top.equalTo(self.avatarImgView)
-        }
-        timeLabel.snp.makeConstraints { make in
-            make.left.equalTo(self.nameLabel.snp.right).offset(10)
-            make.right.lessThanOrEqualToSuperview().offset(-10)
-            make.centerY.equalTo(self.nameLabel)
-        }
-        containerView.snp.makeConstraints { make in
-            make.top.equalTo(self.nameLabel.snp.bottom).offset(5)
-            make.left.equalTo(self.nameLabel)
-            make.right.bottom.equalToSuperview().offset(-10)
-        }
     }
     
     var _model : VCMessageModel!
@@ -74,6 +55,26 @@ class MessageListCell: UITableViewCell {
                     make.right.equalTo(self.nameLabel)
                     make.left.equalToSuperview().offset(10)
                     make.bottom.equalToSuperview().offset(-10)
+                }
+            }else {
+                avatarImgView.snp.remakeConstraints { make in
+                    make.size.equalTo(CGSize(width: 40, height: 40))
+                    make.left.equalToSuperview().offset(20)
+                    make.top.equalToSuperview().offset(10)
+                }
+                nameLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(self.avatarImgView.snp.right).offset(10)
+                    make.top.equalTo(self.avatarImgView)
+                }
+                timeLabel.snp.remakeConstraints { make in
+                    make.left.equalTo(self.nameLabel.snp.right).offset(10)
+                    make.right.lessThanOrEqualToSuperview().offset(-10)
+                    make.centerY.equalTo(self.nameLabel)
+                }
+                containerView.snp.remakeConstraints { make in
+                    make.top.equalTo(self.nameLabel.snp.bottom).offset(5)
+                    make.left.equalTo(self.nameLabel)
+                    make.right.bottom.equalToSuperview().offset(-10)
                 }
             }
         }

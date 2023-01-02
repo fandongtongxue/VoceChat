@@ -118,7 +118,7 @@ class VCNetwork: NSObject {
         
     }
     
-    public class func httpBody(url: String, method: HTTPMethod = .get, param: Parameters? = nil, body: String?, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
+    public class func httpBody(url: String, method: HTTPMethod = .get, param: Parameters? = nil, body: String?, mid: Int, success: @escaping ((Any)->()), failure: @escaping ((String)->())){
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
@@ -143,6 +143,15 @@ class VCNetwork: NSObject {
                 var request = try URLRequest(url: newUrl, method: method)
                 request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "X-API-Key")
                 request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
+                request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
+                
+                var json = ""
+                let jsonEncoder = JSONEncoder()
+                let jsonData = try jsonEncoder.encode(["cid":mid])
+                json = String(data: jsonData, encoding: .utf8)!
+                let finalStr = json.data(using: .utf8)?.base64EncodedString()
+                
+                request.setValue(finalStr, forHTTPHeaderField: "X-Properties")
                 
                 request.httpBody = body?.data(using: .utf8)
                 AF.request(request).response { response in

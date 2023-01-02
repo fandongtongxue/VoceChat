@@ -30,9 +30,34 @@ class MessageViewController: BaseViewController {
         VCManager.shared.getHistoryMessage(uid: model.uid, limit: 100) { messages in
             self.messages = self.messages + messages
             self.tableView.reloadData()
+            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
         } failure: { error in
             //do nothing
         }
+    }
+    
+    func sendMsg(text: String) {
+        VCManager.shared.sendMessage(uid: self.model.uid, msg: text, mid: messages.last?.mid ?? 0) { mid in
+            let messageModel = VCMessageModel()
+            messageModel.mid = mid
+            messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
+            messageModel.created_at = Int(Date().timeIntervalSince1970)
+            let target = VCMessageModelTarget()
+            target.uid = self.model.uid
+            messageModel.target = target
+            let detail = VCMessageModelDetail()
+            detail.type = "normal"
+            detail.content = text
+            detail.content_type = "text/plain"
+            messageModel.detail = detail
+            
+            self.messages.append(messageModel)
+            self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
+            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+        } failure: { error in
+            //do nothing
+        }
+
     }
     
     //键盘

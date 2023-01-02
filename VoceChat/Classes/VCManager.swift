@@ -17,8 +17,11 @@ public class VCManager: NSObject {
     private var eventSource: EventSource?
     
     //用户表
-    var users: Table!
-    var db: Connection!
+    private var users: Table!
+    private var db: Connection!
+    
+    //更新Token
+    private var timer: Timer?
     
     /// 服务器URL
     /// - Parameter serverUrl: 服务器URL
@@ -56,11 +59,9 @@ public class VCManager: NSObject {
     public func serverInfo() -> VCOrganizationModel{
         let name = UserDefaults.standard.string(forKey: .nameKey)
         let desc = UserDefaults.standard.string(forKey: .descKey)
-        let serverURL = UserDefaults.standard.string(forKey: .serverURLKey)
         let info = VCOrganizationModel()
         info.name = name ?? ""
         info.description = desc ?? ""
-        info.serverURL = serverURL ?? ""
         return info
     }
     
@@ -102,10 +103,10 @@ public class VCManager: NSObject {
         VCNetwork.get(url: .login_guest) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
-            self.sse(token: model.token)
             debugPrint("登陆成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
+            self.sse(token: model.token)
         } failure: { error in
             failure(error)
             debugPrint("登陆失败:"+error)
@@ -131,10 +132,10 @@ public class VCManager: NSObject {
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device, "device_token":"test"]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
-            self.sse(token: model.token)
             debugPrint("登陆成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
+            self.sse(token: model.token)
         } failure: { error in
             failure(error)
             debugPrint("登陆失败:"+error)
@@ -154,10 +155,10 @@ public class VCManager: NSObject {
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device, "device_token":"test"]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
-            self.sse(token: model.token)
             debugPrint("自动登陆成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
+            self.sse(token: model.token)
         } failure: { error in
             failure(error)
             debugPrint("自动登陆失败:"+error)
@@ -185,10 +186,10 @@ public class VCManager: NSObject {
                 failure(model.reason)
             }else {
                 success(model)
-                self.sse(token: model.token)
                 debugPrint("注册成功")
                 UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
                 UserDefaults.standard.synchronize()
+                self.sse(token: model.token)
             }
         } failure: { error in
             failure(error)
@@ -199,13 +200,29 @@ public class VCManager: NSObject {
     
     /// SEE监听
     /// - Parameter token: token
-    public func sse(token: String?) {
-        let urlStr = VCManager.shared.serverInfo().serverURL + .user_events + "?api-key=" + (token ?? "")
+    private func sse(token: String?) {
+        let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
+        let urlStr = serverURL + .user_events + "?api-key=" + (token ?? "")
         var config = EventSource.Config(handler: VCSSEEventHandler(), url: URL(string: urlStr)!)
         config.headers = ["X-API-Key":token ?? ""]
         eventSource = EventSource(config: config)
         eventSource?.start()
         
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(VCManager.shared.currentUser()?.expired_in ?? 0), target: self, selector: #selector(renewToken), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func renewToken() {
+        VCNetwork.post(url: .token_renew, param: ["token": VCManager.shared.currentUser()?.token, "refresh_token": VCManager.shared.currentUser()?.refresh_token]) { result in
+            let model = VCLoginModel.deserialize(from: result as? [String: Any]) ?? VCLoginModel()
+            let user = VCManager.shared.currentUser()
+            user?.token = model.token
+            user?.refresh_token = model.refresh_token
+            UserDefaults.standard.set(user?.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
+        } failure: { error in
+            debugPrint("刷新Token失败")
+        }
+
     }
     
     //数据库
@@ -289,6 +306,8 @@ public class VCManager: NSObject {
             debugPrint("退出登陆成功")
             success()
             self.eventSource?.stop()
+            self.timer?.invalidate()
+            self.timer = nil
             UserDefaults.standard.set([:], forKey: .userKey)
             UserDefaults.standard.synchronize()
         } failure: { error in
@@ -348,9 +367,9 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String?, success: @escaping (()->()), failure: @escaping ((String)->())) {
-        VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg) { result in
-            success()
+    public func sendMessage(uid: Int, msg: String?, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((String)->())) {
+        VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, mid: mid) { result in
+            success(result as? Int ?? 0)
         } failure: { error in
             failure(error)
         }
