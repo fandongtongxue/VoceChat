@@ -24,6 +24,8 @@
 		CB6AE199294B0A84009CD70D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB6AE19B294B0A84009CD70D /* Localizable.strings */; };
 		CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */; };
 		CB6AE1AC294B5D3D009CD70D /* ContactListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */; };
+		CB729ADF29626EFA00B8B39E /* MessageListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB729ADE29626EFA00B8B39E /* MessageListCell.swift */; };
+		CB729AE129626F1A00B8B39E /* MessageTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB729AE029626F1A00B8B39E /* MessageTextCell.swift */; };
 		CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */; };
 		CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */; };
 		CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAA8DB0293CDD8000F0D0EF /* URL.swift */; };
@@ -83,6 +85,8 @@
 		CB6AE1A8294B5358009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListCell.swift; sourceTree = "<group>"; };
 		CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactListCell.xib; sourceTree = "<group>"; };
+		CB729ADE29626EFA00B8B39E /* MessageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListCell.swift; sourceTree = "<group>"; };
+		CB729AE029626F1A00B8B39E /* MessageTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTextCell.swift; sourceTree = "<group>"; };
 		CB92086C2955F20C00146B69 /* VoceChat_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoceChat_Example.entitlements; sourceTree = "<group>"; };
 		CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDUIKit.swift; sourceTree = "<group>"; };
 		CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -211,6 +215,8 @@
 				CBB75AF0295A810400545C74 /* InputBar.swift */,
 				CB67A0D829616D0E00883AAC /* ChatListCell.swift */,
 				CB67A0D929616D0E00883AAC /* ChatListCell.xib */,
+				CB729ADE29626EFA00B8B39E /* MessageListCell.swift */,
+				CB729AE029626F1A00B8B39E /* MessageTextCell.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -506,6 +512,7 @@
 				607FACD81AFB9204008FA782 /* LoginViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */,
+				CB729AE129626F1A00B8B39E /* MessageTextCell.swift in Sources */,
 				CB3DFB6F294BFCE0009A9798 /* ContactsSearchResultViewController.swift in Sources */,
 				CBCE5B1B29474D4500D5D14D /* SettingsViewController.swift in Sources */,
 				CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */,
@@ -515,6 +522,7 @@
 				CBCE5B1929474D3100D5D14D /* ContactsViewController.swift in Sources */,
 				CB584EFA2959DF9A00D0C103 /* ChatViewController.swift in Sources */,
 				CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */,
+				CB729ADF29626EFA00B8B39E /* MessageListCell.swift in Sources */,
 				CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */,
 				CBCE54582957E88700DFCDDA /* SettingProfileCell.swift in Sources */,
 				CBCE5B1729474CF500D5D14D /* ChatsViewController.swift in Sources */,

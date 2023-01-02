@@ -18,6 +18,8 @@ class ChatViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        navigationItem.title = model.name
+        
         messageVC = MessageViewController()
         messageVC.model = model
         view.addSubview(messageVC.view)

@@ -40,7 +40,8 @@ class MessageViewController: BaseViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        tableView.register(UITableViewCell.classForCoder(), forCellReuseIdentifier: "UITableViewCell")
+        tableView.register(MessageTextCell.classForCoder(), forCellReuseIdentifier: NSStringFromClass(MessageTextCell.classForCoder()))
+        tableView.register(MessageListCell.classForCoder(), forCellReuseIdentifier: NSStringFromClass(MessageListCell.classForCoder()))
         return tableView
     } ()
 
@@ -56,11 +57,28 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+        let model = messages[indexPath.row]
+        if model.detail.content_type == "text/plain" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageTextCell.classForCoder()), for: indexPath) as! MessageTextCell
+            if indexPath.row < messages.count {
+                cell.model = messages[indexPath.row]
+            }
+            return cell
+        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageListCell.classForCoder()), for: indexPath) as! MessageListCell
         if indexPath.row < messages.count {
-            cell.textLabel?.text = messages[indexPath.row].detail.content
+            cell.model = messages[indexPath.row]
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let model = messages[indexPath.row]
+        if model.detail.content_type == "text/plain" {
+            let textSize = (model.detail.content as NSString).boundingRect(with: CGSize(width: .screenW - 80, height: CGFloat(MAXFLOAT)), attributes: [.font: UIFont.systemFont(ofSize: 14)], context: nil).size
+            return max(textSize.height + 20.33 + 5 + 10 + 10, 60)
+        }
+        return 60
     }
     
 }
