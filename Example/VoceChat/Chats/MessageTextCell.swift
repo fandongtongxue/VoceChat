@@ -10,16 +10,12 @@ import UIKit
 import VoceChat
 import CDFInitialsAvatar
 import SDWebImage
-import SwiftDate
 
 class MessageTextCell: MessageListCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         containerView.addSubview(contentLabel)
-        contentLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
     }
     
     public override var model : VCMessageModel!{
@@ -29,9 +25,15 @@ class MessageTextCell: MessageListCell {
             //设置数据
             contentLabel.text = model.detail.content
             if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
-                contentLabel.textAlignment = .right
+                contentLabel.snp.makeConstraints { make in
+                    make.right.top.bottom.equalToSuperview()
+                    make.left.greaterThanOrEqualToSuperview()
+                }
             }else {
-                contentLabel.textAlignment = .left
+                contentLabel.snp.makeConstraints { make in
+                    make.left.top.bottom.equalToSuperview()
+                    make.right.lessThanOrEqualToSuperview()
+                }
             }
         }
         get{

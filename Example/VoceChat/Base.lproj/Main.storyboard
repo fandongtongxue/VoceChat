@@ -162,7 +162,7 @@
                         <outlet property="loginBtn" destination="Q6G-Y3-xDx" id="TpG-HP-fBQ"/>
                         <outlet property="nameLabel" destination="3td-o2-MCe" id="OcB-02-WM0"/>
                         <outlet property="passTF" destination="JtC-xm-ccD" id="xm9-xh-W8v"/>
-                        <outlet property="serverLabel" destination="zCi-8m-z6f" id="buu-h1-ifw"/>
+                        <outlet property="serverLabel" destination="zCi-8m-z6f" id="5B9-mX-Ork"/>
                         <outlet property="signUpView" destination="hTi-Wh-vPq" id="WGI-uc-QAp"/>
                     </connections>
                 </viewController>

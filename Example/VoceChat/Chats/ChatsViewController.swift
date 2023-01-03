@@ -58,13 +58,19 @@ class ChatsViewController: BaseViewController {
         NotificationCenter.default.rx.notification(.chat).subscribe { noti in
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
-            let ret = self.chats.contains(where: {$0.from_uid == message.from_uid})
+            let from = self.chats.contains(where: {$0.from_uid == message.from_uid})
             let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
-            if ret {
-                //替换这个元素
+            if from{
                 self.chats[index] = message
             }else {
-                self.chats.append(message)
+                let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
+                //替换这个元素
+                if target {
+                    self.chats[index].detail.content = message.detail.content
+                    self.chats[index].created_at = message.created_at
+                }else {
+                    self.chats.append(message)
+                }
             }
             
             guard let json = UserDefaults.standard.string(forKey: .users_state) else {

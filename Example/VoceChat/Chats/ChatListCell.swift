@@ -10,7 +10,6 @@ import UIKit
 import VoceChat
 import CDFInitialsAvatar
 import SDWebImage
-import SwiftDate
 
 class ChatListCell: UITableViewCell {
 
@@ -35,7 +34,8 @@ class ChatListCell: UITableViewCell {
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = user.name
             contentLabel.text = newValue.detail.content
-            timeLabel.text = DateInRegion(milliseconds: newValue.created_at).toString(.dateTime(.short))
+            
+            timeLabel.text = newValue.created_at.updateTimeToCurrennTime()
             onlineView.backgroundColor = newValue.online ? .systemGreen : .systemGray
         }
         get{

@@ -39,6 +39,7 @@ class ChatViewController: BaseViewController {
                 let keyboardH = keyboardFrame.height
                 UIView.animate(withDuration: TimeInterval(duration)) {
                     self.inputBar.frame.origin.y = .screenH - keyboardH - self.inputBar.bounds.height
+                    self.messageVC.view.frame.origin.y = -keyboardH + .safeAreaBottomHeight
                 }
             }
             .disposed(by: disposeBag)
@@ -51,7 +52,7 @@ class ChatViewController: BaseViewController {
                         self.inputBar.bounds.size.height = .tabBarHeight - .safeAreaBottomHeight
                     }
                     self.inputBar.frame.origin.y = .screenH - self.inputBar.bounds.height - .safeAreaBottomHeight
-                    
+                    self.messageVC.view.frame.origin.y = 0
                 }
             }
             .disposed(by: disposeBag)

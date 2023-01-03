@@ -2,7 +2,6 @@ PODS:
   - Alamofire (5.6.2)
   - CDFInitialsAvatar (1.0.4)
   - HandyJSON (5.0.2)
-  - IKEventSource (3.0.1)
   - LDSwiftEventSource (3.0.0)
   - QMUIKit (4.5.1):
     - QMUIKit/QMUIComponents (= 4.5.1)
@@ -313,12 +312,10 @@ PODS:
   - SQLite.swift (0.14.1):
     - SQLite.swift/standard (= 0.14.1)
   - SQLite.swift/standard (0.14.1)
-  - SwiftDate (5.1.0)
   - Toast-Swift (5.0.1)
   - VoceChat (0.1.0):
     - Alamofire (~> 5.6.2)
     - HandyJSON (~> 5.0.2)
-    - IKEventSource (~> 3.0.1)
     - LDSwiftEventSource (~> 3.0)
     - SQLite.swift (~> 0.14.0)
     - Toast-Swift (~> 5.0.1)
@@ -331,7 +328,6 @@ DEPENDENCIES:
   - RxSwift (= 6.5.0)
   - SDWebImage
   - SnapKit
-  - SwiftDate (~> 5.0)
   - VoceChat (from `../`)
   - WoodPeckeriOS
 
@@ -340,7 +336,6 @@ SPEC REPOS:
     - Alamofire
     - CDFInitialsAvatar
     - HandyJSON
-    - IKEventSource
     - LDSwiftEventSource
     - QMUIKit
     - RxCocoa
@@ -349,7 +344,6 @@ SPEC REPOS:
     - SDWebImage
     - SnapKit
     - SQLite.swift
-    - SwiftDate
     - Toast-Swift
     - WoodPeckeriOS
 
@@ -361,7 +355,6 @@ SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
   CDFInitialsAvatar: db58862ce67b1b1409e24d5c19d0efb2a8e62491
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
-  IKEventSource: ababa323587c6b0c250dd54d4a48ab68fd845e8e
   LDSwiftEventSource: 824ce51a4fa8e79498c9b67ae672bfa802bd7464
   QMUIKit: 3e717c45730ecdf5011ca76751990ad1a23ba7e1
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
@@ -370,11 +363,10 @@ SPEC CHECKSUMS:
   SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
-  SwiftDate: 6329e58969a2de31cea7f1ee1143b247693196e7
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
-  VoceChat: ccf2bfbc20ee4534721fcbde6fe473a54be6bb63
+  VoceChat: 89502912a3d3be81c81204db15c3d92b1802d2e4
   WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
 
-PODFILE CHECKSUM: c4ae0ca5e40b7f7a128a193b9b3e43ad68554738
+PODFILE CHECKSUM: ca4d69952647cc9fe280b173d53cdeb99e8a37b1
 
 COCOAPODS: 1.11.3

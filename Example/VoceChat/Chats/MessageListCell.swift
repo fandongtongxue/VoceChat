@@ -10,7 +10,6 @@ import UIKit
 import VoceChat
 import CDFInitialsAvatar
 import SDWebImage
-import SwiftDate
 
 class MessageListCell: UITableViewCell {
 
@@ -33,7 +32,7 @@ class MessageListCell: UITableViewCell {
             avatar?.backgroundColor = .systemBlue
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = user.name
-            timeLabel.text = DateInRegion(milliseconds: newValue.created_at).toString(.dateTime(.short))
+            timeLabel.text = newValue.created_at.updateTimeToCurrennTime()
             if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
                 //自己发出的头像在右边
                 avatarImgView.snp.remakeConstraints { make in
@@ -103,7 +102,7 @@ class MessageListCell: UITableViewCell {
     
     lazy var nameLabel: UILabel = {
         let nameLabel = UILabel(frame: .zero)
-        nameLabel.textColor = .cyan
+        nameLabel.textColor = .qmui_color(withHexString: "00D1FF")
         nameLabel.font = .systemFont(ofSize: 17)
         return nameLabel
     }()
