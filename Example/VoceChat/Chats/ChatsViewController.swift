@@ -70,6 +70,7 @@ class ChatsViewController: BaseViewController {
                     if target {
                         self.chats[newIndex].detail.content = message.detail.content
                         self.chats[newIndex].created_at = message.created_at
+                        self.chats[newIndex].mid = message.mid
                     }
                 }else {
                     self.chats.append(message)
