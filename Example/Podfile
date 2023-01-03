@@ -9,6 +9,7 @@ target 'VoceChat_Example' do
   pod 'SDWebImage'
   pod 'CDFInitialsAvatar'
   pod 'WoodPeckeriOS', :configurations => ['Debug']
+  pod 'SwiftDate', '~> 5.0'
   
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'

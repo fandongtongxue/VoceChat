@@ -53,7 +53,7 @@ class MessageTextCell: MessageListCell {
             }
             return .darkText
         })
-        contentLabel.font = .systemFont(ofSize: 14)
+        contentLabel.font = .systemFont(ofSize: 15)
         contentLabel.numberOfLines = 0
         return contentLabel
     }()

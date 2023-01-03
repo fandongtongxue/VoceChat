@@ -110,7 +110,7 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model = messages[indexPath.row]
         if model.detail.content_type == "text/plain" {
-            let textSize = (model.detail.content as NSString).boundingRect(with: CGSize(width: .screenW - 80, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: 14)], context: nil).size
+            let textSize = (model.detail.content as NSString).boundingRect(with: CGSize(width: .screenW - 80, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: 15)], context: nil).size
             let user = VCManager.shared.getUserFromTable(uid: model.from_uid)
             let nameSize = (user.name as NSString).boundingRect(with: CGSize(width: .screenW / 2, height: CGFloat(MAXFLOAT)), options: .usesLineFragmentOrigin, attributes: [.font: UIFont.systemFont(ofSize: 17)], context: nil)
             return max(textSize.height + nameSize.height + 5 + 10 + 10 + 5, 62.0)

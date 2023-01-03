@@ -32,7 +32,7 @@ class MessageListCell: UITableViewCell {
             avatar?.backgroundColor = .systemBlue
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = user.name
-            timeLabel.text = newValue.created_at.updateTimeToCurrennTime()
+            timeLabel.text = newValue.created_at.translateTimestamp()
             if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
                 //自己发出的头像在右边
                 avatarImgView.snp.remakeConstraints { make in
@@ -52,7 +52,7 @@ class MessageListCell: UITableViewCell {
                 containerView.snp.remakeConstraints { make in
                     make.top.equalTo(self.nameLabel.snp.bottom).offset(5)
                     make.right.equalTo(self.nameLabel)
-                    make.left.equalToSuperview().offset(10)
+                    make.left.greaterThanOrEqualToSuperview().offset(10)
                     make.bottom.equalToSuperview().offset(-10)
                 }
             }else {
@@ -73,7 +73,8 @@ class MessageListCell: UITableViewCell {
                 containerView.snp.remakeConstraints { make in
                     make.top.equalTo(self.nameLabel.snp.bottom).offset(5)
                     make.left.equalTo(self.nameLabel)
-                    make.right.bottom.equalToSuperview().offset(-10)
+                    make.bottom.equalToSuperview().offset(-10)
+                    make.right.lessThanOrEqualToSuperview().offset(-10)
                 }
             }
         }

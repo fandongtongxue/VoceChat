@@ -63,11 +63,14 @@ class ChatsViewController: BaseViewController {
             if from{
                 self.chats[index] = message
             }else {
-                let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
-                //替换这个元素
-                if target {
-                    self.chats[index].detail.content = message.detail.content
-                    self.chats[index].created_at = message.created_at
+                if VCManager.shared.currentUser()?.user.uid == message.from_uid {
+                    let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
+                    let newIndex = self.chats.firstIndex(where: {$0.from_uid == message.target.uid}) ?? 0
+                    //替换这个元素
+                    if target {
+                        self.chats[newIndex].detail.content = message.detail.content
+                        self.chats[newIndex].created_at = message.created_at
+                    }
                 }else {
                     self.chats.append(message)
                 }
@@ -92,7 +95,6 @@ class ChatsViewController: BaseViewController {
             }
         }.disposed(by: disposeBag)
     }
-    
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)

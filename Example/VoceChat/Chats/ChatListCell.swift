@@ -35,7 +35,7 @@ class ChatListCell: UITableViewCell {
             nameLabel.text = user.name
             contentLabel.text = newValue.detail.content
             
-            timeLabel.text = newValue.created_at.updateTimeToCurrennTime()
+            timeLabel.text = newValue.created_at.translateTimestamp()
             onlineView.backgroundColor = newValue.online ? .systemGreen : .systemGray
         }
         get{

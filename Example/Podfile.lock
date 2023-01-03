@@ -312,6 +312,7 @@ PODS:
   - SQLite.swift (0.14.1):
     - SQLite.swift/standard (= 0.14.1)
   - SQLite.swift/standard (0.14.1)
+  - SwiftDate (5.1.0)
   - Toast-Swift (5.0.1)
   - VoceChat (0.1.0):
     - Alamofire (~> 5.6.2)
@@ -328,6 +329,7 @@ DEPENDENCIES:
   - RxSwift (= 6.5.0)
   - SDWebImage
   - SnapKit
+  - SwiftDate (~> 5.0)
   - VoceChat (from `../`)
   - WoodPeckeriOS
 
@@ -344,6 +346,7 @@ SPEC REPOS:
     - SDWebImage
     - SnapKit
     - SQLite.swift
+    - SwiftDate
     - Toast-Swift
     - WoodPeckeriOS
 
@@ -363,10 +366,11 @@ SPEC CHECKSUMS:
   SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SQLite.swift: 2992550ebf3c5b268bf4352603e3df87d2a4ed72
+  SwiftDate: 6329e58969a2de31cea7f1ee1143b247693196e7
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   VoceChat: 89502912a3d3be81c81204db15c3d92b1802d2e4
   WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
 
-PODFILE CHECKSUM: ca4d69952647cc9fe280b173d53cdeb99e8a37b1
+PODFILE CHECKSUM: a0e9b52dccc7fc5d3c53381e59391dd34ab109f1
 
 COCOAPODS: 1.11.3
