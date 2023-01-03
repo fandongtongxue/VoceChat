@@ -18,6 +18,7 @@ public class VCManager: NSObject {
     
     //用户表
     private var users: Table!
+    private var messages: Table!
     private var db: Connection!
     
     //更新Token
@@ -35,7 +36,7 @@ public class VCManager: NSObject {
         UserDefaults.standard.synchronize()
         
         //创建用户表
-        createUserTable()
+        createDb()
         getUsers { users in
             //do nothing
         } failure: { error in
@@ -226,24 +227,59 @@ public class VCManager: NSObject {
     }
     
     //数据库
-    private func createUserTable() {
+    private func createDb() {
         do {
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let path = paths.first ?? ""
             db = try Connection(path+"/db.sqlite3")
 
-            users = Table("users")
-            let id = Expression<Int>("id")
-            let name = Expression<String>("name")
-            let avatar_updated_at = Expression<Int>("avatar_updated_at")
-
-            try db.run(users.create { t in
+            createUserTable()
+            createMessageTable()
+        } catch {
+            debugPrint("创建数据库失败:"+error.localizedDescription)
+        }
+    }
+    
+    private func createUserTable() {
+        users = Table("users")
+        let id = Expression<Int>("id")
+        let name = Expression<String>("name")
+        let avatar_updated_at = Expression<Int>("avatar_updated_at")
+        
+        do {
+            try db.run(users.create(ifNotExists: true) { t in
                 t.column(id, primaryKey: true)
                 t.column(name)
                 t.column(avatar_updated_at)
             })
         } catch {
-            debugPrint("创建数据库和表失败:"+error.localizedDescription)
+            debugPrint("创建用户表失败:"+error.localizedDescription)
+        }
+    }
+    
+    private func createMessageTable() {
+        messages = Table("messages")
+        
+        let id = Expression<Int>("id")
+        let from_uid = Expression<Int>("from_uid")
+        let mid = Expression<Int>("mid")
+        let content = Expression<String>("content")
+        let content_type = Expression<String>("content_type")
+        let uid = Expression<Int>("uid")
+        let created_at = Expression<Int>("created_at")
+
+        do {
+            try db.run(messages.create(ifNotExists: true) { t in
+                t.column(id, primaryKey: true)
+                t.column(from_uid)
+                t.column(mid)
+                t.column(content)
+                t.column(content_type)
+                t.column(uid)
+                t.column(created_at)
+            })
+        } catch {
+            debugPrint("创建消息表失败:"+error.localizedDescription)
         }
     }
     
@@ -258,6 +294,33 @@ public class VCManager: NSObject {
             debugPrint("插入用户表失败:"+error.localizedDescription)
         }
     }
+    
+    public func insertMessage(message: VCMessageModel) {
+        let id = Expression<Int>("id")
+        let from_uid = Expression<Int>("from_uid")
+        let mid = Expression<Int>("mid")
+        let content = Expression<String>("content")
+        let content_type = Expression<String>("content_type")
+        let uid = Expression<Int>("uid")
+        let created_at = Expression<Int>("created_at")
+        let insert = messages.insert(id <- message.mid, from_uid <- message.from_uid, mid <- message.mid, content <- message.detail.content, content_type <- message.detail.content_type, uid <- message.target.uid, created_at <- message.created_at)
+        do {
+            let rowid = try db.run(insert)
+        } catch {
+            debugPrint("插入消息表失败:"+error.localizedDescription)
+        }
+    }
+    
+    //TODO
+//    public func getLastMsg() -> VCMessageModel {
+//        let mid = Expression<Int>("mid")
+//        do {
+//
+//        } catch {
+//            debugPrint("获取最后一条消息失败:"+error.localizedDescription)
+//        }
+//        return VCMessageModel()
+//    }
     
     public func getUserFromTable(uid: Int) -> VCUserModel {
         let id = Expression<Int>("id")

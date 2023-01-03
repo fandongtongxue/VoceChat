@@ -34,6 +34,8 @@ struct VCSSEEventHandler: EventHandler {
         case .chat:
             NotificationCenter.default.post(name: .chat, object: messageEvent.data)
             break
+        case .ready:
+            NotificationCenter.default.post(name: .ready, object: nil)
         default:
             break
             //do nothing
