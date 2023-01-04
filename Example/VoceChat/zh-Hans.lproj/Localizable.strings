@@ -21,3 +21,16 @@
 "Cancel"="取消";
 
 "Send"="发送";
+
+"New Channel"="新频道";
+"New Send"="新私聊";
+"Invite"="邀请新用户";
+
+"Create Channel"="创建频道";
+"Next"="下一步";
+"New Private Channel"="新私有频道";
+"New Public Channel"="新公共频道";
+"All users can view this channel. Only administrators can create public channels"="所有用户都查看此频道，只有管理员能创建公共频道";
+"Only designated users can view this channel, and only administrators can create public channels"="只有指定用户能查看此频道，只有管理员能创建公共频道";
+
+"Invite New User"="邀请新用户";

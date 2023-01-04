@@ -17,6 +17,28 @@ class ChatsViewController: BaseViewController {
         super.viewDidLoad()
         
         navigationItem.title = NSLocalizedString("Chats", comment: "")
+//        navigationItem.titleView =
+        let newChannel = UIAction(title: NSLocalizedString("New Channel", comment: ""), image: UIImage(systemName: "number")) { action in
+            let newVC = NewChannelViewController()
+            let nav = UINavigationController(rootViewController: newVC)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        }
+        let send = UIAction(title: NSLocalizedString("New Send", comment: ""), image: UIImage(systemName: "text.bubble")) { action in
+            
+        }
+        let invite = UIAction(title: NSLocalizedString("Invite", comment: ""), image: UIImage(systemName: "person.fill.badge.plus")) { action in
+            let inviteVC = InviteViewController()
+            let nav = UINavigationController(rootViewController: inviteVC)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
+        }
+        let menu = UIMenu(children: [newChannel, send, invite])
+        if #available(iOS 14.0, *) {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, menu: menu)
+        } else {
+            // Fallback on earlier versions
+        }
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

@@ -292,6 +292,20 @@ public class VCManager: NSObject {
             let rowid = try db.run(insert)
         } catch {
             debugPrint("插入用户表失败:"+error.localizedDescription)
+            updateUser(user: user)
+        }
+    }
+    
+    private func updateUser(user: VCUserModel) {
+        let id = Expression<Int>("id")
+        let name = Expression<String>("name")
+        let avatar_updated_at = Expression<Int>("avatar_updated_at")
+        let row = users.filter(id == user.uid)
+        let update = row.update(name <- name.replace("\(row[name])", with: user.name), avatar_updated_at <- user.avatar_updated_at)
+        do {
+            let rowid = try db.run(update)
+        } catch {
+            debugPrint("更新用户表失败:"+error.localizedDescription)
         }
     }
     
@@ -312,15 +326,15 @@ public class VCManager: NSObject {
     }
     
     //TODO
-//    public func getLastMsg() -> VCMessageModel {
-//        let mid = Expression<Int>("mid")
-//        do {
-//
-//        } catch {
-//            debugPrint("获取最后一条消息失败:"+error.localizedDescription)
-//        }
-//        return VCMessageModel()
-//    }
+    public func getLastMsg() -> VCMessageModel {
+        let mid = Expression<Int>("mid")
+        do {
+            
+        } catch {
+            debugPrint("获取最后一条消息失败:"+error.localizedDescription)
+        }
+        return VCMessageModel()
+    }
     
     public func getUserFromTable(uid: Int) -> VCUserModel {
         let id = Expression<Int>("id")
@@ -377,6 +391,24 @@ public class VCManager: NSObject {
             failure(error)
             debugPrint("退出登陆失败:"+error)
         }
+    }
+    
+    public func generateInviteLink(success: @escaping ((String)->()), failure: @escaping ((String)->())) {
+        VCNetwork.getRaw(url: .group_create_reg_magic_link, param: ["expired_in": 48 * 3600]) { result in
+            let url = String(data: result as? Data ?? Data(), encoding: .utf8)
+            success(url ?? "")
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [String] = [], success: @escaping ((Int)->()), failure: @escaping ((String)->())) {
+        VCNetwork.postRaw(url: .group, param: ["name": name, "description": description, "is_public": is_public, "members": members]) { result in
+            success(result as? Int ?? 0)
+        } failure: { error in
+            failure(error)
+        }
+
     }
     
     

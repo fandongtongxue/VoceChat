@@ -60,6 +60,7 @@ public extension String {
     
     //Group
     static let group = api+"/group"
+    static let group_create_reg_magic_link = group+"/create_reg_magic_link"
     
     //Message
     static let message = api+"/message"

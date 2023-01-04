@@ -66,7 +66,7 @@ class ChatViewController: BaseViewController {
                     futureBarHeight = min(futureBarHeight, 100)
                 }
                 let compareHeight = currentBarHeight > futureBarHeight ? currentBarHeight - futureBarHeight : futureBarHeight - currentBarHeight
-                self.inputBar.frame = CGRect(x: 0, y: self.inputBar.frame.minY - compareHeight, width: self.inputBar.bounds.width, height: futureBarHeight)
+                self.inputBar.frame = CGRect(x: 10, y: self.inputBar.frame.minY - compareHeight, width: self.inputBar.bounds.width, height: futureBarHeight)
             })
             .disposed(by: disposeBag)
         
@@ -84,7 +84,7 @@ class ChatViewController: BaseViewController {
     
     
     lazy var inputBar: InputBar = {
-        let inputBar = InputBar(frame: CGRect(x: 0, y: .screenH - .tabBarHeight, width: .screenW, height: .tabBarHeight - .safeAreaBottomHeight))
+        let inputBar = InputBar(frame: CGRect(x:10, y: .screenH - .tabBarHeight, width: .screenW - 20, height: .tabBarHeight - .safeAreaBottomHeight))
         return inputBar
     }()
     

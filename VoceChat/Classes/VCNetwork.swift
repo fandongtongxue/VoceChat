@@ -57,7 +57,7 @@ class VCNetwork: NSObject {
                     newUrl.append("&")
                     newUrl.append(key)
                     newUrl.append("=")
-                    newUrl.append(param?[key] as? String ?? "")
+                    newUrl.append("\(param?[key] ?? "")")
                 })
             }else{
                 newParam = param
@@ -95,7 +95,7 @@ class VCNetwork: NSObject {
                     newUrl.append("&")
                     newUrl.append(key)
                     newUrl.append("=")
-                    newUrl.append(param?[key] as? String ?? "")
+                    newUrl.append("\(param?[key] ?? "")")
                 })
             }else{
                 newParam = param
@@ -133,7 +133,7 @@ class VCNetwork: NSObject {
                     newUrl.append("&")
                     newUrl.append(key)
                     newUrl.append("=")
-                    newUrl.append(param?[key] as? String ?? "")
+                    newUrl.append("\(param?[key] ?? "")")
                 })
             }else{
                 newParam = param

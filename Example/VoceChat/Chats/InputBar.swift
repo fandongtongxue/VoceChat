@@ -9,12 +9,20 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import QMUIKit
 
 class InputBar: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray5
+        layer.cornerRadius = 5
+        clipsToBounds = true
+        backgroundColor = UIColor(dynamicProvider: { traitCollection in
+            if traitCollection.userInterfaceStyle == .light {
+                return .qmui_color(withHexString: "f8f8f8")!
+            }
+            return .qmui_color(withHexString: "f8f8f8")!
+        })
         addSubview(textView)
         textView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(44)
@@ -40,8 +48,13 @@ class InputBar: UIView {
     }()
     
     lazy var sendBtn: UIButton = {
-        let sendBtn = UIButton.createBtn(title: NSLocalizedString("Send", comment: ""), titleColor: .systemBlue, font: .systemFont(ofSize: 16))
-        sendBtn.backgroundColor = .systemGray5
+        let sendBtn = UIButton.createBtn(image: UIImage(systemName: "paperplane.fill"))
+        sendBtn.backgroundColor = UIColor(dynamicProvider: { traitCollection in
+            if traitCollection.userInterfaceStyle == .light {
+                return .qmui_color(withHexString: "f8f8f8")!
+            }
+            return .qmui_color(withHexString: "f8f8f8")!
+        })
         return sendBtn
     }()
 
