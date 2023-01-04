@@ -15,6 +15,7 @@ class SettingProfileCell: UITableViewCell {
     @IBOutlet weak var avatarImgView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var editBtn: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

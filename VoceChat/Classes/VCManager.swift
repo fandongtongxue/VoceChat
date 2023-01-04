@@ -411,6 +411,20 @@ public class VCManager: NSObject {
 
     }
     
+    public func getChannels(success: @escaping (([VCChannelModel])->()), failure: @escaping ((String)->())) {
+        VCNetwork.get(url: .group) { result in
+            let resultArray = result as? [NSDictionary]
+            var tempArray = [VCChannelModel]()
+            for item in resultArray ?? [] {
+                let channel = VCChannelModel.deserialize(from: item) ?? VCChannelModel()
+                tempArray.append(channel)
+            }
+            success(tempArray)
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
     
     /// 获取用户列表
     /// - Parameters:

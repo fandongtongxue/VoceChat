@@ -20,15 +20,15 @@ class TabBarController: UITabBarController {
     
     func setupViewControllers() {
         let chatsVC = ChatsViewController()
-        let chatsNav = UINavigationController(rootViewController: chatsVC)
+        let chatsNav = BaseNavigationController(rootViewController: chatsVC)
         chatsNav.tabBarItem = UITabBarItem(title: NSLocalizedString("Chats", comment: ""), image: UIImage(systemName: "bubble.left"), tag: 0)
         
         let contactsVC = ContactsViewController()
-        let contactsNav = UINavigationController(rootViewController: contactsVC)
+        let contactsNav = BaseNavigationController(rootViewController: contactsVC)
         contactsNav.tabBarItem = UITabBarItem(title: NSLocalizedString("Contacts", comment: ""), image: UIImage(systemName: "person.3.sequence.fill"), tag: 1)
         
         let settingsVC = SettingsViewController()
-        let settingsNav = UINavigationController(rootViewController: settingsVC)
+        let settingsNav = BaseNavigationController(rootViewController: settingsVC)
         settingsNav.tabBarItem = UITabBarItem(title: NSLocalizedString("Settings", comment: ""), image: UIImage(systemName: "gearshape.fill"), tag: 2)
         
         viewControllers = [chatsNav, contactsNav, settingsNav]

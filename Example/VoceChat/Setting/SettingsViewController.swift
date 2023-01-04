@@ -23,7 +23,7 @@ class SettingsViewController: BaseViewController {
     }
     
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
@@ -36,7 +36,7 @@ class SettingsViewController: BaseViewController {
 
 extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        3
+        VCManager.shared.currentUser()?.user.is_admin ?? false ? 6 : 7
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -47,13 +47,26 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingProfileCell", for: indexPath) as! SettingProfileCell
             cell.model = VCManager.shared.currentUser()?.user
+            cell.editBtn.rx.tap.subscribe(onNext: {
+                let editVC = ProfileEditViewController()
+                editVC.hidesBottomBarWhenPushed = true
+                self.navigationController?.pushViewController(editVC, animated: true)
+            }).disposed(by: disposeBag)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingListCell", for: indexPath)
         if indexPath.section == 1 {
-            cell.textLabel?.text = NSLocalizedString("Favorite", comment: "")
+            cell.textLabel?.text = NSLocalizedString("Overview", comment: "")
         }else if indexPath.section == 2 {
+            cell.textLabel?.text = NSLocalizedString("Language", comment: "")
+        }else if indexPath.section == 3 {
+            cell.textLabel?.text = NSLocalizedString("About", comment: "")
+        }else if indexPath.section == 4 {
             cell.textLabel?.text = NSLocalizedString("Log Out", comment: "")
+        }else if indexPath.section == 5 {
+            cell.textLabel?.text = NSLocalizedString("Clear Local Data", comment: "")
+        }else if indexPath.section == 6 {
+            cell.textLabel?.text = NSLocalizedString("Delete Account", comment: "")
         }
         return cell
     }
@@ -66,7 +79,7 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
             } failure: { error in
                 self.view.makeToast(error)
             }
-        }else if indexPath.section == 2{
+        }else if indexPath.section == 4{
             let alert = UIAlertController(title: NSLocalizedString("Log Out?", comment: ""), message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
             alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: { action in

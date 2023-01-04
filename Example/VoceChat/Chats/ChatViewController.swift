@@ -14,17 +14,24 @@ import RxSwift
 class ChatViewController: BaseViewController {
     
     var messageVC: MessageViewController!
-    var model = VCUserModel()
+    var chat = VCMessageModel()
+    var channel = VCChannelModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let user = VCManager.shared.getUserFromTable(uid: model.uid)
-        navigationItem.title = user.name
+//        navigationItem.title = user.name
+        let titleView = TitleView(frame: CGRect(x: 0, y: 0, width: .screenW - 88, height: .navigationBarHeight))
+        if chat.from_uid > 0 {
+            titleView.chat = chat
+        }else if channel.gid > 0 {
+            titleView.channel = channel
+        }
+        navigationItem.titleView = titleView
         
         messageVC = MessageViewController()
-        messageVC.model = model
+        messageVC.model = chat
         view.addSubview(messageVC.view)
         messageVC.view.frame = CGRect(x: 0, y: 0, width: .screenW, height: .screenH - .tabBarHeight)
         addChildViewController(messageVC)

@@ -23,10 +23,10 @@ class ChatListCell: UITableViewCell {
         // Initialization code
     }
     
-    var _model : VCMessageModel!
-    public var model : VCMessageModel!{
+    var _chat : VCMessageModel!
+    public var chat : VCMessageModel!{
         set{
-            _model = newValue
+            _chat = newValue
             //设置数据
             let user = VCManager.shared.getUserFromTable(uid: newValue.from_uid)
             let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: user.name)
@@ -39,7 +39,25 @@ class ChatListCell: UITableViewCell {
             onlineView.backgroundColor = newValue.online ? .systemGreen : .systemGray
         }
         get{
-            return _model
+            return _chat
+        }
+    }
+    
+    var _channel : VCChannelModel!
+    public var channel : VCChannelModel!{
+        set{
+            _channel = newValue
+            //设置数据
+            let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: newValue.name)
+            avatar?.backgroundColor = .systemGray
+            avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_group_avatar + "?uid=\(newValue.gid)" + "&t=\(newValue.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
+            nameLabel.text = newValue.name
+            contentLabel.text = newValue.pinned_messages.first?.content
+            onlineView.isHidden = true
+            timeLabel.text = ""
+        }
+        get{
+            return _channel
         }
     }
 

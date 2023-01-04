@@ -12,6 +12,7 @@ import VoceChat
 class ChatsViewController: BaseViewController {
     
     var chats = [VCMessageModel]()
+    var channels = [VCChannelModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +58,7 @@ class ChatsViewController: BaseViewController {
                     }
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 }
             }.disposed(by: disposeBag)
         //在线状态改变通知
@@ -105,7 +106,7 @@ class ChatsViewController: BaseViewController {
             
             guard let json = UserDefaults.standard.string(forKey: .users_state) else {
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 }
                 return
             }
@@ -118,9 +119,20 @@ class ChatsViewController: BaseViewController {
                 }
             }
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             }
         }.disposed(by: disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        VCManager.shared.getChannels { channels in
+            self.channels = channels
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        } failure: { error in
+            //do nothing
+        }
+
     }
 
     lazy var tableView: UITableView = {
@@ -135,17 +147,26 @@ class ChatsViewController: BaseViewController {
 
 extension ChatsViewController: UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        chats.count
+        if section == 0 {
+            return chats.count
+        }
+        return channels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(ChatListCell.classForCoder()), for: indexPath) as! ChatListCell
-        if indexPath.row < chats.count {
-            cell.model = chats[indexPath.row]
+        if indexPath.section == 0 {
+            if indexPath.row < chats.count {
+                cell.chat = chats[indexPath.row]
+            }
+        }else {
+            if indexPath.row < channels.count {
+                cell.channel = channels[indexPath.row]
+            }
         }
         return cell
     }
@@ -156,11 +177,16 @@ extension ChatsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let chatVC = ChatViewController()
-        let user = VCUserModel()
-        user.uid = chats[indexPath.row].from_uid
-        chatVC.model = user
-        chatVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(chatVC, animated: true)
+        if indexPath.section == 0 {
+            let chatVC = ChatViewController()
+            chatVC.chat = chats[indexPath.row]
+            chatVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(chatVC, animated: true)
+        }else {
+            let chatVC = ChatViewController()
+            chatVC.channel = channels[indexPath.row]
+            chatVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(chatVC, animated: true)
+        }
     }
 }

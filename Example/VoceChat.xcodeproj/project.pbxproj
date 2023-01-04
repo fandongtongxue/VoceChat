@@ -15,6 +15,10 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		7C5B0EB31AD547DEFA98712D /* Pods_VoceChat_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */; };
 		C6A04CD553BEAD75AF3736DA /* Pods_VoceChat_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EE1045C73A0DE3611763F6 /* Pods_VoceChat_Tests.framework */; };
+		CB3B3FBC2965AF5A00B4212B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBB2965AF5A00B4212B /* TitleView.swift */; };
+		CB3B3FBE2965B37E00B4212B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */; };
+		CB3B3FC12965BC5200B4212B /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */; };
+		CB3B3FC22965BC5200B4212B /* ProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB3B3FC02965BC5200B4212B /* ProfileEditViewController.xib */; };
 		CB3C09662965582300167D05 /* NewChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3C09642965582300167D05 /* NewChannelViewController.swift */; };
 		CB3C096D29655AE100167D05 /* NewChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB3C096F29655AE100167D05 /* NewChannelViewController.xib */; };
 		CB3C0981296563AC00167D05 /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3C097F296563AC00167D05 /* InviteViewController.swift */; };
@@ -76,6 +80,10 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoceChat_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		CB3B3FBB2965AF5A00B4212B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
+		CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
+		CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
+		CB3B3FC02965BC5200B4212B /* ProfileEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileEditViewController.xib; sourceTree = "<group>"; };
 		CB3C09642965582300167D05 /* NewChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelViewController.swift; sourceTree = "<group>"; };
 		CB3C09762965604B00167D05 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/NewChannelViewController.xib; sourceTree = "<group>"; };
 		CB3C09782965613700167D05 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/NewChannelViewController.xib"; sourceTree = "<group>"; };
@@ -272,6 +280,8 @@
 				CBCE54542957E41100DFCDDA /* SettingListCell.swift */,
 				CBCE54562957E88700DFCDDA /* SettingProfileCell.swift */,
 				CBCE54572957E88700DFCDDA /* SettingProfileCell.xib */,
+				CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */,
+				CB3B3FC02965BC5200B4212B /* ProfileEditViewController.xib */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -289,6 +299,8 @@
 			isa = PBXGroup;
 			children = (
 				CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */,
+				CB3B3FBB2965AF5A00B4212B /* TitleView.swift */,
+				CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -429,6 +441,7 @@
 				CBCE545D2957F3D500DFCDDA /* user_event.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				CB3C0983296565DA00167D05 /* InviteViewController.xib in Resources */,
+				CB3B3FC22965BC5200B4212B /* ProfileEditViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,9 +560,11 @@
 				CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */,
 				CB729AE129626F1A00B8B39E /* MessageTextCell.swift in Sources */,
 				CB3DFB6F294BFCE0009A9798 /* ContactsSearchResultViewController.swift in Sources */,
+				CB3B3FC12965BC5200B4212B /* ProfileEditViewController.swift in Sources */,
 				CBCE5B1B29474D4500D5D14D /* SettingsViewController.swift in Sources */,
 				CB3C0981296563AC00167D05 /* InviteViewController.swift in Sources */,
 				CB6AE1AB294B5D3D009CD70D /* ContactListCell.swift in Sources */,
+				CB3B3FBC2965AF5A00B4212B /* TitleView.swift in Sources */,
 				CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */,
 				CB3C09662965582300167D05 /* NewChannelViewController.swift in Sources */,
 				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
@@ -561,6 +576,7 @@
 				CB729ADF29626EFA00B8B39E /* MessageListCell.swift in Sources */,
 				CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */,
 				CBCE54582957E88700DFCDDA /* SettingProfileCell.swift in Sources */,
+				CB3B3FBE2965B37E00B4212B /* BaseNavigationController.swift in Sources */,
 				CBCE5B1729474CF500D5D14D /* ChatsViewController.swift in Sources */,
 				CBB75AF1295A810400545C74 /* InputBar.swift in Sources */,
 				CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */,

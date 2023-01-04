@@ -32,7 +32,9 @@ class ProfileViewController: BaseViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         let chatVC = ChatViewController()
-        chatVC.model = model
+        let chat = VCMessageModel()
+        chat.from_uid = model.uid
+        chatVC.chat = chat
         chatVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(chatVC, animated: true)
     }

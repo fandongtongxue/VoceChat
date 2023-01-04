@@ -16,6 +16,7 @@
                 <outlet property="nameTF" destination="kKI-X6-EQL" id="ay9-oN-zEM"/>
                 <outlet property="privateSwitch" destination="tgB-L4-bW1" id="GMq-Lf-t1v"/>
                 <outlet property="privateTipLabel" destination="CfY-bz-0Xz" id="cyD-YS-vuq"/>
+                <outlet property="privateView" destination="17i-LN-Neg" id="VIl-rf-dvF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

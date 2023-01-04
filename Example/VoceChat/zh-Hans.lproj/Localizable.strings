@@ -34,3 +34,10 @@
 "Only designated users can view this channel, and only administrators can create public channels"="只有指定用户能查看此频道，只有管理员能创建公共频道";
 
 "Invite New User"="邀请新用户";
+
+"Overview"="概览";
+"Language"="语言";
+"About"="关于";
+"Clear Local Data"="清空本地数据";
+"Server Info Set"="服务器资料设置";
+"Delete Account"="删除账户";

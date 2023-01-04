@@ -68,6 +68,7 @@ public extension String {
     //Resource
     static let resource = api+"/resource"
     static let resource_avatar = resource+"/avatar"
+    static let resource_group_avatar = resource+"/group_avatar"
 }
 
 public extension Notification.Name {
