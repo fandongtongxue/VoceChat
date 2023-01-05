@@ -15,6 +15,7 @@
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		7C5B0EB31AD547DEFA98712D /* Pods_VoceChat_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */; };
 		C6A04CD553BEAD75AF3736DA /* Pods_VoceChat_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EE1045C73A0DE3611763F6 /* Pods_VoceChat_Tests.framework */; };
+		CB263C5629666FD30097144C /* MessageImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB263C5529666FD30097144C /* MessageImageCell.swift */; };
 		CB3B3FBC2965AF5A00B4212B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBB2965AF5A00B4212B /* TitleView.swift */; };
 		CB3B3FBE2965B37E00B4212B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */; };
 		CB3B3FC12965BC5200B4212B /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */; };
@@ -80,6 +81,7 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoceChat_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		CB263C5529666FD30097144C /* MessageImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageCell.swift; sourceTree = "<group>"; };
 		CB3B3FBB2965AF5A00B4212B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 				CB67A0D929616D0E00883AAC /* ChatListCell.xib */,
 				CB729ADE29626EFA00B8B39E /* MessageListCell.swift */,
 				CB729AE029626F1A00B8B39E /* MessageTextCell.swift */,
+				CB263C5529666FD30097144C /* MessageImageCell.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
 				CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */,
 				CBCE5B1929474D3100D5D14D /* ContactsViewController.swift in Sources */,
+				CB263C5629666FD30097144C /* MessageImageCell.swift in Sources */,
 				CBCE233F2963CAE700B6418E /* Date+FD.swift in Sources */,
 				CB584EFA2959DF9A00D0C103 /* ChatViewController.swift in Sources */,
 				CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */,
