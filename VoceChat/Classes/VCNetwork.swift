@@ -175,6 +175,36 @@ class VCNetwork: NSObject {
         
     }
     
+    class func uploadImage(url: String, image: UIImage, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((String)->())) {
+        if NetworkReachabilityManager()?.isReachable ?? false {
+            cookieLoad()
+            let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
+            let newUrl = serverURL + url
+            do {
+                var request = try URLRequest(url: newUrl, method: .post)
+                request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "X-API-Key")
+                request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
+                request.setValue("image/png", forHTTPHeaderField: "Content-Type")
+                AF.upload(UIImagePNGRepresentation(image)!, with: request).response { response in
+                    switch response.result {
+                    case .success(let result):
+                        success(result)
+                        break
+                    case .failure(let error):
+                        failure(error.errorDescription ?? "")
+                        UIApplication.shared.keyWindow?.makeToast(error.errorDescription)
+                        break
+                    }
+                }
+            }catch {
+                failure(error.localizedDescription)
+                UIApplication.shared.keyWindow?.makeToast(error.localizedDescription)
+            }
+        }else {
+            UIApplication.shared.keyWindow?.makeToast(NSLocalizedString("No network", comment: ""))
+        }
+    }
+    
     
     
     class func cookieLoad() {

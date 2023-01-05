@@ -15,6 +15,10 @@ import MobileCoreServices
 
 class ProfileEditViewController: BaseViewController {
     
+    private var selectedAssetIdentifiers = [String]()
+    private var selectedAssetIdentifierIterator: IndexingIterator<[String]>?
+    private var currentAssetIdentifier: String?
+    
     @IBOutlet weak var avatarImgView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var setBtn: UIButton!
@@ -42,7 +46,13 @@ class ProfileEditViewController: BaseViewController {
         
         nameTF.rx.controlEvent(.editingDidEndOnExit)
             .subscribe { element in
-                
+                guard self.nameTF.text?.count ?? 0 > 0 else { return }
+                VCManager.shared.updateUserName(name: self.nameTF.text!) { user in
+                    //do nothing
+                } failure: { error in
+                    //do nothing
+                }
+
             }.disposed(by: disposeBag)
     }
     
@@ -84,11 +94,28 @@ class ProfileEditViewController: BaseViewController {
     
     func presentPicker() {
         if #available(iOS 14.0, *) {
-            var config = PHPickerConfiguration()
-            config.filter = PHPickerFilter.any(of: [.images])
-            config.preferredAssetRepresentationMode = .current
-            config.selectionLimit = 1
-            let picker = PHPickerViewController(configuration: config)
+            var configuration = PHPickerConfiguration(photoLibrary: .shared())
+            
+            // Set the filter type according to the user’s selection.
+            configuration.filter = PHPickerFilter.images
+            // Set the mode to avoid transcoding, if possible, if your app supports arbitrary image/video encodings.
+            configuration.preferredAssetRepresentationMode = .current
+            // Set the selection behavior to respect the user’s selection order.
+            if #available(iOS 15.0, *) {
+                configuration.selection = .ordered
+            } else {
+                // Fallback on earlier versions
+            }
+            // Set the selection limit to enable multiselection.
+            configuration.selectionLimit = 1
+            // Set the preselected asset identifiers with the identifiers that the app tracks.
+            if #available(iOS 15.0, *) {
+                configuration.preselectedAssetIdentifiers = selectedAssetIdentifiers
+            } else {
+                // Fallback on earlier versions
+            }
+            
+            let picker = PHPickerViewController(configuration: configuration)
             picker.delegate = self
             present(picker, animated: true)
         } else {
@@ -127,24 +154,63 @@ extension ProfileEditViewController: PHPickerViewControllerDelegate {
             return
         }
         let result = results.first
-        let itemProvider = result?.itemProvider
-        if itemProvider?.canLoadObject(ofClass: PHLivePhoto.classForCoder() as! any NSItemProviderReading.Type) ?? false {
-            itemProvider?.loadObject(ofClass: PHLivePhoto.classForCoder() as! any NSItemProviderReading.Type, completionHandler: { object, error in
-                guard let lpObj = object as? PHLivePhoto else { return }
-                let url = lpObj.value(forKey: "imageURL") as! URL
-                let image = UIImage(contentsOfFile: url.path)
+        guard let itemProvider = result?.itemProvider else {
+            return
+        }
+        if itemProvider.canLoadObject(ofClass: PHLivePhoto.self) {
+            _ = itemProvider.loadObject(ofClass: PHLivePhoto.self) { [weak self] livePhoto, error in
                 DispatchQueue.main.async {
-                    self.avatarImgView.image = image!
+                    self?.handleCompletion(object: livePhoto, error: error)
                 }
-            })
-        }else if itemProvider?.hasItemConformingToTypeIdentifier(kUTTypeImage as String) ?? false {
-            itemProvider?.loadItem(forTypeIdentifier: kUTTypeImage as String, completionHandler: { item, error in
-                guard let url = item as? URL else { return }
-                let image = UIImage(contentsOfFile: url.path)
+            }
+        }
+        else if itemProvider.canLoadObject(ofClass: UIImage.self) {
+            _ = itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
                 DispatchQueue.main.async {
-                    self.avatarImgView.image = image!
+                    self?.handleCompletion(object: image, error: error)
                 }
-            })
+            }
+        } else if itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+            _ = itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { [weak self] url, error in
+                do {
+                    guard let url = url, error == nil else {
+                        throw error ?? NSError(domain: NSFileProviderErrorDomain, code: -1, userInfo: nil)
+                    }
+                    let localURL = FileManager.default.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
+                    try? FileManager.default.removeItem(at: localURL)
+                    try FileManager.default.copyItem(at: url, to: localURL)
+                    DispatchQueue.main.async {
+                        self?.handleCompletion(object: localURL)
+                    }
+                } catch let catchedError {
+                    DispatchQueue.main.async {
+                        self?.handleCompletion(object: nil, error: catchedError)
+                    }
+                }
+            }
+        } else {
+            
+        }
+    }
+    
+    func handleCompletion(object: Any?, error: Error? = nil) {
+        if let livePhoto = object as? PHLivePhoto {
+//            displayLivePhoto(livePhoto)
+        } else if let image = object as? UIImage {
+            self.avatarImgView.image = image
+            VCManager.shared.updateUserAvatar(image: image) {
+                //do nothing
+            } failure: { error in
+                //do nothing
+            }
+
+        } else if let url = object as? URL {
+//            displayVideoPlayButton(forURL: url)
+        } else if let error = error {
+            print("error: \(error)")
+//            displayErrorImage()
+        } else {
+//            displayUnknownImage()
         }
     }
     
@@ -156,5 +222,10 @@ extension ProfileEditViewController: UIImagePickerControllerDelegate, UINavigati
         picker.dismiss(animated: true)
         guard let originImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
         self.avatarImgView.image = originImage
+        VCManager.shared.updateUserAvatar(image: originImage) {
+            //do nothing
+        } failure: { error in
+            //do nothing
+        }
     }
 }

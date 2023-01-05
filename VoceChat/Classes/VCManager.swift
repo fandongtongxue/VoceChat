@@ -425,6 +425,35 @@ public class VCManager: NSObject {
         }
     }
     
+    public func updateUserName(name: String, success: @escaping ((VCUserModel)->()), failure: @escaping ((String)->())) {
+        VCNetwork.put(url: .user, param: ["name": name]) { result in
+            guard let resultDict = result as? NSDictionary else { return }
+            let model = VCUserModel.deserialize(from: resultDict) ?? VCUserModel()
+            success(model)
+            //更新本地存储
+            let loginModel = VCManager.shared.currentUser()
+            loginModel?.user.name = name
+            UserDefaults.standard.set(loginModel?.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    public func updateUserAvatar(image: UIImage, success: @escaping (()->()), failure: @escaping ((String)->())) {
+        VCNetwork.uploadImage(url: .user_avatar, image: image) { result in
+            guard let resultString = String(data: result as? Data ?? Data(), encoding: .utf8) else { return }
+            if resultString == "" {
+                success()
+            }else {
+                failure(resultString)
+            }
+        } failure: { error in
+            failure(error)
+        }
+
+    }
+    
     
     /// 获取用户列表
     /// - Parameters:
