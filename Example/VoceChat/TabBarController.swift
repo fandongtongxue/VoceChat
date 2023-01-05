@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import VoceChat
+import RxCocoa
+import RxSwift
 
 class TabBarController: UITabBarController {
     
@@ -15,6 +18,15 @@ class TabBarController: UITabBarController {
         
         // Do any additional setup after loading the view.
         setupViewControllers()
+        
+        NotificationCenter.default.rx.notification(.kick).subscribe { noti in
+            VCManager.shared.logout {
+                let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
+                UIApplication.shared.keyWindow?.rootViewController = vc
+            } failure: { error in
+                self.view.makeToast(error)
+            }
+        }.disposed(by: DisposeBag())
     }
     
     

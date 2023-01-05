@@ -36,6 +36,10 @@ struct VCSSEEventHandler: EventHandler {
             break
         case .ready:
             NotificationCenter.default.post(name: .ready, object: nil)
+            break
+        case .kick:
+            NotificationCenter.default.post(name: .kick, object: nil)
+            break
         default:
             break
             //do nothing

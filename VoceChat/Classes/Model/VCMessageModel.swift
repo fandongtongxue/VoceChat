@@ -24,10 +24,20 @@ public class VCMessageModelDetail: VCBaseModel {
     public var expires_in: Int = 0
     public var properties = VCMessageModelDetailProperties()
     public var type = ""
+    public var detail = VCMessageModelDetailDetail()
+    public var mid: Int = 0
+}
+
+public class VCMessageModelDetailDetail: VCBaseModel {
+    public var action = ""
+    public var type = ""
 }
 
 public class VCMessageModelDetailProperties: VCBaseModel {
-    public var additionalProp1 = ""
-    public var additionalProp2 = ""
-    public var additionalProp3 = ""
+    public var cid = ""
+    public var content_type = ""
+    public var height: Int = 0
+    public var name = ""
+    public var size: Int = 0
+    public var width: Int = 0
 }

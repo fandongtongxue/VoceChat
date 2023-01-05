@@ -28,7 +28,9 @@ class MessageViewController: BaseViewController {
 
     func requestData() {
         VCManager.shared.getHistoryMessage(uid: model.from_uid, limit: 100) { messages in
-            self.messages = self.messages + messages
+//            let reactions = messages.filter({ $0.detail.type == "reaction"})
+            let normals = messages.filter({ $0.detail.type == "normal" })
+            self.messages = self.messages + normals
             self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
         } failure: { error in
