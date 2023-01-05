@@ -33,7 +33,11 @@ class ChatListCell: UITableViewCell {
             avatar?.backgroundColor = .systemBlue
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(newValue.from_uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = user.name
-            contentLabel.text = newValue.detail.content
+            if newValue.detail.content_type == "text/plain" {
+                contentLabel.text = newValue.detail.content
+            }else if newValue.detail.properties.content_type.contains("image/") {
+                contentLabel.text = "[图片]"
+            }
             
             timeLabel.text = newValue.created_at.translateTimestamp()
             onlineView.backgroundColor = newValue.online ? .systemGreen : .systemGray

@@ -8,6 +8,8 @@
 
 import UIKit
 import VoceChat
+import QMUIKit
+import RxGesture
 
 class MessageViewController: BaseViewController {
     
@@ -23,6 +25,17 @@ class MessageViewController: BaseViewController {
             make.edges.equalToSuperview()
         }
         requestData()
+        NotificationCenter.default.rx.notification(.chat).subscribe { noti in
+            let jsonString = noti.element?.object as? String
+            let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
+            if message.from_uid == self.model.from_uid {
+                self.messages.append(message)
+                DispatchQueue.main.async {
+                    self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
+                    self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+                }
+            }
+        }.disposed(by: disposeBag)
     }
     
 
@@ -101,12 +114,21 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             if indexPath.row < messages.count {
                 cell.model = messages[indexPath.row]
             }
+            cell.contentLabel.rx.longPressGesture().when(.began).subscribe { element in
+                debugPrint("长按了文本消息")
+            }.disposed(by: disposeBag)
             return cell
         }else if model.detail.properties.content_type.contains("image/") {
             let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageImageCell.classForCoder()), for: indexPath) as! MessageImageCell
             if indexPath.row < messages.count {
                 cell.model = messages[indexPath.row]
             }
+            cell.imgView.rx.tapGesture().when(.recognized).subscribe { element in
+                debugPrint("点击了图片消息")
+            }.disposed(by: disposeBag)
+            cell.imgView.rx.longPressGesture().when(.began).subscribe { element in
+                debugPrint("长按了图片消息")
+            }.disposed(by: disposeBag)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageListCell.classForCoder()), for: indexPath) as! MessageListCell

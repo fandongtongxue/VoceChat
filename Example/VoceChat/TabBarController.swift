@@ -12,6 +12,7 @@ import RxCocoa
 import RxSwift
 
 class TabBarController: UITabBarController {
+    var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,7 @@ class TabBarController: UITabBarController {
             } failure: { error in
                 self.view.makeToast(error)
             }
-        }.disposed(by: DisposeBag())
+        }.disposed(by: disposeBag)
     }
     
     

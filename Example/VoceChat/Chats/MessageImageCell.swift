@@ -26,15 +26,17 @@ class MessageImageCell: MessageListCell {
             super.model = newValue
             //设置数据
             imgView.sd_setImage(with: URL(string: .ServerURL + .resource_file + "?file_path=" + model.detail.content + "&thumbnail=" + "true"))
+            let realImageHeight = CGFloat(model.detail.properties.height) * (.screenW - 80) / CGFloat(model.detail.properties.width) / 3
+            let realImageWidth = realImageHeight * CGFloat(model.detail.properties.width) / CGFloat(model.detail.properties.height)
             if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
                 imgView.snp.makeConstraints { make in
-                    make.right.top.bottom.equalToSuperview()
-                    make.left.greaterThanOrEqualToSuperview()
+                    make.edges.equalToSuperview()
+                    make.width.equalTo(realImageWidth)
                 }
             }else {
                 imgView.snp.makeConstraints { make in
-                    make.left.top.bottom.equalToSuperview()
-                    make.right.lessThanOrEqualToSuperview()
+                    make.edges.equalToSuperview()
+                    make.width.equalTo(realImageWidth)
                 }
             }
         }

@@ -302,6 +302,9 @@ PODS:
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -326,6 +329,7 @@ DEPENDENCIES:
   - CDFInitialsAvatar
   - QMUIKit
   - RxCocoa (= 6.5.0)
+  - RxGesture
   - RxSwift (= 6.5.0)
   - SDWebImage
   - SnapKit
@@ -341,6 +345,7 @@ SPEC REPOS:
     - LDSwiftEventSource
     - QMUIKit
     - RxCocoa
+    - RxGesture
     - RxRelay
     - RxSwift
     - SDWebImage
@@ -361,6 +366,7 @@ SPEC CHECKSUMS:
   LDSwiftEventSource: 824ce51a4fa8e79498c9b67ae672bfa802bd7464
   QMUIKit: 3e717c45730ecdf5011ca76751990ad1a23ba7e1
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
@@ -371,6 +377,6 @@ SPEC CHECKSUMS:
   VoceChat: 89502912a3d3be81c81204db15c3d92b1802d2e4
   WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
 
-PODFILE CHECKSUM: a0e9b52dccc7fc5d3c53381e59391dd34ab109f1
+PODFILE CHECKSUM: 54533124c6ebc497818664908a1ba29ef8ff64e8
 
 COCOAPODS: 1.11.3

@@ -23,7 +23,7 @@ class NewChannelViewController: BaseViewController {
         
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemGray5
-        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 40))
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 44))
         nameTF.leftView = leftView
         nameTF.leftViewMode = .always
         
