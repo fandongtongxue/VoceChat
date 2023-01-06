@@ -79,11 +79,9 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 1 {
-            VCManager.shared.getFavorites { result in
-                debugPrint(result)
-            } failure: { error in
-                //do nothing
-            }
+            let editVC = OrganizationEditViewController()
+            editVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(editVC, animated: true)
         }else if indexPath.section == 2{
             guard let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) else {
                 return

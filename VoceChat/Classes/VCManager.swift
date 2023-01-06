@@ -66,6 +66,26 @@ public class VCManager: NSObject {
         return info
     }
     
+    public func updateServerInfo(name: String?, desc: String?, success: @escaping (()->()), failure: @escaping ((Int)->())) {
+        VCNetwork.postRaw(url: .admin_system_organization, param: ["name": name, "description": desc]) { result in
+            success()
+            UserDefaults.standard.set(name, forKey: .nameKey)
+            UserDefaults.standard.set(desc, forKey: .descKey)
+            UserDefaults.standard.synchronize()
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    public func updateServerAvatar(image: UIImage, success: @escaping (()->()), failure: @escaping ((Int)->())) {
+        VCNetwork.uploadImage(url: .admin_system_organization_logo, image: image) { result in
+            success()
+        } failure: { error in
+            failure(error)
+        }
+
+    }
+    
     
     /// 获取登录配置
     /// - Parameters:

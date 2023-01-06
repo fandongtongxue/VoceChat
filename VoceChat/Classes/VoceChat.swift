@@ -54,7 +54,11 @@ public extension String {
     static let user_delete = user+"/delete"
     
     //Admin
-    static let admin_login_config = api+"/admin/login/config"
+    static let admin = api+"/admin"
+    static let admin_system = api+"/admin/system"
+    static let admin_login_config = admin+"/login/config"
+    static let admin_system_organization = admin_system+"/organization"
+    static let admin_system_organization_logo = admin_system_organization+"/logo"
     
     //Favorite
     static let favorite = api+"/favorite"
@@ -71,6 +75,7 @@ public extension String {
     static let resource = api+"/resource"
     static let resource_avatar = resource+"/avatar"
     static let resource_group_avatar = resource+"/group_avatar"
+    static let resource_organization_logo = resource+"/organization/logo"
     static let resource_file = resource+"/file"
 }
 

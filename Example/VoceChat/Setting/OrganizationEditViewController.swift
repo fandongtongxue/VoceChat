@@ -13,48 +13,55 @@ import PhotosUI
 import Photos
 import MobileCoreServices
 
-class ProfileEditViewController: BaseViewController {
+class OrganizationEditViewController: BaseViewController {
     
     private var selectedAssetIdentifiers = [String]()
     private var selectedAssetIdentifierIterator: IndexingIterator<[String]>?
     private var currentAssetIdentifier: String?
     
     @IBOutlet weak var avatarImgView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var setBtn: UIButton!
     @IBOutlet weak var nameTF: UITextField!
+    @IBOutlet weak var descTV: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemGray5
-        let user = VCManager.shared.currentUser()?.user ?? VCUserModel()
-        let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: user.name)
-        avatar?.backgroundColor = .systemBlue
-        avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_avatar + "?uid=\(user.uid)" + "&t=\(user.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
         
-        nameLabel.text = user.name
+        view.backgroundColor = .systemGray5
+        navigationItem.title = NSLocalizedString("Server Overview", comment: "")
+        
+        let user = VCManager.shared.currentUser()?.user ?? VCUserModel()
+        setBtn.isHidden = !user.is_admin
+        nameTF.isEnabled = user.is_admin
+        descTV.isEditable = user.is_admin
+        
+        let serverInfo = VCManager.shared.serverInfo()
+        nameTF.text = serverInfo.name
+        descTV.text = serverInfo.description
+        if user.is_admin {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneAction))
+        }
+        
+        avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_organization_logo))
+        
         setBtn.rx.tap.subscribe { element in
             self.addBtnAction()
         }.disposed(by: disposeBag)
-        
-        nameTF.text = user.name
-        
+                
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 44))
         nameTF.leftView = leftView
         nameTF.leftViewMode = .always
-        
-        nameTF.rx.controlEvent(.editingDidEndOnExit)
-            .subscribe { element in
-                guard self.nameTF.text?.count ?? 0 > 0 else { return }
-                VCManager.shared.updateUserName(name: self.nameTF.text!) { user in
-                    //do nothing
-                } failure: { error in
-                    //do nothing
-                }
+    }
+    
+    @objc func doneAction() {
+        VCManager.shared.updateServerInfo(name: nameTF.text, desc: descTV.text) {
+            self.navigationController?.popViewController(animated: true)
+        } failure: { error in
+            
+        }
 
-            }.disposed(by: disposeBag)
     }
     
     func addBtnAction(){
@@ -135,9 +142,9 @@ class ProfileEditViewController: BaseViewController {
     }
     
     
-    func setImage(originImage: UIImage){
+    func setImage(originImage: UIImage) {
         self.avatarImgView.image = originImage
-        VCManager.shared.updateUserAvatar(image: originImage) {
+        VCManager.shared.updateServerAvatar(image: originImage) {
             //do nothing
         } failure: { error in
             //do nothing
@@ -146,7 +153,7 @@ class ProfileEditViewController: BaseViewController {
     
 }
 
-extension ProfileEditViewController: PHPickerViewControllerDelegate {
+extension OrganizationEditViewController: PHPickerViewControllerDelegate {
     @available(iOS 14.0, *)
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
@@ -212,7 +219,7 @@ extension ProfileEditViewController: PHPickerViewControllerDelegate {
     
 }
 
-extension ProfileEditViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension OrganizationEditViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
         guard let originImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
