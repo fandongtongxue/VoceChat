@@ -34,6 +34,9 @@ class SettingsViewController: BaseViewController {
         tableView.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         tableView.register(SettingListCell.classForCoder(), forCellReuseIdentifier: "SettingListCell")
         tableView.register(UINib(nibName: "SettingProfileCell", bundle: Bundle.main), forCellReuseIdentifier: "SettingProfileCell")
+        tableView.sectionFooterHeight = 0
+        tableView.contentInsetAdjustmentBehavior = .never
+        tableView.contentInset = .init(top: .statusBarHeight, left: 0, bottom: 0, right: 0)
         return tableView
     } ()
 
@@ -121,5 +124,21 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
             return 180
         }
         return 40
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        section == 0 ? 0.01 : 30
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        section == 1 ? 30 : 0.01
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        section == 1 ? NSLocalizedString("Server info set", comment: "") : ""
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        section == 1 ? NSLocalizedString("Please use pc manage members", comment: "") : ""
     }
 }
