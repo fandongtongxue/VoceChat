@@ -124,7 +124,7 @@ class VCNetwork: NSObject {
         
     }
     
-    public class func httpBody(url: String, method: HTTPMethod = .get, param: Parameters? = nil, body: String?, mid: Int, success: @escaping ((Any)->()), failure: @escaping ((Int)->())){
+    public class func httpBody(url: String, method: HTTPMethod = .get, param: Parameters? = nil, body: String?, Content_Type: String, mid: Int, success: @escaping ((Any)->()), failure: @escaping ((Int)->())){
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
@@ -149,7 +149,7 @@ class VCNetwork: NSObject {
                 var request = try URLRequest(url: newUrl, method: method)
                 request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "X-API-Key")
                 request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
-                request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
+                request.setValue(Content_Type, forHTTPHeaderField: "Content-Type")
                 
                 var json = ""
                 let jsonEncoder = JSONEncoder()
@@ -159,7 +159,13 @@ class VCNetwork: NSObject {
                 
                 request.setValue(finalStr, forHTTPHeaderField: "X-Properties")
                 
-                request.httpBody = body?.data(using: .utf8)
+                var newBody = body
+                if Content_Type == "vocechat/file"{
+                    let bodyData = try jsonEncoder.encode(["path":body])
+                    newBody = String(data: bodyData, encoding: .utf8)!
+                    newBody = json.data(using: .utf8)?.base64EncodedString()
+                }
+                request.httpBody = newBody?.data(using: .utf8)
                 AF.request(request).response { response in
                     switch response.result {
                     case .success(let result):

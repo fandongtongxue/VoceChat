@@ -89,7 +89,7 @@ class ChatViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         inputBar.sendBtn.rx.tap.subscribe(onNext: {
-            self.messageVC.sendMsg(text: self.inputBar.textView.text)
+            self.messageVC.sendTextMsg(text: self.inputBar.textView.text)
             self.inputBar.textView.text = ""
             self.inputBar.textView.resignFirstResponder()
         })
@@ -185,9 +185,7 @@ class ChatViewController: BaseViewController {
     
     
     func setImage(originImage: UIImage){
-        guard let data = UIImageJPEGRepresentation(originImage, 1) else { return }
-        let base64String = data.base64EncodedString()
-        messageVC.sendMsg(text: base64String)
+        messageVC.sendImageMsg(image: originImage)
     }
     
 }

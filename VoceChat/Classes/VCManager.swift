@@ -528,11 +528,34 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String?, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
-        VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, mid: mid) { result in
-            success(result as? Int ?? 0)
-        } failure: { error in
-            failure(error)
+    public func sendMessage(uid: Int, msg: String? = nil, image: UIImage? = nil, Content_Type:String, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
+        if Content_Type == "text/plain" {
+            VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, Content_Type: Content_Type, mid: mid) { result in
+                success(result as? Int ?? 0)
+            } failure: { error in
+                failure(error)
+            }
+        }else if Content_Type == "image/jpeg" {
+            VCNetwork.postRaw(url: .resource_file_prepare, param: ["content_type": "image/jpeg", "filename": "\(VCManager.shared.currentUser()?.user.uid)_\(Date().timeIntervalSince1970).jpg"]) { result in
+                guard let resultData = result as? Data else { return }
+                let file_id = String(data: resultData, encoding: .utf8)
+                VCNetwork.uploadImage(url: .resource_file_upload, image: image!) { result in
+                    guard let resultData = result as? Data else { return }
+                    let resultString = String(data: resultData, encoding: .utf8)
+                    let model = VCUploadImageModel.deserialize(from: resultString)
+                    VCNetwork.httpBody(url: .user+"/\(uid)/send",method: .post, body: model?.path, Content_Type: "vocechat/file", mid: mid) { result in
+                        success(result as? Int ?? 0)
+                    } failure: { error in
+                        failure(error)
+                    }
+
+                } failure: { error in
+                    failure(error)
+                }
+            } failure: { error in
+                failure(error)
+            }
+
         }
     }
     

@@ -38,7 +38,7 @@ class InputBar: UIView {
         addSubview(addBtn)
         addBtn.snp.makeConstraints { make in
             make.left.top.bottom.equalToSuperview()
-            make.right.equalTo(self.textView.snp.right)
+            make.right.equalTo(self.textView.snp.left)
         }
     }
     

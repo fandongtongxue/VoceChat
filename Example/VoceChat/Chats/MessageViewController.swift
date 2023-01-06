@@ -51,8 +51,8 @@ class MessageViewController: BaseViewController {
         }
     }
     
-    func sendMsg(text: String) {
-        VCManager.shared.sendMessage(uid: self.model.from_uid, msg: text, mid: messages.last?.mid ?? 0) { mid in
+    func sendTextMsg(text: String) {
+        VCManager.shared.sendMessage(uid: model.from_uid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid in
             let messageModel = VCMessageModel()
             messageModel.mid = mid
             messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
@@ -69,6 +69,14 @@ class MessageViewController: BaseViewController {
             self.messages.append(messageModel)
             self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+        } failure: { error in
+            //do nothing
+        }
+    }
+    
+    func sendImageMsg(image: UIImage) {
+        VCManager.shared.sendMessage(uid: model.from_uid, image: image, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid in
+            debugPrint("发送图片成功")
         } failure: { error in
             //do nothing
         }

@@ -77,6 +77,8 @@ public extension String {
     static let resource_group_avatar = resource+"/group_avatar"
     static let resource_organization_logo = resource+"/organization/logo"
     static let resource_file = resource+"/file"
+    static let resource_file_prepare = resource_file+"/prepare"
+    static let resource_file_upload = resource_file+"/upload"
 }
 
 public extension Notification.Name {
