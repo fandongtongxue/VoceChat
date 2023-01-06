@@ -73,7 +73,12 @@ class TitleView: UIView {
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel(frame: .zero)
         titleLabel.font = .systemFont(ofSize: 16, weight: .medium)
-        titleLabel.textColor = .darkText
+        titleLabel.textColor = UIColor(dynamicProvider: { traitCollection in
+            if traitCollection.userInterfaceStyle == .light {
+                return .darkText
+            }
+            return .white
+        })
         return titleLabel
     }()
 

@@ -52,7 +52,31 @@ class LoginViewController: BaseViewController {
                 let tabC = TabBarController()
                 UIApplication.shared.keyWindow?.rootViewController = tabC
             } failure: { error in
-                //do nothing
+                var errorStr = ""
+                switch error {
+                case 401:
+                    errorStr = NSLocalizedString("Invalid account or password", comment: "")
+                    break
+                case 403:
+                    errorStr = NSLocalizedString("Login method does not supported", comment: "")
+                    break
+                case 404:
+                    errorStr = NSLocalizedString("User does not exists", comment: "")
+                    break
+                case 409:
+                    errorStr = NSLocalizedString("Email collision", comment: "")
+                    break
+                case 410:
+                    errorStr = NSLocalizedString("Account not associated", comment: "")
+                    break
+                case 423:
+                    errorStr = NSLocalizedString("User has been frozen", comment: "")
+                    break
+                default:
+                    errorStr = NSLocalizedString("Unknown reason", comment: "")
+                    break
+                }
+                self.view.makeToast(errorStr)
             }
         }).disposed(by: disposeBag)
     }

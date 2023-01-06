@@ -39,14 +39,26 @@ class RegisterViewController: BaseViewController {
         everythingValid.bind(to: signUpBtn.rx.isEnabled)
             .disposed(by: disposeBag)
         
+        
         signUpBtn.rx.tap.subscribe(onNext: {
             self.view.endEditing(true)
             VCManager.shared.register(email: self.emailTF.text, password: self.passTF.text) { result in
                 let tabC = TabBarController()
                 UIApplication.shared.keyWindow?.rootViewController = tabC
             } failure: { error in
-                //do nothing
-                self.view.makeToast(error)
+                var errorStr = ""
+                switch error {
+                case 409:
+                    errorStr = NSLocalizedString("name_conflict", comment: "")
+                    break
+                case 412:
+                    errorStr = NSLocalizedString("Magic token has been expired.", comment: "")
+                    break
+                default:
+                    errorStr = NSLocalizedString("Unknown reason", comment: "")
+                    break
+                }
+                self.view.makeToast(errorStr)
             }
         }).disposed(by: disposeBag)
     }

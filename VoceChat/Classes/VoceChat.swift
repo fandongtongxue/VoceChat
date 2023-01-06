@@ -51,6 +51,7 @@ public extension String {
     static let user_events = user+"/events"
     static let user_check_email = user+"/check_email"
     static let user_avatar = user+"/avatar"
+    static let user_delete = user+"/delete"
     
     //Admin
     static let admin_login_config = api+"/admin/login/config"

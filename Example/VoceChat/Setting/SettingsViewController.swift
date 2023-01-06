@@ -52,7 +52,7 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingProfileCell", for: indexPath) as! SettingProfileCell
             cell.model = VCManager.shared.currentUser()?.user
-            cell.editBtn.rx.tap.subscribe(onNext: {
+            cell.editBtn.rx.controlEvent(.touchUpInside).subscribe(onNext: {
                 let editVC = ProfileEditViewController()
                 editVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(editVC, animated: true)
@@ -82,8 +82,13 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
             VCManager.shared.getFavorites { result in
                 debugPrint(result)
             } failure: { error in
-                self.view.makeToast(error)
+                //do nothing
             }
+        }else if indexPath.section == 2{
+            guard let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) else {
+                return
+            }
+            UIApplication.shared.open(url)
         }else if indexPath.section == 4{
             let alert = UIAlertController(title: NSLocalizedString("Log Out?", comment: ""), message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
@@ -92,7 +97,21 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
                     let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
                     UIApplication.shared.keyWindow?.rootViewController = vc
                 } failure: { error in
-                    self.view.makeToast(error)
+                    if error == 401 {
+                        self.view.makeToast(NSLocalizedString("Illegal token", comment: ""))
+                    }
+                }
+            }))
+            present(alert, animated: true)
+        }else if indexPath.section == 6{
+            let alert = UIAlertController(title: NSLocalizedString("Delete Account?", comment: ""), message: nil, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: { action in
+                VCManager.shared.deleteUser {
+                    let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
+                    UIApplication.shared.keyWindow?.rootViewController = vc
+                } failure: { error in
+                    
                 }
             }))
             present(alert, animated: true)

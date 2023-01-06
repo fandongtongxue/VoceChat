@@ -71,7 +71,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((String)->())) {
+    public func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .admin_login_config) { result in
             let resultDict = result as? NSDictionary
             let model = VCLoginConfigModel.deserialize(from: resultDict) ?? VCLoginConfigModel()
@@ -87,7 +87,7 @@ public class VCManager: NSObject {
     ///   - email: Email
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func checkEmail(email: String?, success: @escaping ((Bool)->()), failure: @escaping ((String)->())) {
+    public func checkEmail(email: String?, success: @escaping ((Bool)->()), failure: @escaping ((Int)->())) {
         VCNetwork.getRaw(url: .user_check_email, param: ["email":email]) { result in
             success(result as? Bool ?? false)
         } failure: { error in
@@ -100,7 +100,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func loginGuest(success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public func loginGuest(success: @escaping ((VCLoginModel)->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .login_guest) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
             success(model)
@@ -110,7 +110,7 @@ public class VCManager: NSObject {
             self.sse(token: model.token)
         } failure: { error in
             failure(error)
-            debugPrint("登陆失败:"+error)
+            debugPrint("登陆失败:\(error)")
         }
 
     }
@@ -122,7 +122,7 @@ public class VCManager: NSObject {
     ///   - password: 密码
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func login(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public func login(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((Int)->())) {
         let credential = ["email":email,"password":password,"type":"password"]
         //存储自动登录参数
         UserDefaults.standard.set(email, forKey: .emailKey)
@@ -139,7 +139,7 @@ public class VCManager: NSObject {
             self.sse(token: model.token)
         } failure: { error in
             failure(error)
-            debugPrint("登陆失败:"+error)
+            debugPrint("登陆失败:\(error)")
         }
     }
     
@@ -148,7 +148,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func autoLogin(success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public func autoLogin(success: @escaping ((VCLoginModel)->()), failure: @escaping ((Int)->())) {
         let device = UIDevice.current.model
         let email = UserDefaults.standard.string(forKey: .emailKey)
         let password = UserDefaults.standard.string(forKey: .passwordKey)
@@ -162,7 +162,7 @@ public class VCManager: NSObject {
             self.sse(token: model.token)
         } failure: { error in
             failure(error)
-            debugPrint("自动登陆失败:"+error)
+            debugPrint("自动登陆失败:\(error)")
         }
     }
     
@@ -173,7 +173,7 @@ public class VCManager: NSObject {
     ///   - password: 密码
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((String)->())) {
+    public func register(email: String?, password: String?, success: @escaping ((VCLoginModel)->()), failure: @escaping ((Int)->())) {
         //存储自动登录参数
         UserDefaults.standard.set(email, forKey: .emailKey)
         UserDefaults.standard.set(password, forKey: .passwordKey)
@@ -183,18 +183,14 @@ public class VCManager: NSObject {
         let language = Locale.preferredLanguages.first
         VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
-            if model.reason.count > 0 {
-                failure(model.reason)
-            }else {
-                success(model)
-                debugPrint("注册成功")
-                UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
-                UserDefaults.standard.synchronize()
-                self.sse(token: model.token)
-            }
+            success(model)
+            debugPrint("注册成功")
+            UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
+            self.sse(token: model.token)
         } failure: { error in
             failure(error)
-            debugPrint("注册失败:"+error)
+            debugPrint("注册失败:\(error)")
         }
     }
     
@@ -378,7 +374,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func logout(success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func logout(success: @escaping (()->()), failure: @escaping ((Int)->())) {
         VCNetwork.getRaw(url: .token_logout) { result in
             debugPrint("退出登陆成功")
             success()
@@ -389,11 +385,19 @@ public class VCManager: NSObject {
             UserDefaults.standard.synchronize()
         } failure: { error in
             failure(error)
-            debugPrint("退出登陆失败:"+error)
+            debugPrint("退出登陆失败:\(error)")
         }
     }
     
-    public func generateInviteLink(success: @escaping ((String)->()), failure: @escaping ((String)->())) {
+    public func deleteUser(success: @escaping (()->()), failure: @escaping ((Int)->())) {
+        VCNetwork.delete(url: .user_delete) { result in
+            success()
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    public func generateInviteLink(success: @escaping ((String)->()), failure: @escaping ((Int)->())) {
         VCNetwork.getRaw(url: .group_create_reg_magic_link, param: ["expired_in": 48 * 3600]) { result in
             let url = String(data: result as? Data ?? Data(), encoding: .utf8)
             success(url ?? "")
@@ -402,7 +406,7 @@ public class VCManager: NSObject {
         }
     }
     
-    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [String] = [], success: @escaping ((Int)->()), failure: @escaping ((String)->())) {
+    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [String] = [], success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
         VCNetwork.postRaw(url: .group, param: ["name": name, "description": description, "is_public": is_public, "members": members]) { result in
             success(result as? Int ?? 0)
         } failure: { error in
@@ -411,7 +415,7 @@ public class VCManager: NSObject {
 
     }
     
-    public func getChannels(success: @escaping (([VCChannelModel])->()), failure: @escaping ((String)->())) {
+    public func getChannels(success: @escaping (([VCChannelModel])->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .group) { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCChannelModel]()
@@ -425,7 +429,7 @@ public class VCManager: NSObject {
         }
     }
     
-    public func updateUserName(name: String, success: @escaping ((VCUserModel)->()), failure: @escaping ((String)->())) {
+    public func updateUserName(name: String, success: @escaping ((VCUserModel)->()), failure: @escaping ((Int)->())) {
         VCNetwork.put(url: .user, param: ["name": name]) { result in
             guard let resultDict = result as? NSDictionary else { return }
             let model = VCUserModel.deserialize(from: resultDict) ?? VCUserModel()
@@ -440,14 +444,13 @@ public class VCManager: NSObject {
         }
     }
     
-    public func updateUserAvatar(image: UIImage, success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func updateUserAvatar(image: UIImage, success: @escaping (()->()), failure: @escaping ((Int)->())) {
         VCNetwork.uploadImage(url: .user_avatar, image: image) { result in
-            guard let resultString = String(data: result as? Data ?? Data(), encoding: .utf8) else { return }
-            if resultString == "" {
-                success()
-            }else {
-                failure(resultString)
-            }
+            success()
+            let loginModel = VCManager.shared.currentUser()
+            loginModel?.user.avatar_updated_at = Int(Date().timeIntervalSince1970)
+            UserDefaults.standard.set(loginModel?.toJSON(), forKey: .userKey)
+            UserDefaults.standard.synchronize()
         } failure: { error in
             failure(error)
         }
@@ -459,7 +462,7 @@ public class VCManager: NSObject {
     /// - Parameters:
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func getUsers(success: @escaping (([VCUserModel])->()), failure: @escaping ((String)->())) {
+    public func getUsers(success: @escaping (([VCUserModel])->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .user) { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCUserModel]()
@@ -472,7 +475,7 @@ public class VCManager: NSObject {
             debugPrint("获取用户列表成功")
         } failure: { error in
             failure(error)
-            debugPrint("获取用户列表失败:"+error)
+            debugPrint("获取用户列表失败:\(error)")
         }
     }
     
@@ -484,7 +487,7 @@ public class VCManager: NSObject {
     ///   - limit: 限制数量
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func getHistoryMessage(uid: Int, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((String)->())) {
+    public func getHistoryMessage(uid: Int, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .user+"/\(uid)/history") { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCMessageModel]()
@@ -495,7 +498,7 @@ public class VCManager: NSObject {
             debugPrint("获取历史消息成功")
         } failure: { error in
             failure(error)
-            debugPrint("获取历史消息失败:"+error)
+            debugPrint("获取历史消息失败:\(error)")
         }
     }
     
@@ -505,7 +508,7 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String?, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((String)->())) {
+    public func sendMessage(uid: Int, msg: String?, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
         VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, mid: mid) { result in
             success(result as? Int ?? 0)
         } failure: { error in
@@ -519,7 +522,7 @@ public class VCManager: NSObject {
     ///   - device_token: DeviceToken
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func setDeviceToken(device_token: Data, success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func setDeviceToken(device_token: Data, success: @escaping (()->()), failure: @escaping ((Int)->())) {
         let device_token_str = device_token.map { value in
             String(format: "%02.2hhx", [value])
         }.joined()
@@ -528,13 +531,13 @@ public class VCManager: NSObject {
             success()
             debugPrint("注册FCM成功")
         } failure: { error in
-            debugPrint("注册FCM失败:"+error)
+            debugPrint("注册FCM失败:\(error)")
             failure(error)
         }
 
     }
     
-    public func getFavorites(success: @escaping (([VCFavoriteModel])->()), failure: @escaping ((String)->())) {
+    public func getFavorites(success: @escaping (([VCFavoriteModel])->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .favorite) { result in
             let resultArray = result as? [[String: Any]]
             var tempArray = [VCFavoriteModel]()
@@ -548,7 +551,7 @@ public class VCManager: NSObject {
         }
     }
     
-    public func createFavorite(mid: String, success: @escaping (()->()), failure: @escaping ((String)->())) {
+    public func createFavorite(mid: String, success: @escaping (()->()), failure: @escaping ((Int)->())) {
         VCNetwork.post(url: .favorite, param: ["mid_list": [mid]]) { result in
             success()
         } failure: { error in

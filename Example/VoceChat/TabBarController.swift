@@ -25,7 +25,9 @@ class TabBarController: UITabBarController {
                 let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
                 UIApplication.shared.keyWindow?.rootViewController = vc
             } failure: { error in
-                self.view.makeToast(error)
+                if error == 401 {
+                    self.view.makeToast(NSLocalizedString("Illegal token", comment: ""))
+                }
             }
         }.disposed(by: disposeBag)
     }
