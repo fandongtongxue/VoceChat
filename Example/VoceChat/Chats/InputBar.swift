@@ -35,6 +35,11 @@ class InputBar: UIView {
             make.right.top.bottom.equalToSuperview()
             make.left.equalTo(self.textView.snp.right)
         }
+        addSubview(addBtn)
+        addBtn.snp.makeConstraints { make in
+            make.left.top.bottom.equalToSuperview()
+            make.right.equalTo(self.textView.snp.right)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -57,5 +62,16 @@ class InputBar: UIView {
         })
         return sendBtn
     }()
+    
+    lazy var addBtn: UIButton = {
+        let addBtn = UIButton.createBtn(image: UIImage(systemName: "plus"))
+        addBtn.backgroundColor = UIColor(dynamicProvider: { traitCollection in
+            if traitCollection.userInterfaceStyle == .light {
+                return .qmui_color(withHexString: "f8f8f8")!
+            }
+            return .systemGray5
+        })
+        return addBtn
+    } ()
 
 }

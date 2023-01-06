@@ -18,14 +18,6 @@ class ProfileViewController: BaseViewController {
 
         // Do any additional setup after loading the view.
         navigationItem.title = model.name
-        
-//        VCManager.shared.sendMessage(uid: model.uid) {
-//            debugPrint("发送消息成功")
-//        } failure: { error in
-//            debugPrint("发送消息失败:"+error)
-//        }
-
-
     }
     
 

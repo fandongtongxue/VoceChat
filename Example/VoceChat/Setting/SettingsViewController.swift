@@ -36,7 +36,7 @@ class SettingsViewController: BaseViewController {
         tableView.register(UINib(nibName: "SettingProfileCell", bundle: Bundle.main), forCellReuseIdentifier: "SettingProfileCell")
         tableView.sectionFooterHeight = 0
         tableView.contentInsetAdjustmentBehavior = .never
-        tableView.contentInset = .init(top: .statusBarHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = .init(top: .statusBarHeight + 10, left: 0, bottom: 0, right: 0)
         return tableView
     } ()
 
@@ -94,9 +94,10 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
             let alert = UIAlertController(title: NSLocalizedString("Log Out?", comment: ""), message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
             alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: { action in
+                let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
+                UIApplication.shared.keyWindow?.rootViewController = vc
                 VCManager.shared.logout {
-                    let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
-                    UIApplication.shared.keyWindow?.rootViewController = vc
+                    
                 } failure: { error in
                     if error == 401 {
                         self.view.makeToast(NSLocalizedString("Illegal token", comment: ""))
@@ -108,9 +109,10 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
             let alert = UIAlertController(title: NSLocalizedString("Delete Account?", comment: ""), message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))
             alert.addAction(UIAlertAction(title: NSLocalizedString("Ok", comment: ""), style: .default, handler: { action in
+                let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
+                UIApplication.shared.keyWindow?.rootViewController = vc
                 VCManager.shared.deleteUser {
-                    let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateInitialViewController()
-                    UIApplication.shared.keyWindow?.rootViewController = vc
+                    
                 } failure: { error in
                     
                 }
@@ -127,7 +129,7 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        section == 0 ? 0.01 : 30
+        section == 0 || section == 2 ? 0.01 : 30
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

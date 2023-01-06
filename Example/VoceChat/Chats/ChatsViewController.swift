@@ -26,7 +26,10 @@ class ChatsViewController: BaseViewController {
             self.present(nav, animated: true)
         }
         let send = UIAction(title: NSLocalizedString("New Send", comment: ""), image: UIImage(systemName: "text.bubble")) { action in
-            
+            let newVC = NewChatViewController()
+            let nav = UINavigationController(rootViewController: newVC)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true)
         }
         let invite = UIAction(title: NSLocalizedString("Invite", comment: ""), image: UIImage(systemName: "person.fill.badge.plus")) { action in
             let inviteVC = InviteViewController()

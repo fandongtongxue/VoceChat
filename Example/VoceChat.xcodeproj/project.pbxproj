@@ -37,6 +37,7 @@
 		CB8C4F472967EE0900844ABF /* OrganizationEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C4F452967EE0900844ABF /* OrganizationEditViewController.swift */; };
 		CB8C4F492967F9C700844ABF /* OrganizationEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8C4F4B2967F9C700844ABF /* OrganizationEditViewController.xib */; };
 		CB8C4F4F2968099500844ABF /* SettingProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB8C4F512968099500844ABF /* SettingProfileCell.xib */; };
+		CB8C4F5629680E3900844ABF /* NewChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8C4F5529680E3900844ABF /* NewChatViewController.swift */; };
 		CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */; };
 		CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */; };
 		CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAA8DB0293CDD8000F0D0EF /* URL.swift */; };
@@ -114,6 +115,7 @@
 		CB8C4F4E2967F9CD00844ABF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/OrganizationEditViewController.xib"; sourceTree = "<group>"; };
 		CB8C4F502968099500844ABF /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SettingProfileCell.xib; sourceTree = "<group>"; };
 		CB8C4F542968099A00844ABF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/SettingProfileCell.xib"; sourceTree = "<group>"; };
+		CB8C4F5529680E3900844ABF /* NewChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatViewController.swift; sourceTree = "<group>"; };
 		CB92086C2955F20C00146B69 /* VoceChat_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VoceChat_Example.entitlements; sourceTree = "<group>"; };
 		CBA7A6EF293EDED300FEDD00 /* FDUIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDUIKit.swift; sourceTree = "<group>"; };
 		CBA7A6F7293F35A100FEDD00 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 				CB729ADE29626EFA00B8B39E /* MessageListCell.swift */,
 				CB729AE029626F1A00B8B39E /* MessageTextCell.swift */,
 				CB263C5529666FD30097144C /* MessageImageCell.swift */,
+				CB8C4F5529680E3900844ABF /* NewChatViewController.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -575,6 +578,7 @@
 				CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */,
 				CB729AE129626F1A00B8B39E /* MessageTextCell.swift in Sources */,
 				CB8C4F472967EE0900844ABF /* OrganizationEditViewController.swift in Sources */,
+				CB8C4F5629680E3900844ABF /* NewChatViewController.swift in Sources */,
 				CB3DFB6F294BFCE0009A9798 /* ContactsSearchResultViewController.swift in Sources */,
 				CB3B3FC12965BC5200B4212B /* ProfileEditViewController.swift in Sources */,
 				CBCE5B1B29474D4500D5D14D /* SettingsViewController.swift in Sources */,
