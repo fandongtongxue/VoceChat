@@ -184,8 +184,8 @@ class ChatViewController: BaseViewController {
     }
     
     
-    func setImage(originImage: UIImage){
-        messageVC.sendImageMsg(image: originImage)
+    func setImage(imageURL: URL){
+        messageVC.sendImageMsg(imageURL: imageURL)
     }
     
 }
@@ -241,8 +241,7 @@ extension ChatViewController: PHPickerViewControllerDelegate {
         if let livePhoto = object as? PHLivePhoto {
 //            displayLivePhoto(livePhoto)
         } else if let image = object as? UIImage {
-            self.setImage(originImage: image)
-
+//            self.setImage(originImage: image)
         } else if let url = object as? URL {
 //            displayVideoPlayButton(forURL: url)
         } else if let error = error {
@@ -260,6 +259,6 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
         guard let originImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
-        self.setImage(originImage: originImage)
+//        self.setImage(originImage: originImage)
     }
 }
