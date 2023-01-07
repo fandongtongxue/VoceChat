@@ -78,7 +78,7 @@ public class VCManager: NSObject {
     }
     
     public func updateServerAvatar(image: UIImage, success: @escaping (()->()), failure: @escaping ((Int)->())) {
-        VCNetwork.uploadImage(url: .admin_system_organization_logo, image: image) { result in
+        VCNetwork.uploadAvatar(url: .admin_system_organization_logo, image: image) { result in
             success()
         } failure: { error in
             failure(error)
@@ -465,7 +465,7 @@ public class VCManager: NSObject {
     }
     
     public func updateUserAvatar(image: UIImage, success: @escaping (()->()), failure: @escaping ((Int)->())) {
-        VCNetwork.uploadImage(url: .user_avatar, image: image) { result in
+        VCNetwork.uploadAvatar(url: .user_avatar, image: image) { result in
             success()
             let loginModel = VCManager.shared.currentUser()
             loginModel?.user.avatar_updated_at = Int(Date().timeIntervalSince1970)
@@ -528,7 +528,7 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String? = nil, image: UIImage? = nil, Content_Type:String, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
+    public func sendMessage(uid: Int, msg: String? = nil, file_id: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
         if Content_Type == "text/plain" {
             VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, Content_Type: Content_Type, mid: mid) { result in
                 success(result as? Int ?? 0)
@@ -539,7 +539,7 @@ public class VCManager: NSObject {
             VCNetwork.postRaw(url: .resource_file_prepare, param: ["content_type": "image/jpeg", "filename": "\(VCManager.shared.currentUser()?.user.uid)_\(Date().timeIntervalSince1970).jpg"]) { result in
                 guard let resultData = result as? Data else { return }
                 let file_id = String(data: resultData, encoding: .utf8)
-                VCNetwork.uploadImage(url: .resource_file_upload, image: image!) { result in
+                VCNetwork.uploadImage(url: .resource_file_upload, file_id: file_id, imageURL: imageURL) { result in
                     guard let resultData = result as? Data else { return }
                     let resultString = String(data: resultData, encoding: .utf8)
                     let model = VCUploadImageModel.deserialize(from: resultString)
@@ -548,7 +548,6 @@ public class VCManager: NSObject {
                     } failure: { error in
                         failure(error)
                     }
-
                 } failure: { error in
                     failure(error)
                 }

@@ -189,7 +189,7 @@ class VCNetwork: NSObject {
         
     }
     
-    class func uploadImage(url: String, image: UIImage, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((Int)->())) {
+    class func uploadAvatar(url: String, image: UIImage, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((Int)->())) {
         if NetworkReachabilityManager()?.isReachable ?? false {
             cookieLoad()
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
@@ -199,6 +199,7 @@ class VCNetwork: NSObject {
                 request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "X-API-Key")
                 request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
                 request.setValue("image/png", forHTTPHeaderField: "Content-Type")
+                //上传头像
                 AF.upload(UIImageJPEGRepresentation(image, 0.5)!, with: request).response { response in
                     switch response.result {
                     case .success(let result):
@@ -221,7 +222,55 @@ class VCNetwork: NSObject {
         }
     }
     
-    
+    class func uploadImage(url: String, file_id: String?, imageURL: URL?, param: Parameters? = nil, success: @escaping ((Any)->()), failure: @escaping ((Int)->())) {
+        guard file_id != nil && imageURL != nil else {
+            return
+        }
+        if NetworkReachabilityManager()?.isReachable ?? false {
+            cookieLoad()
+            let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
+            let newUrl = serverURL + url
+            do {
+                var request = try URLRequest(url: newUrl, method: .post)
+                request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "X-API-Key")
+                request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
+                request.setValue("image/png", forHTTPHeaderField: "Content-Type")
+                //发送图片
+                var chunk: UInt64 = 0
+                let fileData = try Data(contentsOf: imageURL!)
+                let offset = 200*1024
+                let chunks = fileData.count / offset
+                let handle = try FileHandle(forReadingFrom: imageURL!)
+                for index in 0..<chunks {
+                    handle.seek(toFileOffset: chunk)
+                    handle.readData(ofLength: offset)
+                }
+                AF.upload(multipartFormData: { multipartFormData in
+                    multipartFormData.append(file_id!.data(using: .utf8)!, withName: "file_id")
+                    multipartFormData.append(Data(), withName: "chunk_data")
+                    multipartFormData.append(Data(), withName: "chunk_is_last")
+                }, with: request)
+                .response { response in
+                    switch response.result {
+                    case .success(let result):
+                        if response.response?.statusCode != 200 {
+                            failure(response.response?.statusCode ?? -1)
+                        }else {
+                            success(result)
+                        }
+                        break
+                    case .failure(let error):
+                        failure(response.response?.statusCode ?? -1)
+                        break
+                    }
+                }
+            }catch {
+                
+            }
+        }else {
+            UIApplication.shared.keyWindow?.makeToast(NSLocalizedString("No network", comment: ""))
+        }
+    }
     
     class func cookieLoad() {
         let data = UserDefaults.standard.object(forKey: .cookieKey)
