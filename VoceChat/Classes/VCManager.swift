@@ -528,7 +528,7 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String? = nil, file_id: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
+    public func sendMessage(uid: Int, msg: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
         if Content_Type == "text/plain" {
             VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, Content_Type: Content_Type, mid: mid) { result in
                 success(result as? Int ?? 0)

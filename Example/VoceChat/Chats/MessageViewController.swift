@@ -74,13 +74,12 @@ class MessageViewController: BaseViewController {
         }
     }
     
-    func sendImageMsg(image: UIImage) {
-        VCManager.shared.sendMessage(uid: model.from_uid, image: image, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid in
-            debugPrint("发送图片成功")
+    func sendImageMsg(imageURL: URL) {
+        VCManager.shared.sendMessage(uid: model.from_uid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid in
+            //
         } failure: { error in
             //do nothing
         }
-
     }
     
     //键盘
