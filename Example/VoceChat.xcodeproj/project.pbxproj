@@ -807,6 +807,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "我和我的朋友";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -825,6 +826,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "我和我的朋友";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;

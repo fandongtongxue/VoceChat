@@ -29,13 +29,15 @@ class OrganizationEditViewController: BaseViewController {
         
         // Do any additional setup after loading the view.
         
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .systemGroupedBackground
         navigationItem.title = NSLocalizedString("Server Overview", comment: "")
         
         let user = VCManager.shared.currentUser()?.user ?? VCUserModel()
         setBtn.isHidden = !user.is_admin
         nameTF.isEnabled = user.is_admin
         descTV.isEditable = user.is_admin
+        
+        descTV.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let serverInfo = VCManager.shared.serverInfo()
         nameTF.text = serverInfo.name

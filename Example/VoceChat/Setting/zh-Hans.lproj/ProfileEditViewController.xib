@@ -75,7 +75,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="qFI-fI-usK"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                 </textField>
             </subviews>

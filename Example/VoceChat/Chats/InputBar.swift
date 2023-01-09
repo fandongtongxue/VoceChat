@@ -21,7 +21,7 @@ class InputBar: UIView {
             if traitCollection.userInterfaceStyle == .light {
                 return .qmui_color(withHexString: "f8f8f8")!
             }
-            return .systemGray5
+            return .systemGroupedBackground
         })
         addSubview(textView)
         textView.snp.makeConstraints { make in
@@ -58,7 +58,7 @@ class InputBar: UIView {
             if traitCollection.userInterfaceStyle == .light {
                 return .qmui_color(withHexString: "f8f8f8")!
             }
-            return .systemGray5
+            return .systemGroupedBackground
         })
         return sendBtn
     }()
@@ -69,7 +69,7 @@ class InputBar: UIView {
             if traitCollection.userInterfaceStyle == .light {
                 return .qmui_color(withHexString: "f8f8f8")!
             }
-            return .systemGray5
+            return .systemGroupedBackground
         })
         return addBtn
     } ()

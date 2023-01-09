@@ -28,7 +28,7 @@ class ProfileEditViewController: BaseViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .systemGroupedBackground
         let user = VCManager.shared.currentUser()?.user ?? VCUserModel()
         let avatar = CDFInitialsAvatar(rect: CGRect(x: 0, y: 0, width: 40, height: 40), fullName: user.name)
         avatar?.backgroundColor = .systemBlue
