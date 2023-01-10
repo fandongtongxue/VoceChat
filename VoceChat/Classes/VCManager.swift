@@ -536,6 +536,8 @@ public class VCManager: NSObject {
     public func deleteUser(success: @escaping (()->()), failure: @escaping ((Int)->())) {
         VCNetwork.delete(url: .user_delete) { result in
             success()
+            self.deleteUsers()
+            self.deleteMessages()
         } failure: { error in
             failure(error)
         }
