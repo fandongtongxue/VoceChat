@@ -52,7 +52,7 @@ class MessageViewController: BaseViewController {
     }
     
     func sendTextMsg(text: String) {
-        VCManager.shared.sendMessage(uid: model.from_uid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid in
+        VCManager.shared.sendMessage(uid: model.from_uid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
             let messageModel = VCMessageModel()
             messageModel.mid = mid
             messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
@@ -75,10 +75,33 @@ class MessageViewController: BaseViewController {
     }
     
     func sendImageMsg(imageURL: URL) {
-        VCManager.shared.sendMessage(uid: model.from_uid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid in
-            //
+        VCManager.shared.sendMessage(uid: model.from_uid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid, imageModel in
+            let messageModel = VCMessageModel()
+            messageModel.mid = mid
+            messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
+            messageModel.created_at = Int(Date().timeIntervalSince1970 * 1000)
+            let target = VCMessageModelTarget()
+            target.uid = self.model.from_uid
+            messageModel.target = target
+            let detail = VCMessageModelDetail()
+            detail.type = "normal"
+            detail.content = imageModel?.path ?? ""
+            detail.content_type = "vocechat/file"
+            
+            let properties = VCMessageModelDetailProperties()
+            properties.content_type = "image/jpeg"
+            properties.width = imageModel?.image_properties.width ?? 0
+            properties.height = imageModel?.image_properties.height ?? 0
+            properties.size = imageModel?.size ?? 0
+            detail.properties = properties
+            
+            messageModel.detail = detail
+            
+            self.messages.append(messageModel)
+            self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
+            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
         } failure: { error in
-            //do nothing
+            self.view.makeToast("\(error)")
         }
     }
     

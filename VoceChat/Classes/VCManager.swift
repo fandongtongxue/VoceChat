@@ -252,7 +252,7 @@ public class VCManager: NSObject {
         let mid = VCManager.shared.getLastMsg().mid
         let urlStr = serverURL + .user_events + "?api-key=" + (token ?? "")+"&after_mid=\(mid)"
         var config = EventSource.Config(handler: VCSSEEventHandler(), url: URL(string: urlStr)!)
-        config.headers = ["X-API-Key":token ?? ""]
+        config.headers = ["x-api-key":token ?? ""]
         eventSource = EventSource(config: config)
         eventSource?.start()
         
@@ -657,10 +657,10 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
+    public func sendMessage(uid: Int, msg: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int, VCUploadImageModel?)->()), failure: @escaping ((Int)->())) {
         if Content_Type == "text/plain" {
             VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, Content_Type: Content_Type, mid: mid) { result in
-                success(result as? Int ?? 0)
+                success(result as? Int ?? 0, nil)
             } failure: { error in
                 failure(error)
             }
@@ -668,12 +668,9 @@ public class VCManager: NSObject {
             VCNetwork.postRaw(url: .resource_file_prepare, param: ["content_type": "image/jpeg", "filename": "\(VCManager.shared.currentUser()?.user.uid)_\(Date().timeIntervalSince1970).jpg"]) { result in
                 guard let resultData = result as? Data else { return }
                 let file_id = String(data: resultData, encoding: .utf8)
-                VCNetwork.uploadImage(url: .resource_file_upload, file_id: file_id, imageURL: imageURL) { result in
-                    guard let resultData = result as? Data else { return }
-                    let resultString = String(data: resultData, encoding: .utf8)
-                    let model = VCUploadImageModel.deserialize(from: resultString)
-                    VCNetwork.httpBody(url: .user+"/\(uid)/send",method: .post, body: model?.path, Content_Type: "vocechat/file", mid: mid) { result in
-                        success(result as? Int ?? 0)
+                VCNetwork.uploadImage(url: .resource_file_upload, file_id: file_id!, imageURL: imageURL!) { result2 in
+                    VCNetwork.httpBody(url: .user+"/\(uid)/send",method: .post, body: result2.path, Content_Type: "vocechat/file", mid: mid) { result3 in
+                        success(result as? Int ?? 0, result2)
                     } failure: { error in
                         failure(error)
                     }

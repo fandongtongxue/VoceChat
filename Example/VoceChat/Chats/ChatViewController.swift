@@ -184,8 +184,15 @@ class ChatViewController: BaseViewController {
     }
     
     
-    func setImage(imageURL: URL){
-        messageVC.sendImageMsg(imageURL: imageURL)
+    func setImage(originImage: UIImage){
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let path = paths.first ?? ""
+        let filePath = path+"/\(Date().timeIntervalSince1970).jpg"
+        if !FileManager.default.fileExists(atPath: filePath) {
+            FileManager.default.createFile(atPath: filePath, contents: UIImageJPEGRepresentation(originImage, 1))
+        }
+        
+        messageVC.sendImageMsg(imageURL: URL(fileURLWithPath: filePath))
     }
     
 }
@@ -241,7 +248,7 @@ extension ChatViewController: PHPickerViewControllerDelegate {
         if let livePhoto = object as? PHLivePhoto {
 //            displayLivePhoto(livePhoto)
         } else if let image = object as? UIImage {
-//            self.setImage(originImage: image)
+            self.setImage(originImage: image)
         } else if let url = object as? URL {
 //            displayVideoPlayButton(forURL: url)
         } else if let error = error {
@@ -259,6 +266,6 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true)
         guard let originImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
-//        self.setImage(originImage: originImage)
+        self.setImage(originImage: originImage)
     }
 }

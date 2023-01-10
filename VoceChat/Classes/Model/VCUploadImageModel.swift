@@ -7,15 +7,15 @@
 
 import UIKit
 
-class VCUploadImageModel: VCBaseModel {
-    var hash = ""
-    var image_properties = VCUploadImageModelImage_properties()
-    var path = ""
-    var size: Int = 0
+public class VCUploadImageModel: VCBaseModel {
+    public var hash = ""
+    public var image_properties = VCUploadImageModelImage_properties()
+    public var path = ""
+    public var size: Int = 0
 }
 
-class VCUploadImageModelImage_properties: VCBaseModel {
-    var height: Int = 0
-    var width: Int = 0
+public class VCUploadImageModelImage_properties: VCBaseModel {
+    public var height: Int = 0
+    public var width: Int = 0
 }
 
