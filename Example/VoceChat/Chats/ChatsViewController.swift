@@ -47,6 +47,12 @@ class ChatsViewController: BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+        let temp = VCManager.shared.getAllMsg()
+        
+        for msg in temp {
+            operateMessage(message: msg)
+        }
 
         // Do any additional setup after loading the view.
         //在线状态通知
@@ -88,43 +94,52 @@ class ChatsViewController: BaseViewController {
             //存入数据库
             VCManager.shared.insertMessage(message: message)
             
-            let from = self.chats.contains(where: {$0.from_uid == message.from_uid})
-            let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
-            if from{
-                self.chats[index] = message
-            }else {
-                if VCManager.shared.currentUser()?.user.uid == message.from_uid {
-                    let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
-                    let newIndex = self.chats.firstIndex(where: {$0.from_uid == message.target.uid}) ?? 0
-                    //替换这个元素
-                    if target {
-                        self.chats[newIndex].detail.content = message.detail.content
-                        self.chats[newIndex].created_at = message.created_at
-                        self.chats[newIndex].mid = message.mid
-                    }
-                }else {
-                    self.chats.append(message)
-                }
-            }
+            self.operateMessage(message: message)
             
-            guard let json = UserDefaults.standard.string(forKey: .users_state) else {
-                DispatchQueue.main.async {
-                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        }.disposed(by: disposeBag)
+    }
+    
+    func operateMessage(message: VCMessageModel) {
+        //如果是删除消息的通知就
+        guard message.detail.detail.type != "delete" else { return }
+        
+        let from = self.chats.contains(where: {$0.from_uid == message.from_uid})
+        let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
+        if from{
+            self.chats[index] = message
+            self.chats[index].unread = self.chats[index].unread + 1
+        }else {
+            if VCManager.shared.currentUser()?.user.uid == message.from_uid {
+                let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
+                let newIndex = self.chats.firstIndex(where: {$0.from_uid == message.target.uid}) ?? 0
+                //替换这个元素
+                if target {
+                    self.chats[newIndex].detail.content = message.detail.content
+                    self.chats[newIndex].created_at = message.created_at
+                    self.chats[newIndex].mid = message.mid
                 }
-                return
+            }else {
+                self.chats.append(message)
             }
-            let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
-            for xuser in model.users {
-                for ychat in self.chats {
-                    if xuser.uid == ychat.from_uid {
-                        ychat.online = xuser.online
-                    }
-                }
-            }
+        }
+        
+        guard let json = UserDefaults.standard.string(forKey: .users_state) else {
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
             }
-        }.disposed(by: disposeBag)
+            return
+        }
+        let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
+        for xuser in model.users {
+            for ychat in self.chats {
+                if xuser.uid == ychat.from_uid {
+                    ychat.online = xuser.online
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

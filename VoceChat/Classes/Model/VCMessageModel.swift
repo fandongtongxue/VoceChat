@@ -12,6 +12,7 @@ public class VCMessageModel: VCBaseModel {
     public var mid: Int = 0
     public var target = VCMessageModelTarget()
     public var online: Bool = false
+    public var unread: Int = 0
 }
 
 public class VCMessageModelTarget: VCBaseModel {

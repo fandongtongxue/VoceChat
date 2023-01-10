@@ -24,6 +24,7 @@ public class VCManager: NSObject {
     //更新Token
     private var timer: Timer?
     
+    // MARK: - 注册VoceChat服务
     /// 服务器URL
     /// - Parameter serverUrl: 服务器URL
     public func register(serverUrl: String) {
@@ -54,7 +55,7 @@ public class VCManager: NSObject {
         }
     }
     
-    
+    // MARK: - 服务器信息
     /// 获取当前服务器信息
     /// - Returns: 服务器信息
     public func serverInfo() -> VCOrganizationModel{
@@ -86,22 +87,7 @@ public class VCManager: NSObject {
 
     }
     
-    
-    /// 获取登录配置
-    /// - Parameters:
-    ///   - success: 成功回调
-    ///   - failure: 失败回调
-    public func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((Int)->())) {
-        VCNetwork.get(url: .admin_login_config) { result in
-            let resultDict = result as? NSDictionary
-            let model = VCLoginConfigModel.deserialize(from: resultDict) ?? VCLoginConfigModel()
-            success(model)
-        } failure: { error in
-            failure(error)
-        }
-    }
-    
-    
+    // MARK: - 验证Email是否合法
     /// 验证Email是否合法
     /// - Parameters:
     ///   - email: Email
@@ -115,6 +101,21 @@ public class VCManager: NSObject {
         }
     }
     
+    // MARK: - 登录注册相关
+    /// 获取登录配置
+    /// - Parameters:
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    public func getLoginConfig(success: @escaping ((VCLoginConfigModel)->()), failure: @escaping ((Int)->())) {
+        VCNetwork.get(url: .admin_login_config) { result in
+            let resultDict = result as? NSDictionary
+            let model = VCLoginConfigModel.deserialize(from: resultDict) ?? VCLoginConfigModel()
+            success(model)
+        } failure: { error in
+            failure(error)
+        }
+    }
+
     
     /// Guest登录
     /// - Parameters:
@@ -214,12 +215,42 @@ public class VCManager: NSObject {
         }
     }
     
+    /// 是否登录
+    /// - Returns: 结果
+    public func isLogin() -> Bool {
+        let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
+        let model = VCLoginModel.deserialize(from: dict)
+        return model?.user.uid ?? 0 > 0
+    }
+    
+    /// 退出登陆
+    /// - Parameters:
+    ///   - success: 成功回调
+    ///   - failure: 失败回调
+    public func logout(success: @escaping (()->()), failure: @escaping ((Int)->())) {
+        VCNetwork.getRaw(url: .token_logout) { result in
+            debugPrint("退出登陆成功")
+            success()
+            self.eventSource?.stop()
+            self.timer?.invalidate()
+            self.timer = nil
+            UserDefaults.standard.set([:], forKey: .userKey)
+            UserDefaults.standard.synchronize()
+            self.deleteUsers()
+            self.deleteMessages()
+        } failure: { error in
+            failure(error)
+            debugPrint("退出登陆失败:\(error)")
+        }
+    }
+    
     
     /// SEE监听
     /// - Parameter token: token
     private func sse(token: String?) {
         let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
-        let urlStr = serverURL + .user_events + "?api-key=" + (token ?? "")
+        let mid = VCManager.shared.getLastMsg().mid
+        let urlStr = serverURL + .user_events + "?api-key=" + (token ?? "")+"&after_mid=\(mid)"
         var config = EventSource.Config(handler: VCSSEEventHandler(), url: URL(string: urlStr)!)
         config.headers = ["X-API-Key":token ?? ""]
         eventSource = EventSource(config: config)
@@ -242,7 +273,7 @@ public class VCManager: NSObject {
 
     }
     
-    //数据库
+    // MARK: - 数据库
     private func createDb() {
         do {
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -255,7 +286,7 @@ public class VCManager: NSObject {
             debugPrint("创建数据库失败:"+error.localizedDescription)
         }
     }
-    
+    // MARK: - 用户表
     private func createUserTable() {
         users = Table("users")
         let id = Expression<Int>("id")
@@ -273,39 +304,13 @@ public class VCManager: NSObject {
         }
     }
     
-    private func createMessageTable() {
-        messages = Table("messages")
-        
-        let id = Expression<Int>("id")
-        let from_uid = Expression<Int>("from_uid")
-        let mid = Expression<Int>("mid")
-        let content = Expression<String>("content")
-        let content_type = Expression<String>("content_type")
-        let uid = Expression<Int>("uid")
-        let created_at = Expression<Int>("created_at")
-
-        do {
-            try db.run(messages.create(ifNotExists: true) { t in
-                t.column(id, primaryKey: true)
-                t.column(from_uid)
-                t.column(mid)
-                t.column(content)
-                t.column(content_type)
-                t.column(uid)
-                t.column(created_at)
-            })
-        } catch {
-            debugPrint("创建消息表失败:"+error.localizedDescription)
-        }
-    }
-    
     private func insertUser(user: VCUserModel) {
         let id = Expression<Int>("id")
         let name = Expression<String>("name")
         let avatar_updated_at = Expression<Int>("avatar_updated_at")
         let insert = users.insert(name <- user.name, id <- user.uid, avatar_updated_at <- user.avatar_updated_at)
         do {
-            let rowid = try db.run(insert)
+            _ = try db.run(insert)
         } catch {
             debugPrint("插入用户表失败:"+error.localizedDescription)
             updateUser(user: user)
@@ -319,37 +324,19 @@ public class VCManager: NSObject {
         let row = users.filter(id == user.uid)
         let update = row.update(name <- name.replace("\(row[name])", with: user.name), avatar_updated_at <- user.avatar_updated_at)
         do {
-            let rowid = try db.run(update)
+            _ = try db.run(update)
         } catch {
             debugPrint("更新用户表失败:"+error.localizedDescription)
         }
     }
     
-    public func insertMessage(message: VCMessageModel) {
-        let id = Expression<Int>("id")
-        let from_uid = Expression<Int>("from_uid")
-        let mid = Expression<Int>("mid")
-        let content = Expression<String>("content")
-        let content_type = Expression<String>("content_type")
-        let uid = Expression<Int>("uid")
-        let created_at = Expression<Int>("created_at")
-        let insert = messages.insert(id <- message.mid, from_uid <- message.from_uid, mid <- message.mid, content <- message.detail.content, content_type <- message.detail.content_type, uid <- message.target.uid, created_at <- message.created_at)
+    private func deleteUsers() {
         do {
-            let rowid = try db.run(insert)
-        } catch {
-            debugPrint("插入消息表失败:"+error.localizedDescription)
+            try db.run(users.delete())
+        }catch{
+            debugPrint("删除用户表失败:"+error.localizedDescription)
         }
-    }
-    
-    //TODO
-    public func getLastMsg() -> VCMessageModel {
-        let mid = Expression<Int>("mid")
-        do {
-            
-        } catch {
-            debugPrint("获取最后一条消息失败:"+error.localizedDescription)
-        }
-        return VCMessageModel()
+        
     }
     
     public func getUserFromTable(uid: Int) -> VCUserModel {
@@ -371,16 +358,173 @@ public class VCManager: NSObject {
         return VCUserModel()
     }
     
-    
-    /// 是否登录
-    /// - Returns: 结果
-    public func isLogin() -> Bool {
-        let dict = UserDefaults.standard.object(forKey: .userKey) as? NSDictionary
-        let model = VCLoginModel.deserialize(from: dict)
-        return model?.user.uid ?? 0 > 0
+    // MARK: - 消息表
+    private func createMessageTable() {
+        messages = Table("messages")
+        
+        let id = Expression<Int>("id")
+        let from_uid = Expression<Int>("from_uid")
+        let mid = Expression<Int>("mid")
+        let content = Expression<String>("content")
+        let content_type = Expression<String>("content_type")
+        let type = Expression<String>("type")
+        let detail_content_type = Expression<String>("detail_content_type")
+        let uid = Expression<Int>("uid")
+        let created_at = Expression<Int>("created_at")
+
+        do {
+            try db.run(messages.create(ifNotExists: true) { t in
+                t.column(id, primaryKey: true)
+                t.column(from_uid)
+                t.column(mid)
+                t.column(content)
+                t.column(content_type)
+                t.column(type)
+                t.column(detail_content_type)
+                t.column(uid)
+                t.column(created_at)
+            })
+        } catch {
+            debugPrint("创建消息表失败:"+error.localizedDescription)
+        }
     }
     
+    public func insertMessage(message: VCMessageModel) {
+        let id = Expression<Int>("id")
+        let from_uid = Expression<Int>("from_uid")
+        let mid = Expression<Int>("mid")
+        let content = Expression<String>("content")
+        let type = Expression<String>("type")
+        let content_type = Expression<String>("content_type")
+        let detail_content_type = Expression<String>("detail_content_type")
+        let uid = Expression<Int>("uid")
+        let created_at = Expression<Int>("created_at")
+        let insert = messages.insert(id <- message.mid, from_uid <- message.from_uid, mid <- message.mid, content <- message.detail.content, content_type <- message.detail.content_type, uid <- message.target.uid, created_at <- message.created_at, detail_content_type <- message.detail.properties.content_type, type <- message.detail.detail.type)
+        do {
+            _ = try db.run(insert)
+        } catch {
+            debugPrint("插入消息表失败:"+error.localizedDescription)
+        }
+    }
     
+    private func deleteMessages() {
+        do {
+            try db.run(messages.delete())
+        }catch{
+            debugPrint("删除消息表失败:"+error.localizedDescription)
+        }
+    }
+    
+    public func deleteMessage(message: VCMessageModel) {
+        let from_uid = Expression<Int>("from_uid")
+        let uid = Expression<Int>("uid")
+        
+        let row = messages.filter(from_uid == message.from_uid && uid == message.target.uid)
+        do {
+            try db.run(row.delete())
+        }catch {
+            debugPrint("删除消息失败:"+error.localizedDescription)
+        }
+    }
+    
+    public func getLastMsg(touid: Int = 0) -> VCMessageModel {
+        do {
+            
+            let from_uid = Expression<Int>("from_uid")
+            let mid = Expression<Int>("mid")
+            let content = Expression<String>("content")
+            let content_type = Expression<String>("content_type")
+            let detail_content_type = Expression<String>("detail_content_type")
+            let type = Expression<String>("type")
+            let uid = Expression<Int>("uid")
+            let created_at = Expression<Int>("created_at")
+            
+            let is_from = touid == from_uid && VCManager.shared.currentUser()?.user.uid ?? 0 == uid
+            let is_to = from_uid == VCManager.shared.currentUser()?.user.uid ?? 0 && touid == uid
+            var all = Array(try db.prepare(messages))
+            if touid != 0 {
+                all = Array(try db.prepare(messages.filter(is_from || is_to)))
+            }
+            
+            let message = all.last
+            let model = VCMessageModel()
+
+            model.from_uid = try message?.get(from_uid) ?? 0
+            model.mid = try message?.get(mid) ?? 0
+            model.created_at = try message?.get(created_at) ?? 0
+            
+            let detail = VCMessageModelDetail()
+            detail.content = try message?.get(content) ?? ""
+            detail.content_type = try message?.get(content_type) ?? ""
+            detail.type = try message?.get(type) ?? ""
+            
+            let properties = VCMessageModelDetailProperties()
+            properties.content_type = try message?.get(detail_content_type) ?? ""
+            
+            detail.properties = properties
+            
+            let target = VCMessageModelTarget()
+            target.uid = try message?.get(uid) ?? 0
+            
+            model.detail = detail
+            model.target = target
+            
+            return model
+            
+        } catch {
+            debugPrint("获取最后一条消息失败:"+error.localizedDescription)
+        }
+        return VCMessageModel()
+    }
+    
+    public func getAllMsg() -> [VCMessageModel] {
+        do {
+            
+            let from_uid = Expression<Int>("from_uid")
+            let mid = Expression<Int>("mid")
+            let content = Expression<String>("content")
+            let content_type = Expression<String>("content_type")
+            let detail_content_type = Expression<String>("detail_content_type")
+            let uid = Expression<Int>("uid")
+            let created_at = Expression<Int>("created_at")
+            
+            let all = Array(try db.prepare(messages))
+            var tempArray = [VCMessageModel]()
+            for message in all {
+                let model = VCMessageModel()
+
+                model.from_uid = try message.get(from_uid)
+                model.mid = try message.get(mid)
+                model.created_at = try message.get(created_at)
+                
+                let detail = VCMessageModelDetail()
+                detail.content = try message.get(content)
+                detail.content_type = try message.get(content_type)
+                
+                let properties = VCMessageModelDetailProperties()
+                properties.content_type = try message.get(detail_content_type)
+                
+                detail.properties = properties
+                
+                let target = VCMessageModelTarget()
+                target.uid = try message.get(uid)
+                
+                model.detail = detail
+                model.target = target
+                
+                tempArray.append(model)
+            }
+            
+            
+            return tempArray
+            
+        } catch {
+            debugPrint("获取最后一条消息失败:"+error.localizedDescription)
+        }
+        return [VCMessageModel]()
+    }
+    
+    // MARK: - 用户操作
     /// 当前用户
     /// - Returns: 用户信息
     public func currentUser() -> VCLoginModel? {
@@ -389,61 +533,9 @@ public class VCManager: NSObject {
         return model?.user.uid == 0 ? nil : model
     }
     
-    
-    /// 退出登陆
-    /// - Parameters:
-    ///   - success: 成功回调
-    ///   - failure: 失败回调
-    public func logout(success: @escaping (()->()), failure: @escaping ((Int)->())) {
-        VCNetwork.getRaw(url: .token_logout) { result in
-            debugPrint("退出登陆成功")
-            success()
-            self.eventSource?.stop()
-            self.timer?.invalidate()
-            self.timer = nil
-            UserDefaults.standard.set([:], forKey: .userKey)
-            UserDefaults.standard.synchronize()
-        } failure: { error in
-            failure(error)
-            debugPrint("退出登陆失败:\(error)")
-        }
-    }
-    
     public func deleteUser(success: @escaping (()->()), failure: @escaping ((Int)->())) {
         VCNetwork.delete(url: .user_delete) { result in
             success()
-        } failure: { error in
-            failure(error)
-        }
-    }
-    
-    public func generateInviteLink(success: @escaping ((String)->()), failure: @escaping ((Int)->())) {
-        VCNetwork.getRaw(url: .group_create_reg_magic_link, param: ["expired_in": 48 * 3600]) { result in
-            let url = String(data: result as? Data ?? Data(), encoding: .utf8)
-            success(url ?? "")
-        } failure: { error in
-            failure(error)
-        }
-    }
-    
-    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [String] = [], success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
-        VCNetwork.postRaw(url: .group, param: ["name": name, "description": description, "is_public": is_public, "members": members]) { result in
-            success(result as? Int ?? 0)
-        } failure: { error in
-            failure(error)
-        }
-
-    }
-    
-    public func getChannels(success: @escaping (([VCChannelModel])->()), failure: @escaping ((Int)->())) {
-        VCNetwork.get(url: .group) { result in
-            let resultArray = result as? [NSDictionary]
-            var tempArray = [VCChannelModel]()
-            for item in resultArray ?? [] {
-                let channel = VCChannelModel.deserialize(from: item) ?? VCChannelModel()
-                tempArray.append(channel)
-            }
-            success(tempArray)
         } failure: { error in
             failure(error)
         }
@@ -499,6 +591,41 @@ public class VCManager: NSObject {
         }
     }
     
+    public func generateInviteLink(success: @escaping ((String)->()), failure: @escaping ((Int)->())) {
+        VCNetwork.getRaw(url: .group_create_reg_magic_link, param: ["expired_in": 48 * 3600]) { result in
+            let url = String(data: result as? Data ?? Data(), encoding: .utf8)
+            success(url ?? "")
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    // MARK: - 群组相关
+    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [String] = [], success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
+        VCNetwork.postRaw(url: .group, param: ["name": name, "description": description, "is_public": is_public, "members": members]) { result in
+            success(result as? Int ?? 0)
+        } failure: { error in
+            failure(error)
+        }
+
+    }
+    
+    public func getChannels(success: @escaping (([VCChannelModel])->()), failure: @escaping ((Int)->())) {
+        VCNetwork.get(url: .group) { result in
+            let resultArray = result as? [NSDictionary]
+            var tempArray = [VCChannelModel]()
+            for item in resultArray ?? [] {
+                let channel = VCChannelModel.deserialize(from: item) ?? VCChannelModel()
+                tempArray.append(channel)
+            }
+            success(tempArray)
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
+    
+    // MARK: - 消息相关
     
     /// 获取历史消息
     /// - Parameters:
@@ -558,7 +685,7 @@ public class VCManager: NSObject {
         }
     }
     
-    
+    // MARK: - APNS
     /// 注册推送Token
     /// - Parameters:
     ///   - device_token: DeviceToken
@@ -579,6 +706,7 @@ public class VCManager: NSObject {
 
     }
     
+    // MARK: - 收藏相关
     public func getFavorites(success: @escaping (([VCFavoriteModel])->()), failure: @escaping ((Int)->())) {
         VCNetwork.get(url: .favorite) { result in
             let resultArray = result as? [[String: Any]]
