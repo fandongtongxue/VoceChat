@@ -16,6 +16,7 @@ target 'VoceChat_Example' do
   pod "RxGesture"
     
   pod 'QMUIKit'
+  pod 'YYKit'
 
   target 'VoceChat_Tests' do
     inherit! :search_paths

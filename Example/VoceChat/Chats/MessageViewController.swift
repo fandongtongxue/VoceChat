@@ -15,6 +15,8 @@ class MessageViewController: BaseViewController {
     
     var model = VCMessageModel()
     var messages = [VCMessageModel]()
+    
+    var images = [VCMessageModel]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +32,9 @@ class MessageViewController: BaseViewController {
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
             if message.from_uid == self.model.from_uid {
                 self.messages.append(message)
+                if message.detail.properties.content_type == "image/jpeg" {
+                    self.images = self.images + [message]
+                }
                 DispatchQueue.main.async {
                     self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
                     self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
@@ -43,6 +48,8 @@ class MessageViewController: BaseViewController {
         VCManager.shared.getHistoryMessage(uid: model.from_uid, limit: 100) { messages in
 //            let reactions = messages.filter({ $0.detail.type == "reaction"})
             let normals = messages.filter({ $0.detail.type == "normal" })
+            let images = messages.filter({ $0.detail.properties.content_type == "image/jpeg" })
+            self.images = self.images + images
             self.messages = self.messages + normals
             self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
@@ -125,6 +132,24 @@ class MessageViewController: BaseViewController {
         
         return tableView
     } ()
+    
+    func clickImage(cell: MessageImageCell) {
+        var fromView: UIView? = nil
+        var items = [YYPhotoGroupItem]()
+        for i in 0..<images.count {
+            let imgView = cell.imgView
+            let item = YYPhotoGroupItem()
+            item.thumbView = imgView
+            item.largeImageURL = URL(string: .ServerURL + .resource_file + "?file_path=" + cell.model.detail.content + "&thumbnail=" + "false")!
+            item.largeImageSize = CGSize(width: cell.model.detail.properties.width, height: cell.model.detail.properties.height)
+            items.append(item)
+            if i == images.firstIndex(where: { $0.mid == cell.model.mid }){
+                fromView = imgView
+            }
+        }
+        let v = YYPhotoGroupView(groupItems: items)
+        v?.present(fromImageView: fromView, toContainer: navigationController?.view, animated: true, completion: nil)
+    }
 
 }
 
@@ -155,6 +180,8 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             }
             cell.imgView.rx.tapGesture().when(.recognized).subscribe { element in
                 debugPrint("点击了图片消息")
+                let message = self.messages[indexPath.row]
+                self.clickImage(cell: cell)
             }.disposed(by: disposeBag)
             cell.imgView.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了图片消息")

@@ -50,6 +50,7 @@
 		CBCE5B1729474CF500D5D14D /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE5B1629474CF500D5D14D /* ChatsViewController.swift */; };
 		CBCE5B1929474D3100D5D14D /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE5B1829474D3100D5D14D /* ContactsViewController.swift */; };
 		CBCE5B1B29474D4500D5D14D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCE5B1A29474D4400D5D14D /* SettingsViewController.swift */; };
+		CBDC670C296EB1960062E7D1 /* YYPhotoGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDC670B296EB1960062E7D1 /* YYPhotoGroupView.m */; };
 		CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */; };
 		CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */; };
 		CBF4B1672966C012006E9E03 /* ProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBF4B1692966C012006E9E03 /* ProfileEditViewController.xib */; };
@@ -129,6 +130,9 @@
 		CBCE5B1629474CF500D5D14D /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		CBCE5B1829474D3100D5D14D /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		CBCE5B1A29474D4400D5D14D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CBDC670A296EB1960062E7D1 /* VoceChat_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VoceChat_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		CBDC670B296EB1960062E7D1 /* YYPhotoGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYPhotoGroupView.m; sourceTree = "<group>"; };
+		CBDC670D296EB1B00062E7D1 /* YYPhotoGroupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYPhotoGroupView.h; sourceTree = "<group>"; };
 		CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		CBF4B1682966C012006E9E03 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProfileEditViewController.xib; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 		607FACD21AFB9204008FA782 /* Example for VoceChat */ = {
 			isa = PBXGroup;
 			children = (
+				CBDC6709296EB1530062E7D1 /* OC */,
 				CB3C097E2965639900167D05 /* Invite */,
 				CB3C097A2965615E00167D05 /* Channel */,
 				CBB75AEF295A78D100545C74 /* Config */,
@@ -337,6 +342,16 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		CBDC6709296EB1530062E7D1 /* OC */ = {
+			isa = PBXGroup;
+			children = (
+				CBDC670D296EB1B00062E7D1 /* YYPhotoGroupView.h */,
+				CBDC670B296EB1960062E7D1 /* YYPhotoGroupView.m */,
+				CBDC670A296EB1960062E7D1 /* VoceChat_Example-Bridging-Header.h */,
+			);
+			path = OC;
+			sourceTree = "<group>";
+		};
 		D4A39DE1CCB0A1A38716A8F3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,7 +426,7 @@
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = F9N98X7P4L;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1420;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -493,6 +508,7 @@
 				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 				"${BUILT_PRODUCTS_DIR}/VoceChat/VoceChat.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/WoodPeckeriOS/WoodPeckeriOS.framework/WoodPeckeriOS",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -512,6 +528,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VoceChat.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WoodPeckeriOS.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -587,6 +604,7 @@
 				CB3B3FBC2965AF5A00B4212B /* TitleView.swift in Sources */,
 				CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */,
 				CB3C09662965582300167D05 /* NewChannelViewController.swift in Sources */,
+				CBDC670C296EB1960062E7D1 /* YYPhotoGroupView.m in Sources */,
 				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
 				CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */,
 				CBCE5B1929474D3100D5D14D /* ContactsViewController.swift in Sources */,
@@ -804,6 +822,7 @@
 			baseConfigurationReference = A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
 				CURRENT_PROJECT_VERSION = 20230109;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
@@ -815,6 +834,8 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "VoceChat/OC/VoceChat_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -825,6 +846,7 @@
 			baseConfigurationReference = 04AC49890FD2260BBCDE5837 /* Pods-VoceChat_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
 				CURRENT_PROJECT_VERSION = 20230109;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
@@ -836,6 +858,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "VoceChat/OC/VoceChat_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

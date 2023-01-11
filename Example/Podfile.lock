@@ -324,6 +324,9 @@ PODS:
     - SQLite.swift (~> 0.14.0)
     - Toast-Swift (~> 5.0.1)
   - WoodPeckeriOS (1.3.3)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - CDFInitialsAvatar
@@ -336,6 +339,7 @@ DEPENDENCIES:
   - SwiftDate (~> 5.0)
   - VoceChat (from `../`)
   - WoodPeckeriOS
+  - YYKit
 
 SPEC REPOS:
   trunk:
@@ -354,6 +358,7 @@ SPEC REPOS:
     - SwiftDate
     - Toast-Swift
     - WoodPeckeriOS
+    - YYKit
 
 EXTERNAL SOURCES:
   VoceChat:
@@ -376,7 +381,8 @@ SPEC CHECKSUMS:
   Toast-Swift: 9b6a70f28b3bf0b96c40d46c0c4b9d6639846711
   VoceChat: 89502912a3d3be81c81204db15c3d92b1802d2e4
   WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 54533124c6ebc497818664908a1ba29ef8ff64e8
+PODFILE CHECKSUM: 933b9d499dbaf7b8ee8ef0eb29e4f5d3fa001488
 
 COCOAPODS: 1.11.3
