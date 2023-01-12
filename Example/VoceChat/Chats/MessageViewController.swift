@@ -18,6 +18,8 @@ class MessageViewController: BaseViewController {
     
     var images = [VCMessageModel]()
     var imageCellIndexs = [Int]()
+    
+    var popupView: MessagePopupView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +45,11 @@ class MessageViewController: BaseViewController {
                 }
             }
         }.disposed(by: disposeBag)
+        
+        popupView = MessagePopupView()
+        popupView?.preferLayoutDirection = .below
+//        popupView?.didHideBlock =
+        
     }
     
 
@@ -123,6 +130,7 @@ class MessageViewController: BaseViewController {
     //键盘
     @objc func touchInside() {
         view.superview?.endEditing(true)
+//        popupView?.hideWith(animated: true)
     }
     
     lazy var tableView: UITableView = {
@@ -162,6 +170,11 @@ class MessageViewController: BaseViewController {
         let v = YYPhotoGroupView(groupItems: items)
         v?.present(fromImageView: fromView, toContainer: navigationController?.view, animated: true, completion: nil)
     }
+    
+    func showMessagePopupView(cell: MessageListCell) {
+//        popupView?.sourceRect = cell.frame
+//        popupView?.showWith(animated: true)
+    }
 
 }
 
@@ -183,6 +196,7 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             }
             cell.contentLabel.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了文本消息")
+                self.showMessagePopupView(cell: cell)
             }.disposed(by: disposeBag)
             return cell
         }else if model.detail.properties.content_type.contains("image/") {
@@ -197,6 +211,7 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             }.disposed(by: disposeBag)
             cell.imgView.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了图片消息")
+                self.showMessagePopupView(cell: cell)
             }.disposed(by: disposeBag)
             return cell
         }

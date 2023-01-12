@@ -17,6 +17,7 @@
 		C6A04CD553BEAD75AF3736DA /* Pods_VoceChat_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46EE1045C73A0DE3611763F6 /* Pods_VoceChat_Tests.framework */; };
 		CB263C5629666FD30097144C /* MessageImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB263C5529666FD30097144C /* MessageImageCell.swift */; };
 		CB26445A296FE40700D04F36 /* NewChannelMemberSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB264459296FE40700D04F36 /* NewChannelMemberSelectViewController.swift */; };
+		CB26445D296FF4A900D04F36 /* MessagePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26445C296FF4A900D04F36 /* MessagePopupView.swift */; };
 		CB3B3FBC2965AF5A00B4212B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBB2965AF5A00B4212B /* TitleView.swift */; };
 		CB3B3FBE2965B37E00B4212B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */; };
 		CB3B3FC12965BC5200B4212B /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */; };
@@ -88,6 +89,7 @@
 		A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CB263C5529666FD30097144C /* MessageImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageCell.swift; sourceTree = "<group>"; };
 		CB264459296FE40700D04F36 /* NewChannelMemberSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelMemberSelectViewController.swift; sourceTree = "<group>"; };
+		CB26445C296FF4A900D04F36 /* MessagePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePopupView.swift; sourceTree = "<group>"; };
 		CB3B3FBB2965AF5A00B4212B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 				CB729AE029626F1A00B8B39E /* MessageTextCell.swift */,
 				CB263C5529666FD30097144C /* MessageImageCell.swift */,
 				CB8C4F5529680E3900844ABF /* NewChatViewController.swift */,
+				CB26445C296FF4A900D04F36 /* MessagePopupView.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 				CBCE54582957E88700DFCDDA /* SettingProfileCell.swift in Sources */,
 				CB3B3FBE2965B37E00B4212B /* BaseNavigationController.swift in Sources */,
 				CBCE5B1729474CF500D5D14D /* ChatsViewController.swift in Sources */,
+				CB26445D296FF4A900D04F36 /* MessagePopupView.swift in Sources */,
 				CBB75AF1295A810400545C74 /* InputBar.swift in Sources */,
 				CBAA8DB1293CDD8000F0D0EF /* URL.swift in Sources */,
 			);
