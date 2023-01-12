@@ -17,6 +17,7 @@ class MessageViewController: BaseViewController {
     var messages = [VCMessageModel]()
     
     var images = [VCMessageModel]()
+    var imageCellIndexs = [Int]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,7 @@ class MessageViewController: BaseViewController {
                 self.messages.append(message)
                 if message.detail.properties.content_type == "image/jpeg" {
                     self.images = self.images + [message]
+                    self.imageCellIndexs.append(self.messages.count - 1)
                 }
                 DispatchQueue.main.async {
                     self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
@@ -50,6 +52,10 @@ class MessageViewController: BaseViewController {
             let normals = messages.filter({ $0.detail.type == "normal" })
             let images = messages.filter({ $0.detail.properties.content_type == "image/jpeg" })
             self.images = self.images + images
+            for image in self.images {
+                let index = normals.firstIndex(where: { $0.mid == image.mid }) ?? 0
+                self.imageCellIndexs.append(index)
+            }
             self.messages = self.messages + normals
             self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
@@ -60,6 +66,8 @@ class MessageViewController: BaseViewController {
     
     func sendTextMsg(text: String) {
         VCManager.shared.sendMessage(uid: model.from_uid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
+            AudioServicesPlaySystemSound(1004)
+            
             let messageModel = VCMessageModel()
             messageModel.mid = mid
             messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
@@ -76,6 +84,7 @@ class MessageViewController: BaseViewController {
             self.messages.append(messageModel)
             self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+            
         } failure: { error in
             //do nothing
         }
@@ -136,14 +145,18 @@ class MessageViewController: BaseViewController {
     func clickImage(cell: MessageImageCell) {
         var fromView: UIView? = nil
         var items = [YYPhotoGroupItem]()
+        let index = images.firstIndex(where: { $0.mid == cell.model.mid })
         for i in 0..<images.count {
-            let imgView = cell.imgView
+            let model = images[i]
+            let currentCell = tableView.cellForRow(at: IndexPath(row: imageCellIndexs[i], section: 0)) as! MessageImageCell
+            
+            let imgView = currentCell.imgView
             let item = YYPhotoGroupItem()
             item.thumbView = imgView
-            item.largeImageURL = URL(string: .ServerURL + .resource_file + "?file_path=" + cell.model.detail.content + "&thumbnail=" + "false")!
-            item.largeImageSize = CGSize(width: cell.model.detail.properties.width, height: cell.model.detail.properties.height)
+            item.largeImageURL = URL(string: .ServerURL + .resource_file + "?file_path=" + model.detail.content + "&thumbnail=" + "false")!
+            item.largeImageSize = CGSize(width: model.detail.properties.width, height: model.detail.properties.height)
             items.append(item)
-            if i == images.firstIndex(where: { $0.mid == cell.model.mid }){
+            if i == index {
                 fromView = imgView
             }
         }

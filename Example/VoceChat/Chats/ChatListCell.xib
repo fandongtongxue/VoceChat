@@ -59,17 +59,35 @@
                         <color key="textColor" systemColor="systemGrayColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gN-x0-pGN">
+                        <rect key="frame" x="290" y="30" width="20" height="20"/>
+                        <color key="backgroundColor" systemColor="systemRedColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="1a9-Jv-WRr"/>
+                            <constraint firstAttribute="height" constant="20" id="Bqs-et-MGb"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="UIH-aH-Mbd" firstAttribute="top" secondItem="rbA-H7-VVd" secondAttribute="bottom" constant="5" id="04Q-2X-cb4"/>
                     <constraint firstItem="lm0-9h-FWh" firstAttribute="leading" secondItem="uMM-zy-k0j" secondAttribute="leading" constant="20" id="2ra-2G-EeS"/>
                     <constraint firstItem="V9s-E5-r5N" firstAttribute="centerY" secondItem="rbA-H7-VVd" secondAttribute="centerY" id="AlD-ma-bfB"/>
+                    <constraint firstItem="8gN-x0-pGN" firstAttribute="bottom" secondItem="lm0-9h-FWh" secondAttribute="bottom" id="CHv-8i-2au"/>
                     <constraint firstItem="rbA-H7-VVd" firstAttribute="leading" secondItem="lm0-9h-FWh" secondAttribute="trailing" constant="10" id="G6X-QG-f64"/>
                     <constraint firstAttribute="trailing" secondItem="UIH-aH-Mbd" secondAttribute="trailing" constant="10" id="Ihr-Np-X1y"/>
                     <constraint firstItem="rbA-H7-VVd" firstAttribute="top" secondItem="lm0-9h-FWh" secondAttribute="top" id="Ld7-jJ-6GG"/>
                     <constraint firstAttribute="bottom" secondItem="lm0-9h-FWh" secondAttribute="bottom" constant="10" id="OJD-tq-4Uc"/>
                     <constraint firstItem="lm0-9h-FWh" firstAttribute="top" secondItem="uMM-zy-k0j" secondAttribute="top" constant="10" id="a5c-lo-HK1"/>
                     <constraint firstAttribute="trailing" secondItem="V9s-E5-r5N" secondAttribute="trailing" constant="10" id="jbB-28-toU"/>
+                    <constraint firstItem="8gN-x0-pGN" firstAttribute="trailing" secondItem="V9s-E5-r5N" secondAttribute="trailing" id="nXa-Wr-r13"/>
                     <constraint firstItem="dE5-MT-Hpm" firstAttribute="bottom" secondItem="lm0-9h-FWh" secondAttribute="bottom" id="rRF-ub-l1G"/>
                     <constraint firstItem="dE5-MT-Hpm" firstAttribute="trailing" secondItem="lm0-9h-FWh" secondAttribute="trailing" id="sq5-zb-afR"/>
                     <constraint firstItem="UIH-aH-Mbd" firstAttribute="leading" secondItem="rbA-H7-VVd" secondAttribute="leading" id="xTo-oY-JJC"/>
@@ -82,6 +100,7 @@
                 <outlet property="nameLabel" destination="rbA-H7-VVd" id="Blf-1u-nzE"/>
                 <outlet property="onlineView" destination="dE5-MT-Hpm" id="n0Q-zu-Uhl"/>
                 <outlet property="timeLabel" destination="V9s-E5-r5N" id="9CB-af-4cS"/>
+                <outlet property="unreadLabel" destination="8gN-x0-pGN" id="lap-NG-HEC"/>
             </connections>
             <point key="canvasLocation" x="131.29770992366412" y="-5.6338028169014089"/>
         </tableViewCell>
@@ -89,6 +108,9 @@
     <resources>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

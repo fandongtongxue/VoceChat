@@ -18,6 +18,7 @@ class ChatListCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var unreadLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -41,6 +42,9 @@ class ChatListCell: UITableViewCell {
             
             timeLabel.text = newValue.created_at.translateTimestamp()
             onlineView.backgroundColor = newValue.online ? .systemGreen : .systemGray
+            
+            unreadLabel.isHidden = newValue.unread == 0
+            unreadLabel.text = "\(newValue.unread)"
         }
         get{
             return _chat

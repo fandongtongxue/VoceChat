@@ -8,6 +8,7 @@
 
 import UIKit
 import VoceChat
+import AudioToolbox
 
 class ChatsViewController: BaseViewController {
     
@@ -91,6 +92,9 @@ class ChatsViewController: BaseViewController {
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
             
+            if message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                AudioServicesPlaySystemSound(1007)
+            }
             //存入数据库
             VCManager.shared.insertMessage(message: message)
             
@@ -100,13 +104,14 @@ class ChatsViewController: BaseViewController {
     }
     
     func operateMessage(message: VCMessageModel) {
+        
         //如果是删除消息的通知就
         guard message.detail.detail.type != "delete" else { return }
         
         let from = self.chats.contains(where: {$0.from_uid == message.from_uid})
         let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
         if from{
-            self.chats[index] = message
+            self.chats[index].detail = message.detail
             self.chats[index].unread = self.chats[index].unread + 1
         }else {
             if VCManager.shared.currentUser()?.user.uid == message.from_uid {
@@ -114,11 +119,13 @@ class ChatsViewController: BaseViewController {
                 let newIndex = self.chats.firstIndex(where: {$0.from_uid == message.target.uid}) ?? 0
                 //替换这个元素
                 if target {
-                    self.chats[newIndex].detail.content = message.detail.content
+                    self.chats[newIndex].detail = message.detail
                     self.chats[newIndex].created_at = message.created_at
                     self.chats[newIndex].mid = message.mid
+                    self.chats[newIndex].unread = self.chats[newIndex].unread + 1
                 }
             }else {
+                message.unread = 1
                 self.chats.append(message)
             }
         }
