@@ -8,11 +8,17 @@
 import UIKit
 import VoceChat
 
+protocol ContactsSearchResultViewControllerDelegate {
+    func searchResult(searchResult: ContactsSearchResultViewController, didSelectUser: VCUserModel)
+}
+
 class ContactsSearchResultViewController: BaseViewController {
     
     var dataArray = [VCUserModel]()
     var resultArray = [VCUserModel]()
     var nav : UINavigationController?
+    
+    var delegate: ContactsSearchResultViewControllerDelegate?
     
     lazy var tableView : UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -64,6 +70,7 @@ extension ContactsSearchResultViewController : UITableViewDelegate,UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.searchResult(searchResult: self, didSelectUser: resultArray[indexPath.row])
     }
 }
 

@@ -14,6 +14,8 @@ class ChatsViewController: BaseViewController {
     
     var chats = [VCMessageModel]()
     var channels = [VCChannelModel]()
+    
+    var unread = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +54,7 @@ class ChatsViewController: BaseViewController {
         let temp = VCManager.shared.getAllMsg()
         
         for msg in temp {
-            operateMessage(message: msg)
+            operateMessage(message: msg, isFromDB: true)
         }
 
         // Do any additional setup after loading the view.
@@ -110,7 +112,7 @@ class ChatsViewController: BaseViewController {
         }.disposed(by: disposeBag)
     }
     
-    func operateMessage(message: VCMessageModel) {
+    func operateMessage(message: VCMessageModel, isFromDB: Bool = false) {
         
         //如果是删除消息的通知就
         guard message.detail.detail.type != "delete" else { return }
@@ -119,7 +121,10 @@ class ChatsViewController: BaseViewController {
         let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
         if from{
             self.chats[index].detail = message.detail
-            self.chats[index].unread = self.chats[index].unread + 1
+            if !isFromDB {
+                self.chats[index].unread = self.chats[index].unread + 1
+                unread = unread + 1
+            }
         }else {
             if VCManager.shared.currentUser()?.user.uid == message.from_uid {
                 let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
@@ -129,10 +134,17 @@ class ChatsViewController: BaseViewController {
                     self.chats[newIndex].detail = message.detail
                     self.chats[newIndex].created_at = message.created_at
                     self.chats[newIndex].mid = message.mid
-                    self.chats[newIndex].unread = self.chats[newIndex].unread + 1
+                    if !isFromDB {
+                        self.chats[newIndex].unread = self.chats[newIndex].unread + 1
+                        unread = unread + 1
+                    }
+                    
                 }
             }else {
-                message.unread = 1
+                if !isFromDB {
+                    message.unread = 1
+                    unread = unread + 1
+                }
                 self.chats.append(message)
             }
         }
@@ -140,6 +152,7 @@ class ChatsViewController: BaseViewController {
         guard let json = UserDefaults.standard.string(forKey: .users_state) else {
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                self.setBadgeValue(unread: self.unread)
             }
             return
         }
@@ -153,6 +166,7 @@ class ChatsViewController: BaseViewController {
         }
         DispatchQueue.main.async {
             self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            self.setBadgeValue(unread: self.unread)
         }
     }
     
@@ -174,6 +188,15 @@ class ChatsViewController: BaseViewController {
         tableView.register(UINib(nibName: "ChatListCell", bundle: Bundle.main), forCellReuseIdentifier: NSStringFromClass(ChatListCell.classForCoder()))
         return tableView
     }()
+    
+    func setBadgeValue(unread: Int) {
+        if unread == 0 {
+            navigationController?.tabBarItem.badgeValue = nil
+        }else{
+            navigationController?.tabBarItem.badgeValue = "\(unread)"
+            UIApplication.shared.applicationIconBadgeNumber = unread
+        }
+    }
 
 }
 
@@ -209,7 +232,10 @@ extension ChatsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        setBadgeValue(unread: unread - chats[indexPath.row].unread)
+        unread = unread - chats[indexPath.row].unread
         chats[indexPath.row].unread = 0
+        UIApplication.shared.applicationIconBadgeNumber = unread
         tableView.reloadRows(at: [indexPath], with: .automatic)
         if indexPath.section == 0 {
             let chatVC = ChatViewController()

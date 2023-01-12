@@ -17,6 +17,7 @@ class NewChatViewController: BaseViewController {
     lazy var searchRC : ContactsSearchResultViewController = {
         let searchRC = ContactsSearchResultViewController()
         searchRC.nav = navigationController
+        searchRC.delegate = self
         return searchRC
     }()
     
@@ -117,6 +118,20 @@ class NewChatViewController: BaseViewController {
         tableView.register(UINib(nibName: "ContactListCell", bundle: Bundle.main), forCellReuseIdentifier: NSStringFromClass(ContactListCell.classForCoder()))
         return tableView
     } ()
+    
+    func chat(user: VCUserModel) {
+        dismiss(animated: true) {
+            let tabC = UIApplication.shared.keyWindow?.rootViewController as! UITabBarController
+            let nav = tabC.viewControllers?.first as! BaseNavigationController
+            
+            let chatVC = ChatViewController()
+            let chat = VCMessageModel()
+            chat.from_uid = user.uid
+            chatVC.chat = chat
+            chatVC.hidesBottomBarWhenPushed = true
+            nav.pushViewController(chatVC, animated: true)
+        }
+    }
 
 }
 
@@ -142,21 +157,17 @@ extension NewChatViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        dismiss(animated: true) {
-            let tabC = UIApplication.shared.keyWindow?.rootViewController as! UITabBarController
-            let nav = tabC.viewControllers?.first as! BaseNavigationController
-            
-            let chatVC = ChatViewController()
-            let chat = VCMessageModel()
-            chat.from_uid = self.users[indexPath.row].uid
-            chatVC.chat = chat
-            chatVC.hidesBottomBarWhenPushed = true
-            nav.pushViewController(chatVC, animated: true)
-        }
+        chat(user: users[indexPath.row])
     }
 }
 
 
 extension NewChatViewController : UISearchControllerDelegate{
     
+}
+
+extension NewChatViewController: ContactsSearchResultViewControllerDelegate{
+    func searchResult(searchResult: ContactsSearchResultViewController, didSelectUser: VCUserModel) {
+        chat(user: didSelectUser)
+    }
 }

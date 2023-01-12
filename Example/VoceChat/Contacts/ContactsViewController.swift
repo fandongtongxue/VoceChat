@@ -17,6 +17,7 @@ class ContactsViewController: BaseViewController {
     lazy var searchRC : ContactsSearchResultViewController = {
         let searchRC = ContactsSearchResultViewController()
         searchRC.nav = navigationController
+        searchRC.delegate = self
         return searchRC
     }()
     
@@ -112,6 +113,13 @@ class ContactsViewController: BaseViewController {
         tableView.register(UINib(nibName: "ContactListCell", bundle: Bundle.main), forCellReuseIdentifier: NSStringFromClass(ContactListCell.classForCoder()))
         return tableView
     } ()
+    
+    func profile(user: VCUserModel) {
+        let profileVC = ProfileViewController()
+        profileVC.hidesBottomBarWhenPushed = true
+        profileVC.model = user
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
 
 }
 
@@ -137,14 +145,17 @@ extension ContactsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let profileVC = ProfileViewController()
-        profileVC.hidesBottomBarWhenPushed = true
-        profileVC.model = users[indexPath.row]
-        navigationController?.pushViewController(profileVC, animated: true)
+        profile(user: users[indexPath.row])
     }
 }
 
 
 extension ContactsViewController : UISearchControllerDelegate{
     
+}
+
+extension ContactsViewController: ContactsSearchResultViewControllerDelegate {
+    func searchResult(searchResult: ContactsSearchResultViewController, didSelectUser: VCUserModel) {
+        profile(user: didSelectUser)
+    }
 }

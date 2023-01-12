@@ -20,6 +20,7 @@ class NewChannelMemberSelectViewController: BaseViewController {
     lazy var searchRC : ContactsSearchResultViewController = {
         let searchRC = ContactsSearchResultViewController()
         searchRC.nav = navigationController
+//        searchRC.delegate = self
         return searchRC
     }()
     
@@ -168,9 +169,6 @@ extension NewChannelMemberSelectViewController: UITableViewDelegate,UITableViewD
         return indexPath.row != index
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        //do nothing
-    }
 }
 
 
