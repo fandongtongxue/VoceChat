@@ -105,6 +105,8 @@ extension SettingsViewController: UITableViewDelegate,UITableViewDataSource{
                 }
             }))
             present(alert, animated: true)
+        }else if indexPath.section == 5 {
+            
         }else if indexPath.section == 6{
             let alert = UIAlertController(title: NSLocalizedString("Delete Account?", comment: ""), message: nil, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel))

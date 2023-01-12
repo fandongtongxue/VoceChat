@@ -66,7 +66,6 @@ class MessageViewController: BaseViewController {
     
     func sendTextMsg(text: String) {
         VCManager.shared.sendMessage(uid: model.from_uid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
-            AudioServicesPlaySystemSound(1004)
             
             let messageModel = VCMessageModel()
             messageModel.mid = mid

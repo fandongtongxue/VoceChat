@@ -84,7 +84,7 @@ public class VCManager: NSObject {
         } failure: { error in
             failure(error)
         }
-
+        
     }
     
     // MARK: - 验证Email是否合法
@@ -115,7 +115,7 @@ public class VCManager: NSObject {
             failure(error)
         }
     }
-
+    
     
     /// Guest登录
     /// - Parameters:
@@ -133,7 +133,7 @@ public class VCManager: NSObject {
             failure(error)
             debugPrint("登陆失败:\(error)")
         }
-
+        
     }
     
     
@@ -236,8 +236,7 @@ public class VCManager: NSObject {
             self.timer = nil
             UserDefaults.standard.set([:], forKey: .userKey)
             UserDefaults.standard.synchronize()
-            self.deleteUsers()
-            self.deleteMessages()
+            self.clearLocalData()
         } failure: { error in
             failure(error)
             debugPrint("退出登陆失败:\(error)")
@@ -270,7 +269,7 @@ public class VCManager: NSObject {
         } failure: { error in
             debugPrint("刷新Token失败")
         }
-
+        
     }
     
     // MARK: - 数据库
@@ -279,7 +278,7 @@ public class VCManager: NSObject {
             let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
             let path = paths.first ?? ""
             db = try Connection(path+"/db.sqlite3")
-
+            
             createUserTable()
             createMessageTable()
         } catch {
@@ -371,7 +370,7 @@ public class VCManager: NSObject {
         let detail_content_type = Expression<String>("detail_content_type")
         let uid = Expression<Int>("uid")
         let created_at = Expression<Int>("created_at")
-
+        
         do {
             try db.run(messages.create(ifNotExists: true) { t in
                 t.column(id, primaryKey: true)
@@ -448,7 +447,7 @@ public class VCManager: NSObject {
             
             let message = all.last
             let model = VCMessageModel()
-
+            
             model.from_uid = try message?.get(from_uid) ?? 0
             model.mid = try message?.get(mid) ?? 0
             model.created_at = try message?.get(created_at) ?? 0
@@ -492,7 +491,7 @@ public class VCManager: NSObject {
             var tempArray = [VCMessageModel]()
             for message in all {
                 let model = VCMessageModel()
-
+                
                 model.from_uid = try message.get(from_uid)
                 model.mid = try message.get(mid)
                 model.created_at = try message.get(created_at)
@@ -536,11 +535,22 @@ public class VCManager: NSObject {
     public func deleteUser(success: @escaping (()->()), failure: @escaping ((Int)->())) {
         VCNetwork.delete(url: .user_delete) { result in
             success()
-            self.deleteUsers()
-            self.deleteMessages()
+            self.clearLocalData()
         } failure: { error in
             failure(error)
         }
+    }
+    
+    public func clearLocalData() {
+        UserDefaults.standard.set("", forKey: .nameKey)
+        UserDefaults.standard.set("", forKey: .descKey)
+        UserDefaults.standard.set("", forKey: .serverURLKey)
+        UserDefaults.standard.set("", forKey: .userKey)
+        UserDefaults.standard.set("", forKey: .emailKey)
+        UserDefaults.standard.set("", forKey: .passwordKey)
+        UserDefaults.standard.set("", forKey: .cookieKey)
+        self.deleteUsers()
+        self.deleteMessages()
     }
     
     public func updateUserName(name: String, success: @escaping ((VCUserModel)->()), failure: @escaping ((Int)->())) {
@@ -603,7 +613,7 @@ public class VCManager: NSObject {
     }
     
     // MARK: - 群组相关
-    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [String] = [], success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
+    public func createChannel(name:String? = "", description: String? = "", is_public: Bool = false, members: [Int?] = [], success: @escaping ((Int)->()), failure: @escaping ((Int)->())) {
         VCNetwork.postRaw(url: .group, param: ["name": name, "description": description, "is_public": is_public, "members": members]) { result in
             success(result as? Int ?? 0)
         } failure: { error in

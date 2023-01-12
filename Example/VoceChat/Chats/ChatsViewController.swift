@@ -18,7 +18,7 @@ class ChatsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = NSLocalizedString("Chats", comment: "")
+        navigationItem.title = NSLocalizedString("Chats", comment: "") + NSLocalizedString("(Connecting)", comment: "")
 //        navigationItem.titleView =
         let newChannel = UIAction(title: NSLocalizedString("New Channel", comment: ""), image: UIImage(systemName: "number")) { action in
             let newVC = NewChannelViewController()
@@ -56,6 +56,13 @@ class ChatsViewController: BaseViewController {
         }
 
         // Do any additional setup after loading the view.
+        //Ready通知
+        NotificationCenter.default.rx.notification(.ready)
+            .subscribe { noti in
+                DispatchQueue.main.async {
+                    self.navigationItem.title = NSLocalizedString("Chats", comment: "")
+                }
+            }.disposed(by: disposeBag)
         //在线状态通知
         NotificationCenter.default.rx.notification(.user_state)
             .subscribe { noti in
@@ -202,6 +209,8 @@ extension ChatsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        chats[indexPath.row].unread = 0
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         if indexPath.section == 0 {
             let chatVC = ChatViewController()
             chatVC.chat = chats[indexPath.row]

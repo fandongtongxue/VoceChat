@@ -27,6 +27,8 @@ class NewChannelViewController: BaseViewController {
         nameTF.leftView = leftView
         nameTF.leftViewMode = .always
         
+        descTV.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        
         let ret = VCManager.shared.currentUser()?.user.is_admin ?? false
         privateView.isHidden = !ret
         privateTipLabel.isHidden = !ret
@@ -48,7 +50,10 @@ class NewChannelViewController: BaseViewController {
     }
     
     @objc private func nextAction() {
-        
+        let selectVC = NewChannelMemberSelectViewController()
+        selectVC.name = (nameTF.text?.count ?? 0 > 0) ? nameTF.text! : NSLocalizedString("New Private Channel", comment: "")
+        selectVC.desc = descTV.text ?? ""
+        navigationController?.pushViewController(selectVC, animated: true)
     }
     
     @objc private func doneAction() {
