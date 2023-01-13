@@ -36,7 +36,7 @@
 	<key>NSLocalNetworkUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>NSPhotoLibraryUsageDescription</string>
+	<string>需要访问您的相册用于上传头像、发送图片</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

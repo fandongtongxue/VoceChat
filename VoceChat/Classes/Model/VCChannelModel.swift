@@ -16,6 +16,9 @@ public class VCChannelModel: VCBaseModel {
     public var name = ""
     public var owner: Int = 0
     public var pinned_messages = [VCChannelModelPinned_messages]()
+    public var unread: Int = 0
+    public var content = ""
+    public var content_type = ""
 }
 
 public class VCChannelModelPinned_messages: VCBaseModel {

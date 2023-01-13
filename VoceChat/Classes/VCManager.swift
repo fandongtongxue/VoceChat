@@ -667,9 +667,15 @@ public class VCManager: NSObject {
     ///   - uid: 用户ID
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func sendMessage(uid: Int, msg: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int, VCUploadImageModel?)->()), failure: @escaping ((Int)->())) {
+    public func sendMessage(uid: Int = 0, gid: Int = 0, msg: String? = nil, imageURL: URL? = nil, Content_Type:String, mid: Int, success: @escaping ((Int, VCUploadImageModel?)->()), failure: @escaping ((Int)->())) {
+        var url = ""
+        if uid > 0 {
+            url = .user+"/\(uid)/send"
+        }else if gid > 0 {
+            url = .group+"/\(gid)/send"
+        }
         if Content_Type == "text/plain" {
-            VCNetwork.httpBody(url: .user+"/\(uid)/send", method: .post, body: msg, Content_Type: Content_Type, mid: mid) { result in
+            VCNetwork.httpBody(url: url, method: .post, body: msg, Content_Type: Content_Type, mid: mid) { result in
                 success(result as? Int ?? 0, nil)
             } failure: { error in
                 failure(error)
@@ -679,7 +685,7 @@ public class VCManager: NSObject {
                 guard let resultData = result as? Data else { return }
                 let file_id = String(data: resultData, encoding: .utf8)
                 VCNetwork.uploadImage(url: .resource_file_upload, file_id: file_id!, imageURL: imageURL!) { result2 in
-                    VCNetwork.httpBody(url: .user+"/\(uid)/send",method: .post, body: result2.path, Content_Type: "vocechat/file", mid: mid) { result3 in
+                    VCNetwork.httpBody(url: url,method: .post, body: result2.path, Content_Type: "vocechat/file", mid: mid) { result3 in
                         success(result as? Int ?? 0, result2)
                     } failure: { error in
                         failure(error)

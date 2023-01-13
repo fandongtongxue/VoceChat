@@ -70,6 +70,9 @@ extension ContactsSearchResultViewController : UITableViewDelegate,UITableViewDa
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        
+        
         delegate?.searchResult(searchResult: self, didSelectUser: resultArray[indexPath.row])
     }
 }

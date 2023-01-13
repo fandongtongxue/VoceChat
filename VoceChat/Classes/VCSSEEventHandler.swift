@@ -40,6 +40,9 @@ struct VCSSEEventHandler: EventHandler {
         case .kick:
             NotificationCenter.default.post(name: .kick, object: nil)
             break
+        case .joined_group:
+            NotificationCenter.default.post(name: .joined_group, object: model)
+            break
         default:
             break
             //do nothing

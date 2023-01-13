@@ -17,6 +17,7 @@ public class VCMessageModel: VCBaseModel {
 
 public class VCMessageModelTarget: VCBaseModel {
     public var uid: Int = 0
+    public var gid: Int = 0
 }
 
 public class VCMessageModelDetail: VCBaseModel {

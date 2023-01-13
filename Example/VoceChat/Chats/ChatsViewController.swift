@@ -110,64 +110,97 @@ class ChatsViewController: BaseViewController {
             self.operateMessage(message: message)
             
         }.disposed(by: disposeBag)
+        //群组消息
+        NotificationCenter.default.rx.notification(.joined_group).subscribe { noti in
+            let model = noti.element?.object as! VCSSEEventModel
+            let index = self.channels.firstIndex(where:  { $0.gid == model.gid } ) ?? -1
+            guard index == -1 else { return }
+            self.channels.append(model.group)
+            DispatchQueue.main.async {
+                self.tableView.insertRows(at: [IndexPath(row: self.channels.count > 0 ? self.channels.count - 1 : self.channels.count, section: 1)], with: .automatic)
+            }
+        }.disposed(by: disposeBag)
     }
     
     func operateMessage(message: VCMessageModel, isFromDB: Bool = false) {
         
-        //如果是删除消息的通知就
-        guard message.detail.detail.type != "delete" else { return }
-        
-        let from = self.chats.contains(where: {$0.from_uid == message.from_uid})
-        let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
-        if from{
-            self.chats[index].detail = message.detail
-            if !isFromDB {
-                self.chats[index].unread = self.chats[index].unread + 1
-                unread = unread + 1
-            }
-        }else {
-            if VCManager.shared.currentUser()?.user.uid == message.from_uid {
-                let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
-                let newIndex = self.chats.firstIndex(where: {$0.from_uid == message.target.uid}) ?? 0
-                //替换这个元素
-                if target {
-                    self.chats[newIndex].detail = message.detail
-                    self.chats[newIndex].created_at = message.created_at
-                    self.chats[newIndex].mid = message.mid
-                    if !isFromDB {
-                        self.chats[newIndex].unread = self.chats[newIndex].unread + 1
-                        unread = unread + 1
-                    }
-                    
-                }
-            }else {
-                if !isFromDB {
-                    message.unread = 1
+        if message.target.uid > 0 {
+            //C2C
+            //如果是删除消息的通知就
+            guard message.detail.detail.type != "delete" else { return }
+            
+            let from = self.chats.contains(where: {$0.from_uid == message.from_uid})
+            let index = self.chats.firstIndex(where: {$0.from_uid == message.from_uid}) ?? 0
+            if from{
+                self.chats[index].detail = message.detail
+                if !isFromDB && message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                    self.chats[index].unread = self.chats[index].unread + 1
                     unread = unread + 1
                 }
-                self.chats.append(message)
+            }else {
+                if VCManager.shared.currentUser()?.user.uid == message.from_uid {
+                    let target = self.chats.contains(where: {$0.from_uid == message.target.uid})
+                    let newIndex = self.chats.firstIndex(where: {$0.from_uid == message.target.uid}) ?? 0
+                    //替换这个元素
+                    if target {
+                        self.chats[newIndex].detail = message.detail
+                        self.chats[newIndex].created_at = message.created_at
+                        self.chats[newIndex].mid = message.mid
+                        if !isFromDB && message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                            self.chats[newIndex].unread = self.chats[newIndex].unread + 1
+                            unread = unread + 1
+                        }
+                        
+                    }
+                }else {
+                    if !isFromDB && message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                        message.unread = 1
+                        unread = unread + 1
+                    }
+                    self.chats.append(message)
+                }
             }
-        }
-        
-        guard let json = UserDefaults.standard.string(forKey: .users_state) else {
+            
+            guard let json = UserDefaults.standard.string(forKey: .users_state) else {
+                DispatchQueue.main.async {
+                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                    self.setBadgeValue(unread: self.unread)
+                }
+                return
+            }
+            let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
+            for xuser in model.users {
+                for ychat in self.chats {
+                    if xuser.uid == ychat.from_uid {
+                        ychat.online = xuser.online
+                    }
+                }
+            }
             DispatchQueue.main.async {
                 self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
                 self.setBadgeValue(unread: self.unread)
             }
-            return
-        }
-        let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
-        for xuser in model.users {
-            for ychat in self.chats {
-                if xuser.uid == ychat.from_uid {
-                    ychat.online = xuser.online
+        }else if message.target.gid > 0 {
+            //群组消息
+            let index = channels.firstIndex(where: { $0.gid == message.target.gid }) ?? 0
+            channels[index].content_type = message.detail.content_type
+            if message.detail.content_type == "text/plain" {
+                channels[index].content = message.detail.content
+            }else if message.detail.content_type == "vocechat/file" {
+                if message.detail.properties.content_type == "image/jpeg" {
+                    channels[index].content = "[图片]"
+                }else {
+                    channels[index].content = "[文件]"
                 }
             }
+            channels[index].unread = channels[index].unread + 1
+            unread = unread + 1
+            DispatchQueue.main.async {
+                self.setBadgeValue(unread: self.unread)
+                self.tableView.reloadRows(at: [IndexPath(row: index, section: 1)], with: .automatic)
+            }
         }
-        DispatchQueue.main.async {
-            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-            self.setBadgeValue(unread: self.unread)
-        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -232,21 +265,27 @@ extension ChatsViewController: UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        setBadgeValue(unread: unread - chats[indexPath.row].unread)
-        unread = unread - chats[indexPath.row].unread
-        chats[indexPath.row].unread = 0
-        UIApplication.shared.applicationIconBadgeNumber = unread
-        tableView.reloadRows(at: [indexPath], with: .automatic)
         if indexPath.section == 0 {
+            setBadgeValue(unread: unread - chats[indexPath.row].unread)
+            unread = unread - chats[indexPath.row].unread
+            chats[indexPath.row].unread = 0
+            
             let chatVC = ChatViewController()
             chatVC.chat = chats[indexPath.row]
             chatVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(chatVC, animated: true)
         }else {
+            setBadgeValue(unread: unread - channels[indexPath.row].unread)
+            unread = unread - channels[indexPath.row].unread
+            channels[indexPath.row].unread = 0
+            
             let chatVC = ChatViewController()
             chatVC.channel = channels[indexPath.row]
             chatVC.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(chatVC, animated: true)
         }
+        UIApplication.shared.applicationIconBadgeNumber = unread
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        
     }
 }

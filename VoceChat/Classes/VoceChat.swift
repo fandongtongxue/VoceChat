@@ -87,4 +87,5 @@ public extension Notification.Name {
     static let chat = Notification.Name(rawValue: "chat")
     static let ready = Notification.Name(rawValue: "ready")
     static let kick = Notification.Name(rawValue: "kick")
+    static let joined_group = Notification.Name(rawValue: "joined_group")
 }

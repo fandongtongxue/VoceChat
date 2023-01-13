@@ -39,8 +39,8 @@ public class VCSSEEventModel: VCBaseModel {
 	public var from_device = ""
 	public var from_uid: Int = 0
 	public var gid: Int = 0
-	public var group = VCSSEEventModelGroup()
-	public var groups = [VCSSEEventModelGroups]()
+	public var group = VCChannelModel()
+	public var groups = [VCChannelModel]()
 	public var is_public: Bool = false
 	public var logs = [VCSSEEventModelLogs]()
 	public var mid: Int = 0
@@ -55,7 +55,7 @@ public class VCSSEEventModel: VCBaseModel {
 	public var reason = ""
 	public var remove_mute_groups = [Int]()
 	public var remove_mute_users = [Int]()
-	public var target = VCSSEEventModelTarget()
+	public var target = VCMessageModelTarget()
 	public var time: Int = 0
     public var type = ""
     public var uid: Int = 0

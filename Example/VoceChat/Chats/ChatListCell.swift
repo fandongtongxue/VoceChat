@@ -60,9 +60,12 @@ class ChatListCell: UITableViewCell {
             avatar?.backgroundColor = .systemGray
             avatarImgView.sd_setImage(with: URL(string: .ServerURL + .resource_group_avatar + "?gid=\(newValue.gid)" + "&t=\(newValue.avatar_updated_at)"), placeholderImage: avatar?.imageRepresentation)
             nameLabel.text = newValue.name
-            contentLabel.text = newValue.pinned_messages.first?.content
+            contentLabel.text = newValue.content
             onlineView.isHidden = true
             timeLabel.text = ""
+            
+            unreadLabel.isHidden = newValue.unread == 0
+            unreadLabel.text = "\(newValue.unread)"
         }
         get{
             return _channel

@@ -19,8 +19,6 @@ class MessageViewController: BaseViewController {
     var images = [VCMessageModel]()
     var imageCellIndexs = [Int]()
     
-    var popupView: MessagePopupView?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,16 +38,11 @@ class MessageViewController: BaseViewController {
                     self.imageCellIndexs.append(self.messages.count - 1)
                 }
                 DispatchQueue.main.async {
-                    self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
-                    self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+                    self.tableView.insertRows(at: [IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0)], with: .automatic)
+                    self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
                 }
             }
         }.disposed(by: disposeBag)
-        
-        popupView = MessagePopupView()
-        popupView?.preferLayoutDirection = .below
-//        popupView?.didHideBlock =
-        
     }
     
 
@@ -72,7 +65,8 @@ class MessageViewController: BaseViewController {
     }
     
     func sendTextMsg(text: String) {
-        VCManager.shared.sendMessage(uid: model.from_uid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
+        
+        VCManager.shared.sendMessage(uid: model.target.uid > 0 ? model.from_uid : model.target.gid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
             
             let messageModel = VCMessageModel()
             messageModel.mid = mid
@@ -88,8 +82,8 @@ class MessageViewController: BaseViewController {
             messageModel.detail = detail
             
             self.messages.append(messageModel)
-            self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
-            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+            self.tableView.insertRows(at: [IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0)], with: .automatic)
+            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
             
         } failure: { error in
             //do nothing
@@ -97,7 +91,7 @@ class MessageViewController: BaseViewController {
     }
     
     func sendImageMsg(imageURL: URL) {
-        VCManager.shared.sendMessage(uid: model.from_uid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid, imageModel in
+        VCManager.shared.sendMessage(uid: model.target.uid > 0 ? model.from_uid : model.target.gid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid, imageModel in
             let messageModel = VCMessageModel()
             messageModel.mid = mid
             messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
@@ -120,8 +114,8 @@ class MessageViewController: BaseViewController {
             messageModel.detail = detail
             
             self.messages.append(messageModel)
-            self.tableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
-            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+            self.tableView.insertRows(at: [IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0)], with: .automatic)
+            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
         } failure: { error in
             self.view.makeToast("\(error)")
         }
@@ -130,7 +124,6 @@ class MessageViewController: BaseViewController {
     //键盘
     @objc func touchInside() {
         view.superview?.endEditing(true)
-//        popupView?.hideWith(animated: true)
     }
     
     lazy var tableView: UITableView = {
@@ -170,11 +163,6 @@ class MessageViewController: BaseViewController {
         let v = YYPhotoGroupView(groupItems: items)
         v?.present(fromImageView: fromView, toContainer: navigationController?.view, animated: true, completion: nil)
     }
-    
-    func showMessagePopupView(cell: MessageListCell) {
-//        popupView?.sourceRect = cell.frame
-//        popupView?.showWith(animated: true)
-    }
 
 }
 
@@ -196,7 +184,6 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             }
             cell.contentLabel.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了文本消息")
-                self.showMessagePopupView(cell: cell)
             }.disposed(by: disposeBag)
             return cell
         }else if model.detail.properties.content_type.contains("image/") {
@@ -211,7 +198,6 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             }.disposed(by: disposeBag)
             cell.imgView.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了图片消息")
-                self.showMessagePopupView(cell: cell)
             }.disposed(by: disposeBag)
             return cell
         }
