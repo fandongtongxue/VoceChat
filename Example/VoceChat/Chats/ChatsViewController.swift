@@ -120,6 +120,24 @@ class ChatsViewController: BaseViewController {
                 self.tableView.insertRows(at: [IndexPath(row: self.channels.count > 0 ? self.channels.count - 1 : self.channels.count, section: 1)], with: .automatic)
             }
         }.disposed(by: disposeBag)
+        //关联群组消息
+        NotificationCenter.default.rx.notification(.related_groups).subscribe { noti in
+            let model = noti.element?.object as! VCSSEEventModel
+            let ret = self.channels.count > 0
+            self.channels = model.groups
+            var temp = [IndexPath]()
+            for index in 0..<self.channels.count {
+                temp.append(IndexPath(row: index, section: 1))
+            }
+            DispatchQueue.main.async {
+                if ret {
+                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                }else{
+                    self.tableView.insertRows(at: temp, with: .automatic)
+                }
+                
+            }
+        }.disposed(by: disposeBag)
     }
     
     func operateMessage(message: VCMessageModel, isFromDB: Bool = false) {
@@ -182,22 +200,44 @@ class ChatsViewController: BaseViewController {
             }
         }else if message.target.gid > 0 {
             //群组消息
-            let index = channels.firstIndex(where: { $0.gid == message.target.gid }) ?? 0
-            channels[index].content_type = message.detail.content_type
-            if message.detail.content_type == "text/plain" {
-                channels[index].content = message.detail.content
-            }else if message.detail.content_type == "vocechat/file" {
-                if message.detail.properties.content_type == "image/jpeg" {
-                    channels[index].content = "[图片]"
-                }else {
-                    channels[index].content = "[文件]"
+            let index = channels.firstIndex(where: { $0.gid == message.target.gid }) ?? -1
+            if index != -1 {
+                channels[index].content_type = message.detail.content_type
+                if message.detail.content_type == "text/plain" {
+                    channels[index].content = message.detail.content
+                }else if message.detail.content_type == "vocechat/file" {
+                    if message.detail.properties.content_type == "image/jpeg" {
+                        channels[index].content = "[图片]"
+                    }else {
+                        channels[index].content = "[文件]"
+                    }
+                }
+                channels[index].unread = channels[index].unread + 1
+                DispatchQueue.main.async {
+                    self.tableView.reloadRows(at: [IndexPath(row: index, section: 1)], with: .automatic)
+                }
+            }else {
+                let channel = VCChannelModel()
+                channel.gid = message.target.gid
+                channel.content = message.detail.content
+                if message.detail.content_type == "text/plain" {
+                    channel.content = message.detail.content
+                }else if message.detail.content_type == "vocechat/file" {
+                    if message.detail.properties.content_type == "image/jpeg" {
+                        channel.content = "[图片]"
+                    }else {
+                        channel.content = "[文件]"
+                    }
+                }
+                channel.unread = 1
+                channels.append(channel)
+                DispatchQueue.main.async {
+                    self.tableView.insertRows(at: [IndexPath(row: self.channels.count > 0 ? self.channels.count - 1 : 0, section: 1)], with: .automatic)
                 }
             }
-            channels[index].unread = channels[index].unread + 1
             unread = unread + 1
             DispatchQueue.main.async {
                 self.setBadgeValue(unread: self.unread)
-                self.tableView.reloadRows(at: [IndexPath(row: index, section: 1)], with: .automatic)
             }
         }
         
@@ -206,12 +246,23 @@ class ChatsViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         VCManager.shared.getChannels { channels in
+            let ret = self.channels.count > 0
             self.channels = channels
-            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+            var temp = [IndexPath]()
+            for index in 0..<self.channels.count {
+                temp.append(IndexPath(row: index, section: 1))
+            }
+            DispatchQueue.main.async {
+                if ret {
+                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+                }else{
+                    self.tableView.insertRows(at: temp, with: .automatic)
+                }
+                
+            }
         } failure: { error in
             //do nothing
         }
-
     }
 
     lazy var tableView: UITableView = {

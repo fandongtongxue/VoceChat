@@ -13,7 +13,8 @@ import RxGesture
 
 class MessageViewController: BaseViewController {
     
-    var model = VCMessageModel()
+    var chat = VCMessageModel()
+    var channel = VCChannelModel()
     var messages = [VCMessageModel]()
     
     var images = [VCMessageModel]()
@@ -31,7 +32,7 @@ class MessageViewController: BaseViewController {
         NotificationCenter.default.rx.notification(.chat).subscribe { noti in
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
-            if message.from_uid == self.model.from_uid {
+            if message.from_uid == self.chat.from_uid {
                 self.messages.append(message)
                 if message.detail.properties.content_type == "image/jpeg" {
                     self.images = self.images + [message]
@@ -47,7 +48,7 @@ class MessageViewController: BaseViewController {
     
 
     func requestData() {
-        VCManager.shared.getHistoryMessage(uid: model.from_uid, limit: 100) { messages in
+        VCManager.shared.getHistoryMessage(uid: chat.from_uid, gid: channel.gid, limit: 100) { messages in
 //            let reactions = messages.filter({ $0.detail.type == "reaction"})
             let normals = messages.filter({ $0.detail.type == "normal" })
             let images = messages.filter({ $0.detail.properties.content_type == "image/jpeg" })
@@ -65,15 +66,14 @@ class MessageViewController: BaseViewController {
     }
     
     func sendTextMsg(text: String) {
-        
-        VCManager.shared.sendMessage(uid: model.target.uid > 0 ? model.from_uid : model.target.gid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
-            
+        VCManager.shared.sendMessage(uid: chat.from_uid, gid: channel.gid, msg: text, Content_Type: "text/plain", mid: messages.last?.mid ?? 0) { mid, imageModel in
             let messageModel = VCMessageModel()
             messageModel.mid = mid
             messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
             messageModel.created_at = Int(Date().timeIntervalSince1970 * 1000)
             let target = VCMessageModelTarget()
-            target.uid = self.model.from_uid
+            target.uid = self.chat.from_uid
+            target.gid = self.channel.gid
             messageModel.target = target
             let detail = VCMessageModelDetail()
             detail.type = "normal"
@@ -91,13 +91,14 @@ class MessageViewController: BaseViewController {
     }
     
     func sendImageMsg(imageURL: URL) {
-        VCManager.shared.sendMessage(uid: model.target.uid > 0 ? model.from_uid : model.target.gid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid, imageModel in
+        VCManager.shared.sendMessage(uid: chat.from_uid, gid: channel.gid, imageURL: imageURL, Content_Type: "image/jpeg", mid: messages.last?.mid ?? 0) { mid, imageModel in
             let messageModel = VCMessageModel()
             messageModel.mid = mid
             messageModel.from_uid = VCManager.shared.currentUser()?.user.uid ?? 0
             messageModel.created_at = Int(Date().timeIntervalSince1970 * 1000)
             let target = VCMessageModelTarget()
-            target.uid = self.model.from_uid
+            target.uid = self.chat.from_uid
+            target.gid = self.channel.gid
             messageModel.target = target
             let detail = VCMessageModelDetail()
             detail.type = "normal"

@@ -370,7 +370,7 @@ public class VCManager: NSObject {
         let detail_content_type = Expression<String>("detail_content_type")
         let uid = Expression<Int>("uid")
         let created_at = Expression<Int>("created_at")
-        
+        let gid = Expression<Int>("gid")
         do {
             try db.run(messages.create(ifNotExists: true) { t in
                 t.column(id, primaryKey: true)
@@ -382,6 +382,7 @@ public class VCManager: NSObject {
                 t.column(detail_content_type)
                 t.column(uid)
                 t.column(created_at)
+                t.column(gid)
             })
         } catch {
             debugPrint("创建消息表失败:"+error.localizedDescription)
@@ -398,7 +399,8 @@ public class VCManager: NSObject {
         let detail_content_type = Expression<String>("detail_content_type")
         let uid = Expression<Int>("uid")
         let created_at = Expression<Int>("created_at")
-        let insert = messages.insert(id <- message.mid, from_uid <- message.from_uid, mid <- message.mid, content <- message.detail.content, content_type <- message.detail.content_type, uid <- message.target.uid, created_at <- message.created_at, detail_content_type <- message.detail.properties.content_type, type <- message.detail.detail.type)
+        let gid = Expression<Int>("gid")
+        let insert = messages.insert(id <- message.mid, from_uid <- message.from_uid, mid <- message.mid, content <- message.detail.content, content_type <- message.detail.content_type, uid <- message.target.uid, created_at <- message.created_at, detail_content_type <- message.detail.properties.content_type, type <- message.detail.detail.type, gid <- message.target.gid)
         do {
             _ = try db.run(insert)
         } catch {
@@ -417,8 +419,9 @@ public class VCManager: NSObject {
     public func deleteMessage(message: VCMessageModel) {
         let from_uid = Expression<Int>("from_uid")
         let uid = Expression<Int>("uid")
+        let gid = Expression<Int>("gid")
         
-        let row = messages.filter(from_uid == message.from_uid && uid == message.target.uid)
+        let row = messages.filter(from_uid == message.from_uid && uid == message.target.uid && gid == message.target.gid)
         do {
             try db.run(row.delete())
         }catch {
@@ -426,7 +429,7 @@ public class VCManager: NSObject {
         }
     }
     
-    public func getLastMsg(touid: Int = 0) -> VCMessageModel {
+    public func getLastMsg(touid: Int = 0, togid: Int = 0) -> VCMessageModel {
         do {
             
             let from_uid = Expression<Int>("from_uid")
@@ -437,12 +440,17 @@ public class VCManager: NSObject {
             let type = Expression<String>("type")
             let uid = Expression<Int>("uid")
             let created_at = Expression<Int>("created_at")
+            let gid = Expression<Int>("gid")
             
             let is_from = touid == from_uid && VCManager.shared.currentUser()?.user.uid ?? 0 == uid
             let is_to = from_uid == VCManager.shared.currentUser()?.user.uid ?? 0 && touid == uid
+            let is_gid = gid == togid
             var all = Array(try db.prepare(messages))
             if touid != 0 {
                 all = Array(try db.prepare(messages.filter(is_from || is_to)))
+            }
+            if togid != 0 {
+                all = Array(try db.prepare(messages.filter(is_gid)))
             }
             
             let message = all.last
@@ -464,6 +472,7 @@ public class VCManager: NSObject {
             
             let target = VCMessageModelTarget()
             target.uid = try message?.get(uid) ?? 0
+            target.gid = try message?.get(gid) ?? 0
             
             model.detail = detail
             model.target = target
@@ -486,6 +495,7 @@ public class VCManager: NSObject {
             let detail_content_type = Expression<String>("detail_content_type")
             let uid = Expression<Int>("uid")
             let created_at = Expression<Int>("created_at")
+            let gid = Expression<Int>("gid")
             
             let all = Array(try db.prepare(messages))
             var tempArray = [VCMessageModel]()
@@ -507,6 +517,7 @@ public class VCManager: NSObject {
                 
                 let target = VCMessageModelTarget()
                 target.uid = try message.get(uid)
+                target.gid = try message.get(gid)
                 
                 model.detail = detail
                 model.target = target
@@ -646,8 +657,14 @@ public class VCManager: NSObject {
     ///   - limit: 限制数量
     ///   - success: 成功回调
     ///   - failure: 失败回调
-    public func getHistoryMessage(uid: Int, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((Int)->())) {
-        VCNetwork.get(url: .user+"/\(uid)/history") { result in
+    public func getHistoryMessage(uid: Int = 0, gid: Int = 0, before: Int = 0, limit: Int = 300, success: @escaping (([VCMessageModel])->()), failure: @escaping ((Int)->())) {
+        var url = ""
+        if uid > 0 {
+            url = .user+"/\(uid)/history"
+        }else if gid > 0 {
+            url = .group+"/\(gid)/history"
+        }
+        VCNetwork.get(url: url) { result in
             let resultArray = result as? [NSDictionary]
             var tempArray = [VCMessageModel]()
             for item in resultArray ?? [] {

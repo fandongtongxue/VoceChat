@@ -38,7 +38,8 @@ class ChatViewController: BaseViewController {
         navigationItem.titleView = titleView
         
         messageVC = MessageViewController()
-        messageVC.model = chat
+        messageVC.chat = chat
+        messageVC.channel = channel
         view.addSubview(messageVC.view)
         messageVC.view.frame = CGRect(x: 0, y: 0, width: .screenW, height: .screenH - .tabBarHeight)
         addChildViewController(messageVC)

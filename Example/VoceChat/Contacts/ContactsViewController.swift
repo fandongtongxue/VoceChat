@@ -86,7 +86,9 @@ class ContactsViewController: BaseViewController {
             self.users = users
             guard let json = UserDefaults.standard.string(forKey: .users_state) else {
                 self.searchRC.dataArray = users
-                self.tableView.reloadData()
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
                 return
             }
             let model = VCSSEEventModel.deserialize(from: json) ?? VCSSEEventModel()
