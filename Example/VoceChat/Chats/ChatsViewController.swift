@@ -117,25 +117,19 @@ class ChatsViewController: BaseViewController {
             guard index == -1 else { return }
             self.channels.append(model.group)
             DispatchQueue.main.async {
-                self.tableView.insertRows(at: [IndexPath(row: self.channels.count > 0 ? self.channels.count - 1 : self.channels.count, section: 1)], with: .automatic)
+                self.tableView.reloadData()
             }
         }.disposed(by: disposeBag)
         //关联群组消息
         NotificationCenter.default.rx.notification(.related_groups).subscribe { noti in
             let model = noti.element?.object as! VCSSEEventModel
-            let ret = self.channels.count > 0
             self.channels = model.groups
             var temp = [IndexPath]()
             for index in 0..<self.channels.count {
                 temp.append(IndexPath(row: index, section: 1))
             }
             DispatchQueue.main.async {
-                if ret {
-                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-                }else{
-                    self.tableView.insertRows(at: temp, with: .automatic)
-                }
-                
+                self.tableView.reloadData()
             }
         }.disposed(by: disposeBag)
     }
@@ -195,7 +189,7 @@ class ChatsViewController: BaseViewController {
                 }
             }
             DispatchQueue.main.async {
-                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                self.tableView.reloadData()
                 self.setBadgeValue(unread: self.unread)
             }
         }else if message.target.gid > 0 {
@@ -212,9 +206,11 @@ class ChatsViewController: BaseViewController {
                         channels[index].content = "[文件]"
                     }
                 }
-                channels[index].unread = channels[index].unread + 1
+                if !isFromDB && message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                    channels[index].unread = channels[index].unread + 1
+                }
                 DispatchQueue.main.async {
-                    self.tableView.reloadRows(at: [IndexPath(row: index, section: 1)], with: .automatic)
+                    self.tableView.reloadData()
                 }
             }else {
                 let channel = VCChannelModel()
@@ -229,13 +225,17 @@ class ChatsViewController: BaseViewController {
                         channel.content = "[文件]"
                     }
                 }
-                channel.unread = 1
+                if !isFromDB && message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                    channel.unread = 1
+                }
                 channels.append(channel)
                 DispatchQueue.main.async {
-                    self.tableView.insertRows(at: [IndexPath(row: self.channels.count > 0 ? self.channels.count - 1 : 0, section: 1)], with: .automatic)
+                    self.tableView.reloadData()
                 }
             }
-            unread = unread + 1
+            if !isFromDB && message.from_uid != VCManager.shared.currentUser()?.user.uid {
+                unread = unread + 1
+            }
             DispatchQueue.main.async {
                 self.setBadgeValue(unread: self.unread)
             }
@@ -246,18 +246,13 @@ class ChatsViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         VCManager.shared.getChannels { channels in
-            let ret = self.channels.count > 0
             self.channels = channels
             var temp = [IndexPath]()
             for index in 0..<self.channels.count {
                 temp.append(IndexPath(row: index, section: 1))
             }
             DispatchQueue.main.async {
-                if ret {
-                    self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
-                }else{
-                    self.tableView.insertRows(at: temp, with: .automatic)
-                }
+                self.tableView.reloadData()
                 
             }
         } failure: { error in

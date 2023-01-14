@@ -32,14 +32,14 @@ class MessageViewController: BaseViewController {
         NotificationCenter.default.rx.notification(.chat).subscribe { noti in
             let jsonString = noti.element?.object as? String
             let message = VCMessageModel.deserialize(from: jsonString) ?? VCMessageModel()
-            if message.from_uid == self.chat.from_uid {
+            if (message.from_uid == self.chat.from_uid && self.channel.gid == 0) || self.channel.gid > 0 && message.from_uid != VCManager.shared.currentUser()?.user.uid {
                 self.messages.append(message)
                 if message.detail.properties.content_type == "image/jpeg" {
                     self.images = self.images + [message]
                     self.imageCellIndexs.append(self.messages.count - 1)
                 }
                 DispatchQueue.main.async {
-                    self.tableView.insertRows(at: [IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0)], with: .automatic)
+                    self.tableView.reloadData()
                     self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
                 }
             }
@@ -82,7 +82,7 @@ class MessageViewController: BaseViewController {
             messageModel.detail = detail
             
             self.messages.append(messageModel)
-            self.tableView.insertRows(at: [IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0)], with: .automatic)
+            self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
             
         } failure: { error in
