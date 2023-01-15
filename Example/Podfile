@@ -15,7 +15,7 @@ target 'VoceChat_Example' do
   pod 'RxCocoa', '6.5.0'
   pod "RxGesture"
     
-  pod 'QMUIKit'
+  pod 'QMUIKit', '4.6.3'
   pod 'YYKit'
 
   target 'VoceChat_Tests' do

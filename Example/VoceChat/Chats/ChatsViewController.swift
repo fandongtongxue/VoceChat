@@ -77,7 +77,7 @@ class ChatsViewController: BaseViewController {
                     }
                 }
                 DispatchQueue.main.async {
-                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                    self.tableView.reloadData()
                 }
             }.disposed(by: disposeBag)
         //在线状态改变通知
@@ -124,10 +124,14 @@ class ChatsViewController: BaseViewController {
         NotificationCenter.default.rx.notification(.related_groups).subscribe { noti in
             let model = noti.element?.object as! VCSSEEventModel
             self.channels = model.groups
-            var temp = [IndexPath]()
-            for index in 0..<self.channels.count {
-                temp.append(IndexPath(row: index, section: 1))
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
+        }.disposed(by: disposeBag)
+        //被踢出群组
+        NotificationCenter.default.rx.notification(.kick_from_group).subscribe { noti in
+            let model = noti.element?.object as! VCSSEEventModel
+            self.channels.removeAll(where: { $0.gid == model.gid })
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -175,7 +179,7 @@ class ChatsViewController: BaseViewController {
             
             guard let json = UserDefaults.standard.string(forKey: .users_state) else {
                 DispatchQueue.main.async {
-                    self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+                    self.tableView.reloadData()
                     self.setBadgeValue(unread: self.unread)
                 }
                 return
@@ -247,10 +251,6 @@ class ChatsViewController: BaseViewController {
         super.viewWillAppear(animated)
         VCManager.shared.getChannels { channels in
             self.channels = channels
-            var temp = [IndexPath]()
-            for index in 0..<self.channels.count {
-                temp.append(IndexPath(row: index, section: 1))
-            }
             DispatchQueue.main.async {
                 self.tableView.reloadData()
                 

@@ -17,11 +17,11 @@ struct VCSSEEventHandler: EventHandler {
     }
     
     func onMessage(eventType: String, messageEvent: MessageEvent) {
-        debugPrint("eventType:\(eventType) messageEvent:\(messageEvent.data) lastEventId:\(messageEvent.lastEventId)")
+        debugPrint("SSE eventType:\(eventType) messageEvent:\(messageEvent.data) lastEventId:\(messageEvent.lastEventId)")
         let model = VCSSEEventModel.deserialize(from: messageEvent.data) ?? VCSSEEventModel()
         switch model.type {
         case .heartbeat:
-            debugPrint("心跳")
+            debugPrint("SSE 心跳")
             break
         case .users_state:
             UserDefaults.standard.setValue(model.toJSONString(), forKey: .users_state)
@@ -45,6 +45,9 @@ struct VCSSEEventHandler: EventHandler {
             break
         case .related_groups:
             NotificationCenter.default.post(name: .related_groups, object: model)
+            break
+        case .kick_from_group:
+            NotificationCenter.default.post(name: .kick_from_group, object: model)
             break
         default:
             break

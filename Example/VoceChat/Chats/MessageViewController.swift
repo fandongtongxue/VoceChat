@@ -49,7 +49,6 @@ class MessageViewController: BaseViewController {
 
     func requestData() {
         VCManager.shared.getHistoryMessage(uid: chat.from_uid, gid: channel.gid, limit: 100) { messages in
-//            let reactions = messages.filter({ $0.detail.type == "reaction"})
             let normals = messages.filter({ $0.detail.type == "normal" })
             let images = messages.filter({ $0.detail.properties.content_type == "image/jpeg" })
             self.images = self.images + images
@@ -58,8 +57,10 @@ class MessageViewController: BaseViewController {
                 self.imageCellIndexs.append(index)
             }
             self.messages = self.messages + normals
-            self.tableView.reloadData()
-            self.tableView.scrollToRow(at: IndexPath(row: self.messages.count - 1, section: 0), at: .bottom, animated: true)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : 0, section: 0), at: .bottom, animated: true)
+            }
         } failure: { error in
             //do nothing
         }

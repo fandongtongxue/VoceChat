@@ -63,16 +63,21 @@ class VCNetwork: NSObject {
                 newParam = param
                 newParam?["api-key"] = VCManager.shared.currentUser()?.token
             }
+            debugPrint("请求URL:"+newUrl)
+            debugPrint("请求参数:\(newParam)")
             AF.request(newUrl, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["x-api-key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).responseJSON { responseJSON in
                 switch responseJSON.result {
                 case .success(let result):
                     if responseJSON.response?.statusCode != 200 {
+                        debugPrint("请求结果:\(responseJSON.error?.localizedDescription)")
                         failure(responseJSON.response?.statusCode ?? -1)
                     }else {
+                        debugPrint("请求结果:\(result)")
                         success(result)
                     }
                     break
                 case .failure(let error):
+                    debugPrint("请求结果:\(responseJSON.error?.localizedDescription)")
                     failure(responseJSON.response?.statusCode ?? -1)
                     break
                 }
@@ -104,17 +109,22 @@ class VCNetwork: NSObject {
                 newParam = param
                 newParam?["api-key"] = VCManager.shared.currentUser()?.token
             }
+            debugPrint("请求URL:"+newUrl)
+            debugPrint("请求参数:\(newParam)")
             AF.request(newUrl, method: method, parameters: newParam,  encoding: JSONEncoding.default, headers: ["x-api-key":VCManager.shared.currentUser()?.token ?? "", "Referer":serverURL+"/"]).response { response in
                 switch response.result {
                 case .success(let result):
                     if response.response?.statusCode != 200 {
                         failure(response.response?.statusCode ?? -1)
+                        debugPrint("请求结果:\(response.error?.localizedDescription)")
                     }else {
                         success(result)
+                        debugPrint("请求结果:\(result)")
                     }
                     break
                 case .failure(let error):
                     failure(response.response?.statusCode ?? -1)
+                    debugPrint("请求结果:\(response.error?.localizedDescription)")
                     break
                 }
             }
@@ -145,6 +155,8 @@ class VCNetwork: NSObject {
                 newParam = param
                 newParam?["api-key"] = VCManager.shared.currentUser()?.token
             }
+            debugPrint("请求URL:"+newUrl)
+            debugPrint("请求参数:\(newParam)")
             do {
                 var request = try URLRequest(url: newUrl, method: method)
                 request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "x-api-key")
@@ -165,18 +177,22 @@ class VCNetwork: NSObject {
                     newBody = String(data: bodyData, encoding: .utf8)!
                     newBody = json.data(using: .utf8)?.base64EncodedString()
                 }
+                debugPrint("请求Body:\(newBody)")
                 request.httpBody = newBody?.data(using: .utf8)
                 AF.request(request).response { response in
                     switch response.result {
                     case .success(let result):
                         if response.response?.statusCode != 200 {
                             failure(response.response?.statusCode ?? -1)
+                            debugPrint("请求结果:\(response.error?.localizedDescription)")
                         }else {
                             success(result)
+                            debugPrint("请求结果:\(result)")
                         }
                         break
                     case .failure(let error):
                         failure(response.response?.statusCode ?? -1)
+                        debugPrint("请求结果:\(response.error?.localizedDescription)")
                         break
                     }
                 }
@@ -195,6 +211,7 @@ class VCNetwork: NSObject {
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
             let newUrl = serverURL + url
             do {
+                debugPrint("请求URL:"+newUrl)
                 var request = try URLRequest(url: newUrl, method: .post)
                 request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "x-api-key")
                 request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
@@ -205,12 +222,15 @@ class VCNetwork: NSObject {
                     case .success(let result):
                         if response.response?.statusCode != 200 {
                             failure(response.response?.statusCode ?? -1)
+                            debugPrint("请求结果:\(response.error?.localizedDescription)")
                         }else {
                             success(result)
+                            debugPrint("请求结果:\(result)")
                         }
                         break
                     case .failure(let error):
                         failure(response.response?.statusCode ?? -1)
+                        debugPrint("请求结果:\(response.error?.localizedDescription)")
                         break
                     }
                 }
@@ -231,6 +251,7 @@ class VCNetwork: NSObject {
             let serverURL = UserDefaults.standard.string(forKey: .serverURLKey) ?? ""
             let newUrl = serverURL + url
             do {
+                debugPrint("请求URL:"+newUrl)
                 var request = try URLRequest(url: newUrl, method: .post)
                 request.setValue(VCManager.shared.currentUser()?.token, forHTTPHeaderField: "x-api-key")
                 request.setValue(serverURL+"/", forHTTPHeaderField: "Referer")
@@ -258,19 +279,22 @@ class VCNetwork: NSObject {
         AF.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(file_id.data(using: .utf8)!, withName: "file_id")
             multipartFormData.append(fileData, withName: "chunk_data")
-//                    multipartFormData.append(true, withName: "chunk_is_last")
+            multipartFormData.append(Data(), withName: "chunk_is_last")
         }, with: request)
         .responseJSON { responseJSON in
             switch responseJSON.result {
             case .success(let result):
                 if responseJSON.response?.statusCode != 200 {
                     failure(responseJSON.response?.statusCode ?? -1)
+                    debugPrint("请求结果:\(responseJSON.error?.localizedDescription)")
                 }else {
                     success(result)
+                    debugPrint("请求结果:\(result)")
                 }
                 break
             case .failure(let error):
                 failure(responseJSON.response?.statusCode ?? -1)
+                debugPrint("请求结果:\(responseJSON.error?.localizedDescription)")
                 break
             }
         }

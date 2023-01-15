@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 //do nothing
             }
             let tabC = TabBarController()
-            window?.rootViewController = tabC
+            self.window?.rootViewController = tabC
         }
         return true
     }

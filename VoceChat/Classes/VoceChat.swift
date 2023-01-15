@@ -89,5 +89,5 @@ public extension Notification.Name {
     static let kick = Notification.Name(rawValue: "kick")
     static let joined_group = Notification.Name(rawValue: "joined_group")
     static let related_groups = Notification.Name(rawValue: "related_groups")
-    
+    static let kick_from_group = Notification.Name(rawValue: "kick_from_group")
 }

@@ -99,6 +99,12 @@ class ChatViewController: BaseViewController {
         inputBar.addBtn.rx.tap.subscribe(onNext: {
             self.addBtnAction()
         }).disposed(by: disposeBag)
+        //被踢出群组
+        NotificationCenter.default.rx.notification(.kick_from_group).subscribe { noti in
+            let model = noti.element?.object as! VCSSEEventModel
+            UIApplication.shared.keyWindow?.makeToast(model.reason)
+            self.navigationController?.popViewController(animated: true)
+        }.disposed(by: disposeBag)
     }
     
     
