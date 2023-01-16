@@ -1,18 +1,18 @@
 //
-//  ProfileViewController.swift
+//  ChannelInfoViewController.swift
 //  VoceChat_Example
 //
-//  Created by 范东 on 2022/12/16.
-//  Copyright © 2022 CocoaPods. All rights reserved.
+//  Created by 范东 on 2023/1/16.
+//  Copyright © 2023 CocoaPods. All rights reserved.
 //
 
 import UIKit
 import VoceChat
 
-class ProfileViewController: BaseViewController {
-    
-    var model = VCUserModel()
-    var isDirectSend: Bool = true
+class ChannelInfoViewController: BaseViewController {
+
+    var model = VCChannelModel()
+    var titles = [["Pinned", "Saved Messages"],["Auto Delete Message"], ["Members"], ["Public Channel"], ["Delete Channel"], ["Leave Channel"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +31,8 @@ class ProfileViewController: BaseViewController {
     }
     
     private func requestData() {
-        VCManager.shared.getUserFromServer(uid: model.uid) { user in
-            self.model = user
+        VCManager.shared.getChannel(gid: model.gid) { channel in
+            self.model = channel
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -48,7 +48,7 @@ class ProfileViewController: BaseViewController {
         tableView.dataSource = self
         tableView.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         tableView.register(SettingListCell.classForCoder(), forCellReuseIdentifier: "SettingListCell")
-        tableView.register(UINib(nibName: "SettingProfileCell", bundle: Bundle.main), forCellReuseIdentifier: "SettingProfileCell")
+        tableView.register(UINib(nibName: "ChannelProfileCell", bundle: Bundle.main), forCellReuseIdentifier: "ChannelProfileCell")
         tableView.sectionFooterHeight = 0
         tableView.contentInsetAdjustmentBehavior = .never
         tableView.contentInset = .init(top: .statusBarHeight + 10, left: 0, bottom: 0, right: 0)
@@ -57,30 +57,33 @@ class ProfileViewController: BaseViewController {
 
 }
 
-extension ProfileViewController: UITableViewDelegate,UITableViewDataSource{
+extension ChannelInfoViewController: UITableViewDelegate,UITableViewDataSource{
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        if model.is_public {
+            return 6
+        }
+        return 7
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        section == 1 ? 2 : 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SettingProfileCell", for: indexPath) as! SettingProfileCell
-            cell.editBtn.isHidden = true
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelProfileCell", for: indexPath) as! ChannelProfileCell
             cell.model = model
+            cell.editBtn.rx.tap.subscribe { element in
+                debugPrint("点击了编辑按钮")
+            }.disposed(by: disposeBag)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingListCell", for: indexPath)
-        if isDirectSend {
-            cell.textLabel?.text = NSLocalizedString("Send Message", comment: "")
-        }
+        cell.textLabel?.text = NSLocalizedString(titles[indexPath.section - 1][indexPath.row], comment: "")
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 180
+            return 140
         }
         return 40
     }
@@ -90,18 +93,10 @@ extension ProfileViewController: UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        section == 1 ? 20 : 0.01
+        0.01
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 1 {
-            let chatVC = ChatViewController()
-            let chat = VCMessageModel()
-            chat.from_uid = model.uid
-            chatVC.chat = chat
-            chatVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(chatVC, animated: true)
-        }
     }
 }

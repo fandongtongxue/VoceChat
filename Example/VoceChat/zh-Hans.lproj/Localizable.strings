@@ -54,3 +54,18 @@
 
 "(Connecting)"="（连接中...）";
 "Create New Private Channel"="创建新私有频道";
+
+"Pinned"="钉选";
+"Saved Messages"="保存的消息";
+"Auto Delete Message"="自动删除消息";
+"Members"="成员";
+"Public Channel"="公有频道";
+"Delete Channel"="删除频道";
+"Leave Channel"="离开频道";
+
+"Reply"="回复";
+"Copy"="复制";
+"Save"="保存";
+"Forward"="转发";
+"Select"="选择";
+"Delete"="删除";

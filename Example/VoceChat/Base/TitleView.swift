@@ -62,6 +62,10 @@ class TitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var intrinsicContentSize: CGSize{
+        UILayoutFittingExpandedSize
+    }
+    
     lazy var imgView: UIImageView = {
         let imgView = UIImageView(frame: .zero)
         imgView.contentMode = .scaleAspectFill

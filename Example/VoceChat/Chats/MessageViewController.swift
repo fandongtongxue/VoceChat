@@ -234,4 +234,28 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
         view.superview?.endEditing(true)
     }
     
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(identifier: String(indexPath.row) as NSCopying) { (element) -> UIMenu? in
+            let reply = UIAction(title: NSLocalizedString("Reply", comment: ""), image: UIImage(systemName: "arrowshape.turn.up.left")) { action in
+                //do reply
+            }
+            let copy = UIAction(title: NSLocalizedString("Copy", comment: ""), image: UIImage(systemName: "lane")) { action in
+                //do copy
+            }
+            let save = UIAction(title: NSLocalizedString("Save", comment: ""), image: UIImage(systemName: "square.and.arrow.down.fill")) { action in
+                //do save
+            }
+            let forward = UIAction(title: NSLocalizedString("Forward", comment: ""), image: UIImage(systemName: "arrowshape.turn.up.right")) { action in
+                //do forward
+            }
+            let select = UIAction(title: NSLocalizedString("Select", comment: ""), image: UIImage(systemName: "checkmark.circle.fill")) { action in
+                //do select
+            }
+            let delete = UIAction(title: NSLocalizedString("Delete", comment: ""), image: UIImage(systemName: "trash")) { action in
+                //do delete
+            }
+            return UIMenu(title: "", children: [reply, copy, save, forward, select, delete])
+        }
+    }
+    
 }

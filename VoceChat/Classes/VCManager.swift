@@ -612,6 +612,20 @@ public class VCManager: NSObject {
             failure(error)
             debugPrint("获取用户列表失败:\(error)")
         }
+        
+    }
+    
+    public func getUserFromServer(uid: Int, success: @escaping ((VCUserModel)->()), failure: @escaping ((Int)->())) {
+        VCNetwork.get(url: .user+"/\(uid)") { result in
+            let resultDict = result as? NSDictionary
+            let model = VCUserModel.deserialize(from: resultDict) ?? VCUserModel()
+            success(model)
+            debugPrint("获取用户成功")
+        } failure: { error in
+            failure(error)
+            debugPrint("获取用户失败:\(error)")
+        }
+
     }
     
     public func generateInviteLink(success: @escaping ((String)->()), failure: @escaping ((Int)->())) {
@@ -645,6 +659,19 @@ public class VCManager: NSObject {
         } failure: { error in
             failure(error)
         }
+    }
+    
+    public func getChannel(gid: Int, success: @escaping ((VCChannelModel)->()), failure: @escaping ((Int)->())) {
+        VCNetwork.get(url: .group+"/\(gid)") { result in
+            let resultDict = result as? NSDictionary
+            let model = VCChannelModel.deserialize(from: resultDict) ?? VCChannelModel()
+            success(model)
+            debugPrint("获取群组成功")
+        } failure: { error in
+            failure(error)
+            debugPrint("获取群组失败:\(error)")
+        }
+
     }
     
     

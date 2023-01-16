@@ -18,6 +18,9 @@
 		CB263C5629666FD30097144C /* MessageImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB263C5529666FD30097144C /* MessageImageCell.swift */; };
 		CB26445A296FE40700D04F36 /* NewChannelMemberSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB264459296FE40700D04F36 /* NewChannelMemberSelectViewController.swift */; };
 		CB26445D296FF4A900D04F36 /* MessagePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26445C296FF4A900D04F36 /* MessagePopupView.swift */; };
+		CB3112C829752F5C00BD4196 /* ChannelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3112C729752F5C00BD4196 /* ChannelInfoViewController.swift */; };
+		CB3112CB2975322400BD4196 /* ChannelProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3112C92975322400BD4196 /* ChannelProfileCell.swift */; };
+		CB3112CD2975338A00BD4196 /* ChannelProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB3112CF2975338A00BD4196 /* ChannelProfileCell.xib */; };
 		CB3B3FBC2965AF5A00B4212B /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBB2965AF5A00B4212B /* TitleView.swift */; };
 		CB3B3FBE2965B37E00B4212B /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */; };
 		CB3B3FC12965BC5200B4212B /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */; };
@@ -90,6 +93,10 @@
 		CB263C5529666FD30097144C /* MessageImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageCell.swift; sourceTree = "<group>"; };
 		CB264459296FE40700D04F36 /* NewChannelMemberSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelMemberSelectViewController.swift; sourceTree = "<group>"; };
 		CB26445C296FF4A900D04F36 /* MessagePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePopupView.swift; sourceTree = "<group>"; };
+		CB3112C729752F5C00BD4196 /* ChannelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoViewController.swift; sourceTree = "<group>"; };
+		CB3112C92975322400BD4196 /* ChannelProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileCell.swift; sourceTree = "<group>"; };
+		CB3112CE2975338A00BD4196 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ChannelProfileCell.xib; sourceTree = "<group>"; };
+		CB3112D22975339200BD4196 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ChannelProfileCell.xib"; sourceTree = "<group>"; };
 		CB3B3FBB2965AF5A00B4212B /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		CB3B3FBD2965B37D00B4212B /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		CB3B3FBF2965BC5200B4212B /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
@@ -293,6 +300,9 @@
 				CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */,
 				CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */,
 				CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */,
+				CB3112C729752F5C00BD4196 /* ChannelInfoViewController.swift */,
+				CB3112C92975322400BD4196 /* ChannelProfileCell.swift */,
+				CB3112CF2975338A00BD4196 /* ChannelProfileCell.xib */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -475,6 +485,7 @@
 				CB8C4F492967F9C700844ABF /* OrganizationEditViewController.xib in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				CB67A0DB29616D0E00883AAC /* ChatListCell.xib in Resources */,
+				CB3112CD2975338A00BD4196 /* ChannelProfileCell.xib in Resources */,
 				CBCE545D2957F3D500DFCDDA /* user_event.json in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				CB3C0983296565DA00167D05 /* InviteViewController.xib in Resources */,
@@ -598,6 +609,7 @@
 				CBCE54552957E41100DFCDDA /* SettingListCell.swift in Sources */,
 				CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */,
 				607FACD81AFB9204008FA782 /* LoginViewController.swift in Sources */,
+				CB3112CB2975322400BD4196 /* ChannelProfileCell.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */,
 				CB729AE129626F1A00B8B39E /* MessageTextCell.swift in Sources */,
@@ -614,6 +626,7 @@
 				CBDC670C296EB1960062E7D1 /* YYPhotoGroupView.m in Sources */,
 				CBA7A6F8293F35A100FEDD00 /* TabBarController.swift in Sources */,
 				CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */,
+				CB3112C829752F5C00BD4196 /* ChannelInfoViewController.swift in Sources */,
 				CBCE5B1929474D3100D5D14D /* ContactsViewController.swift in Sources */,
 				CB263C5629666FD30097144C /* MessageImageCell.swift in Sources */,
 				CBCE233F2963CAE700B6418E /* Date+FD.swift in Sources */,
@@ -667,6 +680,15 @@
 				CB6AE1A0294B0AB7009CD70D /* English */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		CB3112CF2975338A00BD4196 /* ChannelProfileCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CB3112CE2975338A00BD4196 /* English */,
+				CB3112D22975339200BD4196 /* zh-Hans */,
+			);
+			name = ChannelProfileCell.xib;
 			sourceTree = "<group>";
 		};
 		CB3C096F29655AE100167D05 /* NewChannelViewController.xib */ = {
@@ -842,10 +864,14 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "VoceChat/OC/VoceChat_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -866,9 +892,13 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "VoceChat/OC/VoceChat_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

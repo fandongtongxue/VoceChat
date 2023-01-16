@@ -29,13 +29,14 @@ class ChatViewController: BaseViewController {
         
         // Do any additional setup after loading the view.
 //        navigationItem.title = user.name
-        let titleView = TitleView(frame: CGRect(x: 0, y: 0, width: .screenW - 88, height: .navigationBarHeight))
+        let titleView = TitleView(frame: CGRect(x: 0, y: 0, width: .screenW - 100, height: .navigationBarHeight))
         if chat.from_uid > 0 {
             titleView.chat = chat
         }else if channel.gid > 0 {
             titleView.channel = channel
         }
         navigationItem.titleView = titleView
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(moreAction))
         
         messageVC = MessageViewController()
         messageVC.chat = chat
@@ -107,6 +108,22 @@ class ChatViewController: BaseViewController {
         }.disposed(by: disposeBag)
     }
     
+    @objc private func moreAction() {
+        if channel.gid > 0 {
+            let channelVC = ChannelInfoViewController()
+            channelVC.model = channel
+            channelVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(channelVC, animated: true)
+        }else {
+            let profileVC = ProfileViewController()
+            profileVC.hidesBottomBarWhenPushed = true
+            let user = VCUserModel()
+            user.uid = chat.from_uid == VCManager.shared.currentUser()?.user.uid ? chat.target.uid : chat.from_uid
+            profileVC.model = user
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+        
+    }
     
     lazy var inputBar: InputBar = {
         let inputBar = InputBar(frame: CGRect(x:10, y: .screenH - .tabBarHeight, width: .screenW - 20, height: .tabBarHeight - .safeAreaBottomHeight))
