@@ -69,6 +69,19 @@ extension ProfileViewController: UITableViewDelegate,UITableViewDataSource{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingProfileCell", for: indexPath) as! SettingProfileCell
             cell.editBtn.isHidden = true
             cell.model = model
+            cell.avatarImgView.rx.tapGesture().when(.recognized).subscribe { element in
+                debugPrint("cell.avatarImgView.rx.tapGesture().when(.recognized).subscribe")
+                var fromView: UIView? = nil
+                var items = [YYPhotoGroupItem]()
+                let imgView = cell.avatarImgView
+                let item = YYPhotoGroupItem()
+                item.thumbView = imgView
+                item.largeImageURL = URL(string: .ServerURL + .resource_avatar + "?uid=\(cell.model.uid)" + "&t=\(cell.model.avatar_updated_at)")!
+                items.append(item)
+                fromView = imgView
+                let v = YYPhotoGroupView(groupItems: items)
+                v?.present(fromImageView: fromView, toContainer: self.navigationController?.view, animated: true, completion: nil)
+            }.disposed(by: disposeBag)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingListCell", for: indexPath)

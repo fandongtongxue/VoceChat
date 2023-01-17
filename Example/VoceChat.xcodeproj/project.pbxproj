@@ -58,6 +58,7 @@
 		CBDC670C296EB1960062E7D1 /* YYPhotoGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = CBDC670B296EB1960062E7D1 /* YYPhotoGroupView.m */; };
 		CBF0C42D293F76E80045B8D1 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */; };
 		CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */; };
+		CBF1CADB2976313300F8ED89 /* MessageBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF1CADA2976313300F8ED89 /* MessageBubbleCell.swift */; };
 		CBF4B1672966C012006E9E03 /* ProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBF4B1692966C012006E9E03 /* ProfileEditViewController.xib */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +147,7 @@
 		CBDC670D296EB1B00062E7D1 /* YYPhotoGroupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYPhotoGroupView.h; sourceTree = "<group>"; };
 		CBF0C42C293F76E80045B8D1 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		CBF1CADA2976313300F8ED89 /* MessageBubbleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleCell.swift; sourceTree = "<group>"; };
 		CBF4B1682966C012006E9E03 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProfileEditViewController.xib; sourceTree = "<group>"; };
 		CBF4B16C2966C018006E9E03 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ProfileEditViewController.xib"; sourceTree = "<group>"; };
 		FE01F3A3F4BE0718010D8065 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				CB263C5529666FD30097144C /* MessageImageCell.swift */,
 				CB8C4F5529680E3900844ABF /* NewChatViewController.swift */,
 				CB26445C296FF4A900D04F36 /* MessagePopupView.swift */,
+				CBF1CADA2976313300F8ED89 /* MessageBubbleCell.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBCE545B2957EC5800DFCDDA /* CGFloat+FD.swift in Sources */,
+				CBF1CADB2976313300F8ED89 /* MessageBubbleCell.swift in Sources */,
 				CB26445A296FE40700D04F36 /* NewChannelMemberSelectViewController.swift in Sources */,
 				CBCE54552957E41100DFCDDA /* SettingListCell.swift in Sources */,
 				CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */,
@@ -854,7 +858,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
-				CURRENT_PROJECT_VERSION = 20230116;
+				CURRENT_PROJECT_VERSION = 20230117;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "交个朋友";
@@ -882,7 +886,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
-				CURRENT_PROJECT_VERSION = 20230116;
+				CURRENT_PROJECT_VERSION = 20230117;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "交个朋友";

@@ -744,6 +744,14 @@ public class VCManager: NSObject {
         }
     }
     
+    public func deleteMessage(mid: Int, success: @escaping (()->()), failure: @escaping ((Int)->())) {
+        VCNetwork.deleteRaw(url: .message+"/\(mid)") { result in
+            success()
+        } failure: { error in
+            failure(error)
+        }
+    }
+    
     // MARK: - APNS
     /// 注册推送Token
     /// - Parameters:

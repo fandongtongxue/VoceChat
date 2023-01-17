@@ -15,7 +15,7 @@ class MessageListCell: UITableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        selectionStyle = .none
+        selectionStyle = .blue
         contentView.addSubview(avatarImgView)
         contentView.addSubview(nameLabel)
         contentView.addSubview(timeLabel)

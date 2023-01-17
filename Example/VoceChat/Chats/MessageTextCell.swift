@@ -11,11 +11,11 @@ import VoceChat
 import CDFInitialsAvatar
 import SDWebImage
 
-class MessageTextCell: MessageListCell {
+class MessageTextCell: MessageBubbleCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        containerView.addSubview(contentLabel)
+        bubbleView.addSubview(contentLabel)
     }
     
     public override var model : VCMessageModel!{
@@ -26,13 +26,17 @@ class MessageTextCell: MessageListCell {
             contentLabel.text = model.detail.content
             if newValue.from_uid == VCManager.shared.currentUser()?.user.uid {
                 contentLabel.snp.makeConstraints { make in
-                    make.right.top.bottom.equalToSuperview()
-                    make.left.greaterThanOrEqualToSuperview()
+                    make.right.equalToSuperview().offset(-10)
+                    make.bottom.equalToSuperview().offset(-11)
+                    make.top.equalToSuperview().offset(15)
+                    make.left.equalToSuperview().offset(10)
                 }
             }else {
                 contentLabel.snp.makeConstraints { make in
-                    make.left.top.bottom.equalToSuperview()
-                    make.right.lessThanOrEqualToSuperview()
+                    make.left.equalToSuperview().offset(11)
+                    make.top.equalToSuperview().offset(15)
+                    make.bottom.equalToSuperview().offset(-11)
+                    make.right.equalToSuperview().offset(-11)
                 }
             }
         }
