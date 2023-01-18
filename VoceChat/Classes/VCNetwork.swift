@@ -119,7 +119,8 @@ class VCNetwork: NSObject {
                         debugPrint("请求结果:\(response.error?.localizedDescription)")
                     }else {
                         success(result)
-                        debugPrint("请求结果:\(result)")
+                        let resultStr = String(data: result ?? Data(), encoding: .utf8)
+                        debugPrint("请求结果:\(resultStr)")
                     }
                     break
                 case .failure(let error):

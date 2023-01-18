@@ -187,8 +187,6 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             cell.contentLabel.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了文本消息")
             }.disposed(by: disposeBag)
-            let interaction = UIContextMenuInteraction(delegate: self)
-            cell.bubbleView.addInteraction(interaction)
             return cell
         }else if model.detail.properties.content_type.contains("image/") {
             let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageImageCell.classForCoder()), for: indexPath) as! MessageImageCell
@@ -202,16 +200,12 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             cell.imgView.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了图片消息")
             }.disposed(by: disposeBag)
-            let interaction = UIContextMenuInteraction(delegate: self)
-            cell.imgView.addInteraction(interaction)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageListCell.classForCoder()), for: indexPath) as! MessageListCell
         if indexPath.row < messages.count {
             cell.model = messages[indexPath.row]
         }
-        let interaction = UIContextMenuInteraction(delegate: self)
-        cell.containerView.addInteraction(interaction)
         return cell
     }
     
@@ -244,37 +238,18 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
         }
     }
     
-    //键盘
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        view.superview?.endEditing(true)
-        return indexPath
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        view.superview?.endEditing(true)
-    }
-    
-}
-
-extension MessageViewController: UIContextMenuInteractionDelegate{
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        let cells = tableView.visibleCells.filter { cell in
-            let newCell = cell as! MessageListCell
-            return newCell.frame.contains(location)
-        }
-        guard let cell = cells.first as? MessageListCell else { return nil}
-        guard let indexPath = tableView.indexPath(for: cell) else { return nil}
-        return UIContextMenuConfiguration(actionProvider:  { (element) -> UIMenu? in
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        UIContextMenuConfiguration(actionProvider:  { (element) -> UIMenu? in
             let reply = UIAction(title: NSLocalizedString("Reply", comment: ""), image: UIImage(systemName: "arrowshape.turn.up.left")) { action in
                 //do reply
             }
             let copy = UIAction(title: NSLocalizedString("Copy", comment: ""), image: UIImage(systemName: "doc.on.doc")) { action in
                 //do copy
-                guard cell.isKind(of: MessageTextCell.classForCoder()) else {
-                    return
+                let cell = tableView.cellForRow(at: indexPath) as! MessageListCell
+                if cell.isKind(of: MessageTextCell.classForCoder()) {
+                    let newCell = cell as! MessageTextCell
+                    UIPasteboard.general.string = newCell.contentLabel.text
                 }
-                let newCell = cell as! MessageTextCell
-                UIPasteboard.general.string = newCell.contentLabel.text
             }
             let save = UIAction(title: NSLocalizedString("Save", comment: ""), image: UIImage(systemName: "square.and.arrow.down.fill")) { action in
                 //do save
@@ -288,7 +263,9 @@ extension MessageViewController: UIContextMenuInteractionDelegate{
             }
             let delete = UIAction(title: NSLocalizedString("Delete", comment: ""), image: UIImage(systemName: "trash"), attributes: [.destructive], state: .off) { action in
                 //do delete
+                let cell = tableView.cellForRow(at: indexPath) as! MessageListCell
                 VCManager.shared.deleteMessage(mid: cell.model.mid) {
+                    self.messages.remove(at: indexPath.row)
                     self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 } failure: { error in
                     self.view.makeToast("\(error)")
@@ -297,6 +274,16 @@ extension MessageViewController: UIContextMenuInteractionDelegate{
             let deleteMenu = UIMenu(title: "", options: .displayInline, children: [delete])
             return UIMenu(title: "", children: [reply, copy, save, forward, select, deleteMenu])
         })
+    }
+    
+    //键盘
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        view.superview?.endEditing(true)
+        return indexPath
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.superview?.endEditing(true)
     }
     
 }
