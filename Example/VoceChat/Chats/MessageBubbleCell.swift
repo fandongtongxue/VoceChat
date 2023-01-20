@@ -10,7 +10,7 @@ import UIKit
 import VoceChat
 
 class MessageBubbleCell: MessageListCell {
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
