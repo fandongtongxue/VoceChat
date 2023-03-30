@@ -49,6 +49,11 @@ class LoginViewController: BaseViewController {
             self.view.endEditing(true)
             VCManager.shared.login(email: self.emailTF.text, password: self.passTF.text) { result in
                 //do nothing
+                debugPrint("推送用户ID:\(VCManager.shared.currentUser()?.user.uid ?? 0)")
+                JPUSHService.setAlias("\(VCManager.shared.currentUser()?.user.uid ?? 0)", completion: { iResCode, iAlias, seq in
+                    debugPrint("设置Alias code:\(iResCode)")
+                }, seq: Int(Date().timeIntervalSince1970))
+                
                 let tabC = TabBarController()
                 UIApplication.shared.keyWindow?.rootViewController = tabC
             } failure: { error in

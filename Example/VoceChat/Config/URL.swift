@@ -9,7 +9,7 @@
 import Foundation
 
 extension String {
-    static let ServerURL = "http://192.168.50.235:3009"
-//    static let ServerURL = "http://vocechat.xiaobingkj.com:3009"
+//    static let ServerURL = "http://192.168.50.235:3009"
+    static let ServerURL = "http://vocechat.xiaobingkj.com:3009"
     
 }

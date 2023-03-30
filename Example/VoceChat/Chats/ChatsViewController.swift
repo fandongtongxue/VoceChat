@@ -249,15 +249,15 @@ class ChatsViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        VCManager.shared.getChannels { channels in
-            self.channels = channels
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                
-            }
-        } failure: { error in
-            //do nothing
-        }
+//        VCManager.shared.getChannels { channels in
+//            self.channels = channels
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//                
+//            }
+//        } failure: { error in
+//            //do nothing
+//        }
     }
 
     lazy var tableView: UITableView = {

@@ -25,12 +25,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //自动登录
             VCManager.shared.autoLogin { result in
                 //do nothing
+                debugPrint("推送用户ID:\(VCManager.shared.currentUser()?.user.uid ?? 0)")
+                JPUSHService.setAlias("\(VCManager.shared.currentUser()?.user.uid ?? 0)", completion: { iResCode, iAlias, seq in
+                    debugPrint("设置Alias code:\(iResCode)")
+                }, seq: Int(Date().timeIntervalSince1970))
             } failure: { error in
                 //do nothing
             }
             let tabC = TabBarController()
             self.window?.rootViewController = tabC
         }
+        let entity = JPUSHRegisterEntity()
+        entity.types = Int(JPAuthorizationOptions.alert.rawValue)|Int(JPAuthorizationOptions.badge.rawValue)|Int(JPAuthorizationOptions.sound.rawValue)|Int(JPAuthorizationOptions.providesAppNotificationSettings.rawValue)
+        JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
+        JPUSHService.setup(withOption: launchOptions, appKey: "84f0e00d63e627662d2d7734", channel: "AppStore", apsForProduction: false)
         return true
     }
 
@@ -62,9 +70,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } failure: { error in
             //
         }
-
+        JPUSHService.registerDeviceToken(deviceToken)
     }
 
 
 }
 
+extension AppDelegate: JPUSHRegisterDelegate{
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        JPUSHService.handleRemoteNotification(userInfo)
+        completionHandler(.newData)
+    }
+    
+    func jpushNotificationAuthorization(_ status: JPAuthorizationStatus, withInfo info: [AnyHashable : Any]!) {
+        
+    }
+    
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
+        if notification.request.trigger?.isKind(of: UNPushNotificationTrigger.classForCoder()) ?? false {
+            JPUSHService.handleRemoteNotification(notification.request.content.userInfo)
+        }
+        completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
+    }
+    
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
+        if response.notification.request.trigger?.isKind(of: UNPushNotificationTrigger.classForCoder()) ?? false {
+            JPUSHService.handleRemoteNotification(response.notification.request.content.userInfo)
+        }
+        completionHandler()
+        //如果消息里有URL，打开URL
+        let userinfo = response.notification.request.content.userInfo
+        guard let url = userinfo["url"] as? String else { return }
+        if UIApplication.shared.canOpenURL(URL(string: url)!) {
+            UIApplication.shared.open(URL(string: url)!)
+        }
+    }
+    
+    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, openSettingsFor notification: UNNotification!) {
+        if notification.request.trigger?.isKind(of: UNPushNotificationTrigger.classForCoder()) ?? false {
+            //通知页面直接进入应用
+        }else{
+            //通知设置页面直接进入应用
+        }
+    }
+    
+    
+}

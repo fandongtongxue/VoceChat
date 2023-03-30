@@ -2,6 +2,9 @@ PODS:
   - Alamofire (5.6.4)
   - CDFInitialsAvatar (1.0.4)
   - HandyJSON (5.0.2)
+  - JCore (3.2.3-noidfa)
+  - JPush (4.8.0):
+    - JCore (>= 2.0.0)
   - LDSwiftEventSource (3.0.0)
   - QMUIKit (4.6.3):
     - QMUIKit/QMUIComponents (= 4.6.3)
@@ -330,6 +333,8 @@ PODS:
 
 DEPENDENCIES:
   - CDFInitialsAvatar
+  - JCore (= 3.2.3-noidfa)
+  - JPush (= 4.8.0)
   - QMUIKit (= 4.6.3)
   - RxCocoa (= 6.5.0)
   - RxGesture
@@ -346,6 +351,8 @@ SPEC REPOS:
     - Alamofire
     - CDFInitialsAvatar
     - HandyJSON
+    - JCore
+    - JPush
     - LDSwiftEventSource
     - QMUIKit
     - RxCocoa
@@ -368,6 +375,8 @@ SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   CDFInitialsAvatar: db58862ce67b1b1409e24d5c19d0efb2a8e62491
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  JCore: cec6c836350ac9e30f7241e6cd0d5fdcfb927da6
+  JPush: b4b212aa773928303f25dafb5eb048b34232fd3a
   LDSwiftEventSource: 824ce51a4fa8e79498c9b67ae672bfa802bd7464
   QMUIKit: b831835f33d7fb3494809042225e6256eb22b892
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
@@ -383,6 +392,6 @@ SPEC CHECKSUMS:
   WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 9cc26da0ecce1417b5be7994246e1c80867905c4
+PODFILE CHECKSUM: 30780cde8d2e37c3199d15d2ea733e97311c0437
 
 COCOAPODS: 1.11.3

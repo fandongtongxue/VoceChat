@@ -153,11 +153,11 @@ public class VCManager: NSObject {
         let device = UIDevice.current.model
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device, "device_token":"test"]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
-            success(model)
             debugPrint("登陆成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
             self.sse(token: model.token)
+            success(model)
         } failure: { error in
             failure(error)
             debugPrint("登陆失败:\(error)")
@@ -176,11 +176,11 @@ public class VCManager: NSObject {
         let credential = ["email":email,"password":password,"type":"password"]
         VCNetwork.post(url: .token_login, param: ["credential":credential, "device": device, "device_token":"test"]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
-            success(model)
             debugPrint("自动登陆成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
             self.sse(token: model.token)
+            success(model)
         } failure: { error in
             failure(error)
             debugPrint("自动登陆失败:\(error)")
@@ -204,11 +204,11 @@ public class VCManager: NSObject {
         let language = Locale.preferredLanguages.first
         VCNetwork.post(url: .user_register, param: ["email":email, "password":password, "device": device, "language": language]) { result in
             let model = VCLoginModel.deserialize(from: result as? NSDictionary) ?? VCLoginModel()
-            success(model)
             debugPrint("注册成功")
             UserDefaults.standard.set(model.toJSON(), forKey: .userKey)
             UserDefaults.standard.synchronize()
             self.sse(token: model.token)
+            success(model)
         } failure: { error in
             failure(error)
             debugPrint("注册失败:\(error)")
@@ -553,14 +553,14 @@ public class VCManager: NSObject {
     }
     
     public func clearLocalData() {
-        UserDefaults.standard.set("", forKey: .nameKey)
-        UserDefaults.standard.set("", forKey: .descKey)
-        UserDefaults.standard.set("", forKey: .serverURLKey)
-        UserDefaults.standard.set("", forKey: .userKey)
+//        UserDefaults.standard.set("", forKey: .nameKey)
+//        UserDefaults.standard.set("", forKey: .descKey)
+//        UserDefaults.standard.set("", forKey: .serverURLKey)
+        UserDefaults.standard.set([:], forKey: .userKey)
         UserDefaults.standard.set("", forKey: .emailKey)
         UserDefaults.standard.set("", forKey: .passwordKey)
-        UserDefaults.standard.set("", forKey: .cookieKey)
-        self.deleteUsers()
+        UserDefaults.standard.set(Data(), forKey: .cookieKey)
+//        self.deleteUsers()
         self.deleteMessages()
     }
     

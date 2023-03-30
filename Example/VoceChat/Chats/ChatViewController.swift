@@ -46,6 +46,7 @@ class ChatViewController: BaseViewController {
         addChildViewController(messageVC)
         
         view.addSubview(inputBar)
+//        view.addSubview(toolBar)
         
         NotificationCenter.default.rx.notification(.UIKeyboardWillShow)
             .subscribe { noti in
@@ -128,6 +129,11 @@ class ChatViewController: BaseViewController {
     lazy var inputBar: InputBar = {
         let inputBar = InputBar(frame: CGRect(x:10, y: .screenH - .tabBarHeight, width: .screenW - 20, height: .tabBarHeight - .safeAreaBottomHeight))
         return inputBar
+    }()
+    
+    lazy var toolBar: ToolBar = {
+        let toolBar = ToolBar(frame: CGRect(x:0, y: .screenH - .tabBarHeight, width: .screenW, height: .tabBarHeight))
+        return toolBar
     }()
     
     func addBtnAction(){

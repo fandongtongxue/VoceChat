@@ -10,8 +10,17 @@ import UIKit
 import VoceChat
 import CDFInitialsAvatar
 import SDWebImage
+import RxCocoa
+import RxSwift
 
 class MessageListCell: UITableViewCell {
+    
+    var disposeBag = DisposeBag()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

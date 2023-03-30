@@ -17,6 +17,9 @@ target 'VoceChat_Example' do
     
   pod 'QMUIKit', '4.6.3'
   pod 'YYKit'
+  
+  pod 'JCore', '3.2.3-noidfa'
+  pod 'JPush', '4.8.0'
 
   target 'VoceChat_Tests' do
     inherit! :search_paths

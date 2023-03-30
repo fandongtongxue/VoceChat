@@ -85,7 +85,11 @@ class MessageViewController: BaseViewController {
             self.messages.append(messageModel)
             self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
-            
+            let url = "https://vocechat.xiaobingkj.com/jpush-api-php-client/examples/push_example.php?message=\(text)&sender=\(VCManager.shared.currentUser()?.user.name ?? "")&touid=\(self.chat.from_uid)"
+            guard let pushURL = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
+            URLSession.shared.dataTask(with: pushURL) { data, response, error in
+                debugPrint(response)
+            }.resume()
         } failure: { error in
             //do nothing
         }
@@ -118,6 +122,11 @@ class MessageViewController: BaseViewController {
             self.messages.append(messageModel)
             self.tableView.insertRows(at: [IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0)], with: .automatic)
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
+            let url = "https://vocechat.xiaobingkj.com/jpush-api-php-client/examples/push_example.php?message=\("[图片]")&sender=\(VCManager.shared.currentUser()?.user.name ?? "")&touid=\(self.chat.from_uid)"
+            guard let pushURL = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
+            URLSession.shared.dataTask(with: pushURL) { data, response, error in
+                debugPrint(response)
+            }.resume()
         } failure: { error in
             self.view.makeToast("\(error)")
         }
@@ -186,7 +195,7 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             }
             cell.contentLabel.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了文本消息")
-            }.disposed(by: disposeBag)
+            }.disposed(by: cell.disposeBag)
             return cell
         }else if model.detail.properties.content_type.contains("image/") {
             let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageImageCell.classForCoder()), for: indexPath) as! MessageImageCell
@@ -196,10 +205,10 @@ extension MessageViewController: UITableViewDelegate,UITableViewDataSource{
             cell.imgView.rx.tapGesture().when(.recognized).subscribe { element in
                 debugPrint("点击了图片消息")
                 self.clickImage(cell: cell)
-            }.disposed(by: disposeBag)
+            }.disposed(by: cell.disposeBag)
             cell.imgView.rx.longPressGesture().when(.began).subscribe { element in
                 debugPrint("长按了图片消息")
-            }.disposed(by: disposeBag)
+            }.disposed(by: cell.disposeBag)
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(MessageListCell.classForCoder()), for: indexPath) as! MessageListCell
