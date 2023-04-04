@@ -20,6 +20,8 @@ target 'VoceChat_Example' do
   
   pod 'JCore', '3.2.3-noidfa'
   pod 'JPush', '4.8.0'
+  
+  pod 'IQKeyboardManager', '6.5.11'
 
   target 'VoceChat_Tests' do
     inherit! :search_paths

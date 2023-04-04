@@ -33,6 +33,7 @@
 		CB3C0983296565DA00167D05 /* InviteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB3C0985296565DA00167D05 /* InviteViewController.xib */; };
 		CB3DFB6F294BFCE0009A9798 /* ContactsSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */; };
 		CB3DFB71294C4EF8009A9798 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */; };
+		CB4245D729DC62E5002FB4F6 /* VoceChat+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4245D629DC62E5002FB4F6 /* VoceChat+String.swift */; };
 		CB584EFA2959DF9A00D0C103 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB584EF92959DF9A00D0C103 /* ChatViewController.swift */; };
 		CB584EFC2959DFA700D0C103 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB584EFB2959DFA700D0C103 /* MessageViewController.swift */; };
 		CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB67A0D829616D0E00883AAC /* ChatListCell.swift */; };
@@ -140,6 +141,9 @@
 		CB3C0988296565E600167D05 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/InviteViewController.xib"; sourceTree = "<group>"; };
 		CB3DFB6E294BFCE0009A9798 /* ContactsSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsSearchResultViewController.swift; sourceTree = "<group>"; };
 		CB3DFB70294C4EF8009A9798 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CB4245D329DC616A002FB4F6 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Main.strings; sourceTree = "<group>"; };
+		CB4245D529DC616B002FB4F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		CB4245D629DC62E5002FB4F6 /* VoceChat+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VoceChat+String.swift"; sourceTree = "<group>"; };
 		CB584EF92959DF9A00D0C103 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		CB584EFB2959DFA700D0C103 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		CB67A0D829616D0E00883AAC /* ChatListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListCell.swift; sourceTree = "<group>"; };
@@ -148,8 +152,6 @@
 		CB6AE19A294B0A84009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		CB6AE19C294B0A86009CD70D /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB6AE1A0294B0AB7009CD70D /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		CB6AE1A6294B5357009CD70D /* English */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Main.strings; sourceTree = "<group>"; };
-		CB6AE1A8294B5358009CD70D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		CB6AE1A9294B5D3D009CD70D /* ContactListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListCell.swift; sourceTree = "<group>"; };
 		CB6AE1AA294B5D3D009CD70D /* ContactListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactListCell.xib; sourceTree = "<group>"; };
 		CB729ADE29626EFA00B8B39E /* MessageListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListCell.swift; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 			children = (
 				CBCE545A2957EC5800DFCDDA /* CGFloat+FD.swift */,
 				CBCE233E2963CAE700B6418E /* Date+FD.swift */,
+				CB4245D629DC62E5002FB4F6 /* VoceChat+String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -626,6 +629,7 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CDFInitialsAvatar/CDFInitialsAvatar.framework",
 				"${BUILT_PRODUCTS_DIR}/HandyJSON/HandyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/LDSwiftEventSource/LDSwiftEventSource.framework",
 				"${BUILT_PRODUCTS_DIR}/QMUIKit/QMUIKit.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -646,6 +650,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CDFInitialsAvatar.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HandyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LDSwiftEventSource.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QMUIKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -724,6 +729,7 @@
 				CBA7A6F0293EDED300FEDD00 /* FDUIKit.swift in Sources */,
 				607FACD81AFB9204008FA782 /* LoginViewController.swift in Sources */,
 				CB3112CB2975322400BD4196 /* ChannelProfileCell.swift in Sources */,
+				CB4245D729DC62E5002FB4F6 /* VoceChat+String.swift in Sources */,
 				CB03BDD12981059F008D47FB /* ToolBar.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				CB67A0DA29616D0E00883AAC /* ChatListCell.swift in Sources */,
@@ -794,8 +800,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				607FACDA1AFB9204008FA782 /* Base */,
-				CB6AE1A6294B5357009CD70D /* English */,
-				CB6AE1A8294B5358009CD70D /* zh-Hans */,
+				CB4245D329DC616A002FB4F6 /* English */,
+				CB4245D529DC616B002FB4F6 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

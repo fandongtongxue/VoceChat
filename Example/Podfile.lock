@@ -2,6 +2,7 @@ PODS:
   - Alamofire (5.6.4)
   - CDFInitialsAvatar (1.0.4)
   - HandyJSON (5.0.2)
+  - IQKeyboardManager (6.5.11)
   - JCore (3.2.3-noidfa)
   - JPush (4.8.0):
     - JCore (>= 2.0.0)
@@ -333,6 +334,7 @@ PODS:
 
 DEPENDENCIES:
   - CDFInitialsAvatar
+  - IQKeyboardManager (= 6.5.11)
   - JCore (= 3.2.3-noidfa)
   - JPush (= 4.8.0)
   - QMUIKit (= 4.6.3)
@@ -351,6 +353,7 @@ SPEC REPOS:
     - Alamofire
     - CDFInitialsAvatar
     - HandyJSON
+    - IQKeyboardManager
     - JCore
     - JPush
     - LDSwiftEventSource
@@ -375,6 +378,7 @@ SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   CDFInitialsAvatar: db58862ce67b1b1409e24d5c19d0efb2a8e62491
   HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  IQKeyboardManager: ef43ce1ba1e5aaf4adf222c0a46f39761f246879
   JCore: cec6c836350ac9e30f7241e6cd0d5fdcfb927da6
   JPush: b4b212aa773928303f25dafb5eb048b34232fd3a
   LDSwiftEventSource: 824ce51a4fa8e79498c9b67ae672bfa802bd7464
@@ -392,6 +396,6 @@ SPEC CHECKSUMS:
   WoodPeckeriOS: 6c067b9de7c2d4143ec1c66bac5aa2120327f759
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 9972b666ee2c978b5778eb8914e6b59ff77ae570
+PODFILE CHECKSUM: ce62054549e6b548266f2e03c7a67a48f333b035
 
 COCOAPODS: 1.11.3

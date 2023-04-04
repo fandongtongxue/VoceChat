@@ -21,6 +21,7 @@ class LoginViewController: BaseViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var inviteLabel: UILabel!
+    @IBOutlet weak var remSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -37,6 +38,11 @@ class LoginViewController: BaseViewController {
         loginBtn.setBackgroundImage(.qmui_image(with: .systemGray), for: .disabled)
         loginBtn.setBackgroundImage(.qmui_image(with: .systemBlue), for: .normal)
         
+        if let user_email = UserDefaults.standard.string(forKey: .user_email_key), let user_pass = UserDefaults.standard.string(forKey: .user_pass_key) {
+            emailTF.text = user_email
+            passTF.text = user_pass
+        }
+        
         let emailValid = emailTF.rx.text.orEmpty.map{ self.checkEmail(email: $0) }.share(replay: 1)
         let passValid = passTF.rx.text.orEmpty.map{ $0.count >= 6 }.share(replay: 1)
         
@@ -47,6 +53,11 @@ class LoginViewController: BaseViewController {
         
         loginBtn.rx.tap.subscribe(onNext: {
             self.view.endEditing(true)
+            if self.remSwitch.isOn {
+                UserDefaults.standard.set(self.emailTF.text, forKey: .user_email_key)
+                UserDefaults.standard.set(self.passTF.text, forKey: .user_pass_key)
+                UserDefaults.standard.synchronize()
+            }
             VCManager.shared.login(email: self.emailTF.text, password: self.passTF.text) { result in
                 //do nothing
                 debugPrint("推送用户ID:\(VCManager.shared.currentUser()?.user.uid ?? 0)")
@@ -90,10 +101,6 @@ class LoginViewController: BaseViewController {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
-    }
-    
-    @IBAction func signUpBtnAction(_ sender: UIButton) {
-        
     }
     
     @IBAction func textFieldDidChange(_ sender: UITextField) {

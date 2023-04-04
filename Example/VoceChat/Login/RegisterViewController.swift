@@ -20,6 +20,7 @@ class RegisterViewController: BaseViewController {
     @IBOutlet weak var passTF: UITextField!
     @IBOutlet weak var confirmTF: UITextField!
     @IBOutlet weak var signUpBtn: UIButton!
+    @IBOutlet weak var remSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,6 +43,11 @@ class RegisterViewController: BaseViewController {
         
         signUpBtn.rx.tap.subscribe(onNext: {
             self.view.endEditing(true)
+            if self.remSwitch.isOn {
+                UserDefaults.standard.set(self.emailTF.text, forKey: .user_email_key)
+                UserDefaults.standard.set(self.passTF.text, forKey: .user_pass_key)
+                UserDefaults.standard.synchronize()
+            }
             VCManager.shared.register(email: self.emailTF.text, password: self.passTF.text) { result in
                 debugPrint("推送用户ID:\(VCManager.shared.currentUser()?.user.uid ?? 0)")
                 JPUSHService.setAlias("\(VCManager.shared.currentUser()?.user.uid ?? 0)", completion: { iResCode, iAlias, seq in

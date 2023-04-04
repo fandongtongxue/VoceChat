@@ -11,6 +11,9 @@
 /* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "Q6G-Y3-xDx"; */
 "Q6G-Y3-xDx.normalTitle" = "Log In";
 
+/* Class = "UILabel"; text = "Remember me"; ObjectID = "SUq-US-sfG"; */
+"SUq-US-sfG.text" = "Remember me";
+
 /* Class = "UILabel"; text = "Don't have an account?"; ObjectID = "TZp-VT-a2Y"; */
 "TZp-VT-a2Y.text" = "Don't have an account?";
 
@@ -25,6 +28,9 @@
 
 /* Class = "UILabel"; text = "Email"; ObjectID = "foc-Bz-6bZ"; */
 "foc-Bz-6bZ.text" = "Email";
+
+/* Class = "UILabel"; text = "Remember me"; ObjectID = "gdC-63-MX8"; */
+"gdC-63-MX8.text" = "Remember me";
 
 /* Class = "UILabel"; text = "Email"; ObjectID = "gvs-ZK-172"; */
 "gvs-ZK-172.text" = "Email";
