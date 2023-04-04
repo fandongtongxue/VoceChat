@@ -37,8 +37,14 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>需要访问您的相册用于上传头像、发送图片</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>INStartCallIntent</string>
+		<string>INSendMessageIntent</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

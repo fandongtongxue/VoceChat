@@ -28,6 +28,10 @@ target 'VoceChat_Example' do
   end
 end
 
+target 'VoceChat_PushServiceExtension' do
+  pod 'SDWebImage'
+end
+
 post_install do |installer|
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|

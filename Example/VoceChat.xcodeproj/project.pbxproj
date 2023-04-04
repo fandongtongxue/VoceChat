@@ -19,6 +19,8 @@
 		CB263C5629666FD30097144C /* MessageImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB263C5529666FD30097144C /* MessageImageCell.swift */; };
 		CB26445A296FE40700D04F36 /* NewChannelMemberSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB264459296FE40700D04F36 /* NewChannelMemberSelectViewController.swift */; };
 		CB26445D296FF4A900D04F36 /* MessagePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB26445C296FF4A900D04F36 /* MessagePopupView.swift */; };
+		CB28A5ED29DB0D6E00492155 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB28A5EC29DB0D6E00492155 /* NotificationService.swift */; };
+		CB28A5F129DB0D6E00492155 /* VoceChat_PushServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CB28A5EA29DB0D6E00492155 /* VoceChat_PushServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB3112C829752F5C00BD4196 /* ChannelInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3112C729752F5C00BD4196 /* ChannelInfoViewController.swift */; };
 		CB3112CB2975322400BD4196 /* ChannelProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3112C92975322400BD4196 /* ChannelProfileCell.swift */; };
 		CB3112CD2975338A00BD4196 /* ChannelProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB3112CF2975338A00BD4196 /* ChannelProfileCell.xib */; };
@@ -61,6 +63,7 @@
 		CBF0C42F293F79FA0045B8D1 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF0C42E293F79FA0045B8D1 /* BaseViewController.swift */; };
 		CBF1CADB2976313300F8ED89 /* MessageBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF1CADA2976313300F8ED89 /* MessageBubbleCell.swift */; };
 		CBF4B1672966C012006E9E03 /* ProfileEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBF4B1692966C012006E9E03 /* ProfileEditViewController.xib */; };
+		DFD98645C95C98F887F6FD31 /* Pods_VoceChat_PushServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F157CF1B9C72A064A008F6ED /* Pods_VoceChat_PushServiceExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,10 +74,32 @@
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
 			remoteInfo = VoceChat;
 		};
+		CB28A5EF29DB0D6E00492155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CB28A5E929DB0D6E00492155;
+			remoteInfo = VoceChat_PushServiceExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CB28A5F229DB0D6E00492155 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CB28A5F129DB0D6E00492155 /* VoceChat_PushServiceExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04AC49890FD2260BBCDE5837 /* Pods-VoceChat_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.release.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.release.xcconfig"; sourceTree = "<group>"; };
+		0C9A222F4708B47A003269AC /* Pods-VoceChat_PushServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_PushServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_PushServiceExtension/Pods-VoceChat_PushServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		25ADA3954D2D3113DDB0AD55 /* Pods-VoceChat_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Tests.release.xcconfig"; path = "Target Support Files/Pods-VoceChat_Tests/Pods-VoceChat_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		392B0838046C6ECD8C1F0A3F /* VoceChat.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = VoceChat.podspec; path = ../VoceChat.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		40356CF99CADABEABE4915D2 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -91,11 +116,15 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoceChat_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		821B5798934C0C65462953C4 /* Pods-VoceChat_PushServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_PushServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-VoceChat_PushServiceExtension/Pods-VoceChat_PushServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VoceChat_Example.debug.xcconfig"; path = "Target Support Files/Pods-VoceChat_Example/Pods-VoceChat_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CB03BDD02981059F008D47FB /* ToolBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBar.swift; sourceTree = "<group>"; };
 		CB263C5529666FD30097144C /* MessageImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageImageCell.swift; sourceTree = "<group>"; };
 		CB264459296FE40700D04F36 /* NewChannelMemberSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelMemberSelectViewController.swift; sourceTree = "<group>"; };
 		CB26445C296FF4A900D04F36 /* MessagePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePopupView.swift; sourceTree = "<group>"; };
+		CB28A5EA29DB0D6E00492155 /* VoceChat_PushServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VoceChat_PushServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB28A5EC29DB0D6E00492155 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		CB28A5EE29DB0D6E00492155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB3112C729752F5C00BD4196 /* ChannelInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelInfoViewController.swift; sourceTree = "<group>"; };
 		CB3112C92975322400BD4196 /* ChannelProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelProfileCell.swift; sourceTree = "<group>"; };
 		CB3112CE2975338A00BD4196 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ChannelProfileCell.xib; sourceTree = "<group>"; };
@@ -152,6 +181,7 @@
 		CBF1CADA2976313300F8ED89 /* MessageBubbleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleCell.swift; sourceTree = "<group>"; };
 		CBF4B1682966C012006E9E03 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ProfileEditViewController.xib; sourceTree = "<group>"; };
 		CBF4B16C2966C018006E9E03 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ProfileEditViewController.xib"; sourceTree = "<group>"; };
+		F157CF1B9C72A064A008F6ED /* Pods_VoceChat_PushServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VoceChat_PushServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE01F3A3F4BE0718010D8065 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -172,6 +202,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB28A5E729DB0D6E00492155 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD98645C95C98F887F6FD31 /* Pods_VoceChat_PushServiceExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -182,6 +220,7 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for VoceChat */,
 				607FACE81AFB9204008FA782 /* Tests */,
+				CB28A5EB29DB0D6E00492155 /* VoceChat_PushServiceExtension */,
 				607FACD11AFB9204008FA782 /* Products */,
 				ECA911A895504F97FF32C37C /* Pods */,
 				D4A39DE1CCB0A1A38716A8F3 /* Frameworks */,
@@ -193,6 +232,7 @@
 			children = (
 				607FACD01AFB9204008FA782 /* VoceChat_Example.app */,
 				607FACE51AFB9204008FA782 /* VoceChat_Tests.xctest */,
+				CB28A5EA29DB0D6E00492155 /* VoceChat_PushServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -257,6 +297,15 @@
 				40356CF99CADABEABE4915D2 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
+			sourceTree = "<group>";
+		};
+		CB28A5EB29DB0D6E00492155 /* VoceChat_PushServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				CB28A5EC29DB0D6E00492155 /* NotificationService.swift */,
+				CB28A5EE29DB0D6E00492155 /* Info.plist */,
+			);
+			path = VoceChat_PushServiceExtension;
 			sourceTree = "<group>";
 		};
 		CB3C097A2965615E00167D05 /* Channel */ = {
@@ -379,6 +428,7 @@
 			children = (
 				80D9049BEBDC338A733211DD /* Pods_VoceChat_Example.framework */,
 				46EE1045C73A0DE3611763F6 /* Pods_VoceChat_Tests.framework */,
+				F157CF1B9C72A064A008F6ED /* Pods_VoceChat_PushServiceExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -390,6 +440,8 @@
 				04AC49890FD2260BBCDE5837 /* Pods-VoceChat_Example.release.xcconfig */,
 				403FE1F6776E134626E35EF6 /* Pods-VoceChat_Tests.debug.xcconfig */,
 				25ADA3954D2D3113DDB0AD55 /* Pods-VoceChat_Tests.release.xcconfig */,
+				0C9A222F4708B47A003269AC /* Pods-VoceChat_PushServiceExtension.debug.xcconfig */,
+				821B5798934C0C65462953C4 /* Pods-VoceChat_PushServiceExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -406,10 +458,12 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				407A4756B1E60C54398A8AE3 /* [CP] Embed Pods Frameworks */,
+				CB28A5F229DB0D6E00492155 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				CB28A5F029DB0D6E00492155 /* PBXTargetDependency */,
 			);
 			name = VoceChat_Example;
 			productName = VoceChat;
@@ -435,13 +489,31 @@
 			productReference = 607FACE51AFB9204008FA782 /* VoceChat_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		CB28A5E929DB0D6E00492155 /* VoceChat_PushServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CB28A5F529DB0D6E00492155 /* Build configuration list for PBXNativeTarget "VoceChat_PushServiceExtension" */;
+			buildPhases = (
+				049DC85121AA4D2453043D08 /* [CP] Check Pods Manifest.lock */,
+				CB28A5E629DB0D6E00492155 /* Sources */,
+				CB28A5E729DB0D6E00492155 /* Frameworks */,
+				CB28A5E829DB0D6E00492155 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VoceChat_PushServiceExtension;
+			productName = VoceChat_PushServiceExtension;
+			productReference = CB28A5EA29DB0D6E00492155 /* VoceChat_PushServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
@@ -455,6 +527,11 @@
 						DevelopmentTeam = F9N98X7P4L;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
+					};
+					CB28A5E929DB0D6E00492155 = {
+						CreatedOnToolsVersion = 14.2;
+						DevelopmentTeam = F9N98X7P4L;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -474,6 +551,7 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* VoceChat_Example */,
 				607FACE41AFB9204008FA782 /* VoceChat_Tests */,
+				CB28A5E929DB0D6E00492155 /* VoceChat_PushServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -506,9 +584,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB28A5E829DB0D6E00492155 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		049DC85121AA4D2453043D08 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VoceChat_PushServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		407A4756B1E60C54398A8AE3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -659,6 +766,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CB28A5E629DB0D6E00492155 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CB28A5ED29DB0D6E00492155 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -666,6 +781,11 @@
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* VoceChat_Example */;
 			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
+		};
+		CB28A5F029DB0D6E00492155 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CB28A5E929DB0D6E00492155 /* VoceChat_PushServiceExtension */;
+			targetProxy = CB28A5EF29DB0D6E00492155 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -859,10 +979,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A98B3196BD7C6A9A6D0BA53B /* Pods-VoceChat_Example.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
-				CURRENT_PROJECT_VERSION = 20230330;
+				CURRENT_PROJECT_VERSION = 20230403;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "交个朋友";
@@ -887,10 +1008,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04AC49890FD2260BBCDE5837 /* Pods-VoceChat_Example.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = VoceChat_Example.entitlements;
-				CURRENT_PROJECT_VERSION = 20230330;
+				CURRENT_PROJECT_VERSION = 20230403;
 				DEVELOPMENT_TEAM = F9N98X7P4L;
 				INFOPLIST_FILE = VoceChat/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "交个朋友";
@@ -954,6 +1076,77 @@
 			};
 			name = Release;
 		};
+		CB28A5F329DB0D6E00492155 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C9A222F4708B47A003269AC /* Pods-VoceChat_PushServiceExtension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20230403;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = F9N98X7P4L;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VoceChat_PushServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VoceChat_PushServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 CocoaPods. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.VoceChat-Example.VoceChat-PushServiceExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CB28A5F429DB0D6E00492155 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 821B5798934C0C65462953C4 /* Pods-VoceChat_PushServiceExtension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 20230403;
+				DEVELOPMENT_TEAM = F9N98X7P4L;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VoceChat_PushServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = VoceChat_PushServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 CocoaPods. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.VoceChat-Example.VoceChat-PushServiceExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -980,6 +1173,15 @@
 			buildConfigurations = (
 				607FACF31AFB9204008FA782 /* Debug */,
 				607FACF41AFB9204008FA782 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB28A5F529DB0D6E00492155 /* Build configuration list for PBXNativeTarget "VoceChat_PushServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CB28A5F329DB0D6E00492155 /* Debug */,
+				CB28A5F429DB0D6E00492155 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

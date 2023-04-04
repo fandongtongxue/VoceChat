@@ -85,7 +85,8 @@ class MessageViewController: BaseViewController {
             self.messages.append(messageModel)
             self.tableView.reloadData()
             self.tableView.scrollToRow(at: IndexPath(row: self.messages.count > 0 ? self.messages.count - 1 : self.messages.count, section: 0), at: .bottom, animated: true)
-            let url = "https://vocechat.xiaobingkj.com/jpush-api-php-client/examples/push_example.php?message=\(text)&sender=\(VCManager.shared.currentUser()?.user.name ?? "")&touid=\(self.chat.from_uid)"
+            let sender_avatar = .ServerURL + "/api/avatar?uid=\(VCManager.shared.currentUser()?.user.uid ?? 0)&t=\(VCManager.shared.currentUser()?.user.avatar_updated_at ?? 0)"
+            let url = "https://vocechat.xiaobingkj.com/jpush-api-php-client/examples/push_example.php?message=\(text)&sender=\(VCManager.shared.currentUser()?.user.name ?? "")&touid=\(self.chat.from_uid)&sender_avatar=\(sender_avatar)&sender_uid=\(VCManager.shared.currentUser()?.user.uid ?? 0)"
             guard let pushURL = URL(string: url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else { return }
             URLSession.shared.dataTask(with: pushURL) { data, response, error in
                 debugPrint(response)
